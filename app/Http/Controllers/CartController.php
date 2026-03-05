@@ -1,0 +1,138 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Services\CartService;
+use Illuminate\Http\Request;
+
+class CartController extends BaseController
+{
+    protected CartService $cartService;
+
+    public function __construct(CartService $cartService)
+    {
+        $this->cartService = $cartService;
+    }
+
+    public function index()
+    {
+        $this->shareCommonData(); // вызываем один раз
+
+        $cartItems = $this->cartService->getItemsWithDetails();
+        $totalItems = $this->cartService->getTotalItems();
+        $totalPrice = $this->cartService->getTotalPrice();
+        $scripts[] = "/assets/scripts/pages/cart.js";
+        return view('index', ['view' => 'pages.cart', 'scripts' => $scripts, compact('cartItems', 'totalItems', 'totalPrice')]);
+    }
+
+    public function getMiniCart()
+    {
+        $cart = $this->cartService->getCart();
+        $items = [];
+
+        if ($cart && $cart->items->isNotEmpty()) {
+            foreach ($cart->items as $item) {
+                $product = $item->getProduct();
+                $items[] = [
+                    'id' => $item->id,
+                    'name' => $product->getProductName(),
+                    'quantity' => $item->quantity,
+                    'price_per_unit' => number_format($product->getProductPrice(), 2, ',', ' '),
+                    'total_price' => number_format($product->getProductPrice() * $item->quantity, 2, ',', ' '),
+                    'image_url' => 'https://seller.brauniart.shop/uploads/' . $product->getMainImage(),
+                    'product_url' => route('products.show', $product->id),
+                    'remove_url' => route('cart.remove', $item->id)
+                ];
+            }
+        }
+
+        return response()->json([
+            'items' => $items,
+            'total_items' => $cart ? $this->cartService->getTotalItems() : 0,
+            'total_price' => $cart ? number_format($this->cartService->getTotalPrice(), 2, ',', ' ') . ' руб.' : '0 руб.'
+        ]);
+    }
+
+
+    public function add(Request $request)
+    {
+        try {
+            $this->cartService->addItem(
+                $request->input('product_id'),
+                $request->input('product_type', 'App\\Models\\Product'),
+                $request->input('seller_id'),
+                $request->input('quantity', 1),
+                $request->input('options', [])
+            );
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Товар добавлен в корзину',
+                'total_items' => $this->cartService->getTotalItems()
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 400);
+        }
+    }
+
+
+    public function update(Request $request, $itemId)
+    {
+        try {
+//            $itemId = $request->input('item_id');
+            $quantity = $request->input('quantity');
+
+            // Валидация входных данных
+            if (!$itemId || !is_numeric($itemId) || $quantity < 1) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Некорректные данные запроса'
+                ], 400);
+            }
+
+            $this->cartService->updateItemQuantity($itemId, $quantity);
+
+            // Получаем обновлённые данные корзины
+            $cart = $this->cartService->getCart();
+            $updatedItem = $cart->items->find($itemId);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Количество обновлено',
+                'item' => [
+                    'subtotal' => $updatedItem->getProduct()->getProductPrice() * $updatedItem->quantity
+                ],
+                'total_price' => $this->cartService->getTotalPrice(),
+                'cart_items_count' => $this->cartService->getTotalItems()
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Cart update error: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 400);
+        }
+    }
+
+
+    public function remove($itemId)
+    {
+        $this->cartService->removeItem($itemId);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Товар удалён из корзины'
+        ]);
+    }
+
+    public function clear()
+    {
+        $this->cartService->clearCart();
+
+        return redirect()->route('cart.index')
+            ->with('success', 'Корзина очищена');
+    }
+}
