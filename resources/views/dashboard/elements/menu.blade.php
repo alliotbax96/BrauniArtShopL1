@@ -34,20 +34,25 @@
         </li>
 
         <li class="nxl-item nxl-caption">
-            <label>Кабинет продавца</label>
+            <label>
+                Кабинет продавца
+            </label>
         </li>
         @if($currentUser->isSeller())
-            @if($currentUser->groupInfo()->hasPermission('view_products'))
+            @if($currentUser->groupInfo()->hasPermission('view_products') || $currentUser->isAdmin())
             <li class="nxl-item nxl-hasmenu">
                 <a href="javascript:void(0);" class="nxl-link">
                     <span class="nxl-micon"><i class="feather-package"></i></span>
-                    <span class="nxl-mtext">Ассортимент</span>
+                    <span class="nxl-mtext">
+                        Ассортимент
+                        @if($currentUser->isAdmin())<span class="badge bg-soft-success text-success ms-1">ADMIN</span>@endif
+                    </span>
                     <span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
                 </a>
                 <ul class="nxl-submenu">
                     <li class="nxl-item"><a class="nxl-link"  href="{{route('seller.products.index')}}">Товары</a></li>
 {{--                    <li class="nxl-item"><a class="nxl-link"  href="#">Товары экспресс</a></li>--}}
-{{--                    <li class="nxl-item"><a class="nxl-link"  href="#">Остатки</a></li>--}}
+                    <li class="nxl-item"><a class="nxl-link"  href="#">Остатки</a></li>
 {{--                    <li class="nxl-item"><a class="nxl-link"  href="#">Цифровые товары</a></li>--}}
 {{--                    <li class="nxl-item"><a class="nxl-link"  href="#">Услуги</a></li>--}}
 {{--                    <li class="nxl-item"><a class="nxl-link"  href="#">Бронирование</a></li>--}}
@@ -55,11 +60,14 @@
                 </ul>
             </li>
             @endif
-            @if($currentUser->groupInfo()->hasPermission('view_orders'))
+            @if($currentUser->groupInfo()->hasPermission('view_orders') || $currentUser->isAdmin())
             <li class="nxl-item nxl-hasmenu">
                 <a href="javascript:void(0);" class="nxl-link">
                     <span class="nxl-micon"><i class="feather-shopping-bag"></i></span>
-                    <span class="nxl-mtext">Заказы</span>
+                    <span class="nxl-mtext">
+                        Заказы
+                        @if($currentUser->isAdmin())<span class="badge bg-soft-success text-success ms-1">ADMIN</span>@endif
+                    </span>
                     <span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
                 </a>
                 <ul class="nxl-submenu">
@@ -72,7 +80,7 @@
                 </ul>
             </li>
             @endif
-            @if($currentUser->groupInfo()->hasPermission('view_finance'))
+            @if($currentUser->groupInfo()->hasPermission('view_finance') || $currentUser->isAdmin())
             <li class="nxl-item nxl-hasmenu">
                 <a href="javascript:void(0);" class="nxl-link">
                     <span class="nxl-micon"><i class="feather-dollar-sign"></i></span>
@@ -88,7 +96,7 @@
                 </ul>
             </li>
             @endif
-            @if($currentUser->groupInfo()->hasPermission('view_users'))
+            @if($currentUser->groupInfo()->hasPermission('view_users') || $currentUser->isAdmin())
             <li class="nxl-item">
                 <a href="/seller/users" class="nxl-link">
                     <span class="nxl-micon"><i class="feather-user"></i></span>
@@ -96,7 +104,7 @@
                 </a>
             </li>
             @endif
-            @if($currentUser->groupInfo()->hasPermission('view_settings'))
+            @if($currentUser->groupInfo()->hasPermission('view_settings') || $currentUser->isAdmin())
             <li class="nxl-item nxl-hasmenu">
                 <a href="javascript:void(0);" class="nxl-link">
                     <span class="nxl-micon"><i class="feather-settings"></i></span>
@@ -124,11 +132,11 @@
             </a>
         </li>
         @endif
-        @if($currentUser->isAdmin())
-            <li class="nxl-item nxl-caption">
-                <label>Администрирование</label>
-            </li>
-        @endif
+{{--        @if($currentUser->isAdmin())--}}
+{{--            <li class="nxl-item nxl-caption">--}}
+{{--                <label>Администрирование</label>--}}
+{{--            </li>--}}
+{{--        @endif--}}
     </ul>
 
 </div>

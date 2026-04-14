@@ -141,24 +141,25 @@
                     </a>
                 </div>
                 <div class="dropdown nxl-h-item"></div>
-                <div class="dropdown nxl-h-item">
-                    <a class="nxl-head-link me-3" data-bs-toggle="dropdown" href="#" role="button" data-bs-auto-close="outside">
-                        <i class="feather-bell"></i>
-                        <span class="badge bg-danger nxl-h-badge">3</span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-end nxl-h-dropdown nxl-notifications-menu">
-                        <div class="d-flex justify-content-between align-items-center notifications-head">
-                            <h6 class="fw-bold text-dark mb-0">Уведомления</h6>
-                            <a href="javascript:void(0);" class="fs-11 text-success text-end ms-auto" data-bs-toggle="tooltip" title="Отметить все прочитанными">
-                                <i class="feather-check"></i>
-                                <span>Отметить все прочитанными</span>
-                            </a>
-                        </div>
-                        <div class="text-center notifications-footer">
-                            <a href="javascript:void(0);" class="fs-13 fw-semibold text-dark">Все уведомления</a>
-                        </div>
-                    </div>
-                </div>
+
+{{--                <div class="dropdown nxl-h-item">--}}
+{{--                    <a class="nxl-head-link me-3" data-bs-toggle="dropdown" href="#" role="button" data-bs-auto-close="outside">--}}
+{{--                        <i class="feather-bell"></i>--}}
+{{--                        <span class="badge bg-danger nxl-h-badge">3</span>--}}
+{{--                    </a>--}}
+{{--                    <div class="dropdown-menu dropdown-menu-end nxl-h-dropdown nxl-notifications-menu">--}}
+{{--                        <div class="d-flex justify-content-between align-items-center notifications-head">--}}
+{{--                            <h6 class="fw-bold text-dark mb-0">Уведомления</h6>--}}
+{{--                            <a href="javascript:void(0);" class="fs-11 text-success text-end ms-auto" data-bs-toggle="tooltip" title="Отметить все прочитанными">--}}
+{{--                                <i class="feather-check"></i>--}}
+{{--                                <span>Отметить все прочитанными</span>--}}
+{{--                            </a>--}}
+{{--                        </div>--}}
+{{--                        <div class="text-center notifications-footer">--}}
+{{--                            <a href="javascript:void(0);" class="fs-13 fw-semibold text-dark">Все уведомления</a>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
 
                 <div class="dropdown nxl-h-item">
                     <a href="javascript:void(0);" data-bs-toggle="dropdown" role="button" data-bs-auto-close="outside">

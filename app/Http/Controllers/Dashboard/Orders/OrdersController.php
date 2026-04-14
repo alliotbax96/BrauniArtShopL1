@@ -25,7 +25,11 @@ class OrdersController extends BaseController
             abort(403, 'У вас нет прав для просмотра данного раздела!');
         }
         $this->shareCommonData(); // вызываем один раз
-        return view('dashboard.index',['View' => 'dashboard.orders.index', 'title'=>'Заказы | Единая система BaID', 'PageName'=>'Заказы', 'InPageName'=>'Заказы товаров', 'modalContent'=>'orderPacking']);
+        if(Auth::user()->isAdmin()){
+            $SellerList = Seller::all();
+        }
+        $SelectSellerList = $SellerList ? $SellerList : '';
+        return view('dashboard.index',['View' => 'dashboard.orders.index', 'title'=>'Заказы | Единая система BaID', 'PageName'=>'Заказы', 'InPageName'=>'Заказы товаров', 'modalContent'=>'orderPacking', 'SelectSellerList'=>$SelectSellerList]);
     }
 
     public function ajax(Request $request)
@@ -33,7 +37,12 @@ class OrdersController extends BaseController
         if(!Auth::user()->groupInfo()->hasPermission('view_orders')) {
             abort(403, 'У вас нет прав для просмотра данного раздела!');
         }
-        $sellerId = Auth::user()->getFirstSeller()->id;
+        \Log::info(request()->input('sellerID'));
+        if(Auth::user()->isAdmin()){
+            $sellerId = request()->input('sellerID', Auth::user()->getFirstSeller()->id);
+        } else {
+            $sellerId = Auth::user()->getFirstSeller()->id;
+        }
 
         // Получаем параметры от DataTables
         $draw = request()->input('draw', 1);

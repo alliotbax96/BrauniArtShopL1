@@ -29,7 +29,14 @@ class ProductsController extends BaseController
             abort(403, 'У вас нет прав для просмотра данного раздела!');
         }
         $this->shareCommonData(); // вызываем один раз
-        return view('dashboard.index',['View' => 'dashboard.products.index', 'title'=>'Управление товарами | Единая система BaID', 'PageName'=>'Ассортимент', 'InPageName'=>'Управление товарами', 'CreateObject' => '/seller/products/create']);
+
+        return view('dashboard.index',[
+            'View' => 'dashboard.products.index',
+            'title'=>'Управление товарами | Единая система BaID',
+            'PageName'=>'Ассортимент',
+            'InPageName'=>'Управление товарами',
+            'CreateObject' => '/seller/products/create'
+        ]);
     }
 
     public function ajax(Request $request)
@@ -89,7 +96,9 @@ class ProductsController extends BaseController
             }
 
             // Подсчёт общего количества записей
-            $query->where('productSeller', $sellerId);
+            if(!Auth::user()->isAdmin()) {
+                $query->where('productSeller', $sellerId);
+            }
             $totalRecords = $query->count();
             // Получаем данные с пагинацией
             $productsQuery = clone $query;
@@ -186,7 +195,11 @@ class ProductsController extends BaseController
         }
         $this->shareCommonData();
         $sellerId = Auth::user()->getSellerId();
-        $product = $this->service->findSeller($id, $sellerId);
+        if(!Auth::user()->isAdmin()) {
+            $product = $this->service->findSeller($id, $sellerId);
+        } else {
+            $product = $this->service->find($id);
+        }
         if (!$product) {
             abort(404, 'Товар не найден');
         }

@@ -8,6 +8,8 @@ import '../../vendor/dashboard/js/pace.min.js';
 import '../../vendor/dashboard/js/bootstrap.min.js';
 import '../../vendor/dashboard/js/full-screen-helper.min.js';
 import './theme-customizer-init.min.js';
+import '../../vendor/dashboard/js/select2.min.js';
+import '../../vendor/dashboard/js/select2-active.min.js';
 // vendor.min.js
 
 import './common-init.min.js';
