@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\ProductGroup;
 use App\Services\CartService; // Добавляем импорт сервиса корзины
+use App\Services\TbankService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\App;
+use App\Models\ShopMode;
 
 class BaseController extends Controller
 {
@@ -27,16 +29,24 @@ class BaseController extends Controller
         // Получаем данные о корзине
         $cartData = $this->getCartData();
 
+        //TBankCustomerInit
+        if(Auth::check()) {
+            $tbankService = new TbankService();
+            $tbankService->InitCustomer(Auth::id());
+        }
+
         view()->share([
             'currentUser' => Auth::user(),
             'cartItemsCount' => $cartData['items_count'],
             'cartTotalPrice' => $cartData['total_price'],
             'cart' => $cartData['cart'],
             'ProductGroups' => $this->getProductGroups(),
-            'title' => 'BrauniArtмаркетплейс',
+            'title' => 'Брауни Арт — маркетплейс качественных товаров с доставкой по России',
+            'ShopModes' => ShopMode::where('status', 1)->get(),
             'verName' => '2.0',
             'ver' => 1,
             'scripts' => null,
+            'meta_description' => 'Маркетплейс Брауни Арт — широкий ассортимент товаров высокого качества от проверенных продавцов. Надёжный поставщик с многолетним опытом: гарантия сервиса, доступные цены и удобная доставка по России. Покупайте с комфортом!'
         ]);
     }
 
@@ -45,7 +55,7 @@ class BaseController extends Controller
         view()->share([
             'currentUser' => Auth::user(),
             'ProductGroups' => $this->getProductGroups(),
-            'title' => 'BrauniArtмаркетплейс',
+            'title' => 'Брауни Арт — маркетплейс качественных товаров с доставкой по России',
             'verName' => '2.0',
             'ver' => 1,
             'scripts' => null,

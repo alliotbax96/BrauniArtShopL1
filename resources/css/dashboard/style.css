@@ -1,0 +1,99 @@
+.hidden {
+    display: none;
+}
+.main_body {
+ min-height: 600px; /* Минимальная высота равна высоте вьюпорта */
+}
+
+.avatar-text a{
+    text-decoration: none !important;
+    color: #fff !important;
+}
+/* footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+} */
+.order-actions {
+    position: fixed;
+    z-index: 9999;
+}
+/* Стили для вывода превью */
+.img-item {
+    display: inline-block;
+    margin: 0 20px 20px 0;
+    position: relative;
+    user-select: none;
+}
+.img-item img {
+    border: 1px solid #767676;
+}
+.img-item a {
+    display: inline-block;
+    background: url(https://snipp.ru/demo/642/remove.png) 0 0 no-repeat;
+    position: absolute;
+    top: -5px;
+    right: -9px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.bankCard {
+    color: #fff;
+}
+.bankCard img {
+    height: 25px;
+}
+
+.main_body {
+    display: flex !important;
+    min-height: 90vh !important;
+    flex-direction: column !important;
+}
+
+.content-area-body {
+    display: flex !important;
+    min-height: 90vh !important;
+    flex-direction: column !important;
+}
+
+.nxl-content {
+    flex-grow: 1 !important;
+}
+
+.no-border {
+    border: none !important;
+}
+
+.dragging {
+    opacity: 0.5;
+    background-color: #e9ecef;
+    border: 2px dashed #0d6efd;
+}
+
+.box-items tr:hover {
+    background-color: #f8f9fa;
+    cursor: move;
+}
+
+.text-danger.fw-bold {
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+/* Стили для скрытия пустых коробок */
+.card:empty {
+    display: none;
+}
+
+.no-read {
+    float: right;
+    margin-right: 25px;
+}

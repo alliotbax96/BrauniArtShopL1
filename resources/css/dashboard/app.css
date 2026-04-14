@@ -1,0 +1,12 @@
+@import './bootstrap.min.css';
+@import '../../vendor/dashboard/css/vendors.min.css';
+@import '../../vendor/dashboard/css/select2.min.css';
+@import '../../vendor/dashboard/css/select2-theme.min.css';
+@import '../../vendor/dashboard/css/jquery.steps.min.css';
+@import '../../vendor/dashboard/css/quill.min.css';
+@import '../../vendor/dashboard/css/jquery.steps.min.css';
+@import '../../vendor/dashboard/css/datepicker.min.css';
+@import './theme.min.css';
+@import './style.css';
+@import '../../vendor/dashboard/MediaElement/mediaelementplayer.css';
+@import '../../vendor/dashboard/css/dataTables.bs5.min.css';

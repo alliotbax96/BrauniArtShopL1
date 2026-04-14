@@ -38,6 +38,23 @@ return [
     'redsms' => [
         'login'=> env('REDSMS_LOGIN'),
         'token'=> env('REDSMS_TOKEN')
-    ]
+    ],
+
+    'tbank' => [
+        'terminalid'=> env('TBANK_TERMINAL_ID'),
+        'terminalpassword'=> env('TBANK_TERMINAL_PASSWORD'),
+        'token' => env('TBANK_TOKEN'),
+    ],
+
+    'yandex' => [
+        'client_id' => env('YANDEX_CLIENT_ID'),
+        'client_secret' => env('YANDEX_CLIENT_SECRET'),
+        'redirect' => env('YANDEX_REDIRECT_URI'),
+        'delivery' => [
+            'token' => env('YANDEX_DELIVERY_TOKEN'),
+        ]
+    ],
+
+
 
 ];

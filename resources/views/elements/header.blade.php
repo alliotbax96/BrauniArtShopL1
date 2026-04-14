@@ -66,7 +66,7 @@
 <!-- header-top-end -->
 
 <!-- menu-area -->
-<div id="sticky-header" class="main-header menu-area">
+<div id="sticky-header" class="main-header menu-area container-header pt-3">
     <div class="custom-container-two">
         <div class="row">
             <div class="col-12">
@@ -82,8 +82,8 @@
                         </div>
                         <div class="col-md-auto mx-1 header-search-wrap d-none d-lg-flex">
                             <div>
-                                <form id="search_form" action="/products/search/" method="get"></form>
-                                <input form="search_form" id="search-input" list="search" name="search_text" type="text"
+                                <form id="search_form" action="/products" method="get"></form>
+                                <input form="search_form" id="search-input" list="search" name="search" type="text"
                                        placeholder="Введите ваш поисковый запрос.....">
                                 <button form="search_form" type="submit"><i class="flaticon-magnifying-glass-1"></i>
                                 </button>
@@ -101,103 +101,55 @@
                                         <span class="cart-count">{{$cartItemsCount}}</span>
                                     </a>
                                     <span class="cart-total-price">{{$cartTotalPrice}}</span>
-                                    <ul class="minicart" id="minicart" style="max-height: 600px; overflow: scroll;">
-                                        @if($cart && $cart->items->isNotEmpty())
-                                            @foreach($cart->items as $key => $item)
-                                                <li class="d-flex align-items-start">
-                                                    <div class="cart-img">
-                                                        <a href="{{ route('products.show', $item->getProduct()->id) }}">
-                                                            <img
-                                                                src="https://seller.brauniart.shop/uploads/{{ $item->getProduct()->getMainImage() }}"
-                                                                alt="{{ $item->getProduct()->name }}">
-                                                        </a>
-                                                    </div>
-                                                    <div class="cart-content">
-                                                        <h4>
-                                                            <a href="{{ route('products.show', $item->getProduct()->id) }}">
-                                                                {{ $item->getProduct()->getProductName() }} (x{{ $item->quantity }})
-                                                            </a>
-                                                            <p></p>
-                                                        </h4>
-                                                        <div class="cart-price">
-                                                            <span class="new">
-                                                              {{ number_format($item->getProduct()->getProductPrice() * $item->quantity, 2, ',', ' ') }} руб.
-                                                                <br>
-                                                              ({{ number_format($item->getProduct()->getProductPrice(), 2, ',', ' ') }} руб./шт)
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="del-icon">
-                                                        <form action="{{ route('cart.remove', $item->id) }}"
-                                                              method="POST" style="display: inline;">
-                                                            @csrf
-                                                            <input type="hidden" name="_method" value="DELETE">
-                                                            <button type="submit"
-                                                                    style="background: none; border: none; cursor: pointer;">
-                                                                <i class="far fa-trash-alt"></i>
-                                                            </button>
-                                                        </form>
-                                                    </div>
-                                                </li>
-                                            @endforeach
-                                        @else
-                                            <li class="empty-cart-message">
-                                                <p>Корзина пуста</p>
-                                            </li>
-                                        @endif
-
-                                        <li>
-                                            <div class="total-price">
-                                                <span class="f-left">Итого:</span>
-                                                <span class="f-right" contenteditable>{{$cartTotalPrice}}</span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="checkout-link">
-                                                <a href="/cart">Корзина</a>
-                                            </div>
-                                        </li>
-                                    </ul>
+                                     @include('elements.miniCart')
                                 </li>
                             </ul>
                         </div>
                     </nav>
-                    <div class="menu-nav show">
+                </div>
+                <div class="menu-warp main-menu-warp pb-3">
+                    <nav class="menu-nav show">
                         <div class="navbar-wrap main-menu d-none d-lg-flex">
                             <ul class="navigation">
-                                <li class=""><a href="/">BA Shop</a></li>
-                                <li class=""><a href="/">BA Express</a></li>
-                                <li class=""><a href="/">BA Service</a></li>
-                                <li class=""><a href="/">BA Digital</a></li>
-                                <li class=""><a href="/">BA Travel</a></li>
-                                <li class=""><a href="/">BA Booking</a></li>
-                                <li class=""><a href="/">BA Quests</a></li>
+                                @foreach($ShopModes as $ShopMode)
+                                    <li class="active"><a href="/selectMode/{{$ShopMode['id']}}">{{$ShopMode['ShopModeName']}}</a></li>
+                                @endforeach
                                 <li class="dropdown mobile_m"><a href="#">Каталог</a>
                                     <ul class="submenu">
-                                        {foreach from=$menu_category item=item}
-                                        {if count($item.child)>0}
-                                        <li class="dropdown"><a
-                                                href="/products/group/{$item.id}">{$item.name}</a>
+                                        @foreach($ProductGroups as $item)
+                                        @if ($item->children->isNotEmpty())
+                                        <li class="dropdown">
+                                            <a href="/products">
+                                                {{$item->name}}
+                                            </a>
                                             <ul class="submenu">
-                                                {foreach from=$item.child item=child}
-                                                <li><a href="/products/group/{$child.id}">{$child.name}</a></li>
-                                                {/foreach}
+                                                @foreach($item->children as $children)
+                                                <li>
+                                                    <a href="/products?category={{$children->id}}">
+                                                      {{$children->name}}
+                                                    </a>
+                                                </li>
+                                                @endforeach
                                             </ul>
                                         </li>
-                                        {else}
-                                        <li><a href="/products/group/{$item.id}">{$item.name}</a></li>
-                                        {/if}
-                                        {/foreach}
+                                        @else
+                                        <li>
+                                            <a href="/products?category={{$item->id}}">
+                                                {{$item->name}}
+                                            </a>
+                                        </li>
+                                        @endif
+                                        @endforeach
                                     </ul>
                                 </li>
-                                <li class="{if $url1 == 'aboutus'}active{/if}"><a href="/aboutus">О нас</a></li>
+                                <li class="{if $url1 == 'aboutUs'}active{/if}"><a href="/aboutUs">О нас</a></li>
                                 <li class="{if $url1 == 'PayAndDelivery'}active{/if}"><a
                                         href="/PayAndDelivery">Доставка и оплата</a></li>
                                 <li class="{if $url1 == 'contacts'}active{/if}"><a href="/contacts">Контакты</a>
                                 </li>
                             </ul>
                         </div>
-                    </div>
+                    </nav>
                 </div>
                 <!-- Mobile Menu  -->
                 <div class="mobile-menu">
@@ -243,11 +195,11 @@
 
 <!-- header-search-area -->
 <div class="header-search-area mobile_m">
-    <form id="mobile-search_form" action="/products/search/" method="get"></form>
+    <form id="mobile-search_form" action="/products" method="get"></form>
     <div class="container mobile-search">
         <div class="header-search-wrap">
             <div>
-                <input form="mobile-search_form" id="search-mobile-input" list="search" name="search_text" type="text"
+                <input form="mobile-search_form" id="search-mobile-input" list="search" name="search" type="text"
                        placeholder="Введите ваш поисковый запрос.....">
                 <button form="mobile-search_form" type="submit"><i class="flaticon-magnifying-glass-1"></i></button>
             </div>

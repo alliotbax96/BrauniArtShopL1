@@ -1,0 +1,11 @@
+{
+    "mcpServers": {
+        "laravel-boost": {
+            "command": "/Applications/ServBay/package/php/8.4/8.4.18/bin/php",
+            "args": [
+                "/Users/artemnegladenko/Documents/dev/sites/LaravelProjects/BrauniartShopL1/artisan",
+                "boost:mcp"
+            ]
+        }
+    }
+}

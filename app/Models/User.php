@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'phone',
     ];
 
     /**
@@ -45,4 +46,73 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function groups()
+    {
+        return $this->belongsToMany(Group::class);
+    }
+
+    public function group()
+    {
+        return $this->belongsTo(Group::class, 'group_id');
+    }
+
+    public function groupInfo(){
+        return $this->groups()->first();
+    }
+
+    public function groupId(){
+        return $this->groups()->first()->id;
+    }
+
+    public function isBuyer(): bool
+    {
+        return $this->groups()->where('type', 'buyer')->exists();
+    }
+
+
+    public function isSeller(): bool
+    {
+        $hasSellerGroup = $this->groups()->where('type', 'seller')->exists();
+        $hasSellers = $this->sellers()->exists();
+        $isAdmin = $this->isAdmin();
+
+        return ($hasSellerGroup && $hasSellers) || ($hasSellers && $isAdmin);
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->groups()->where('type', 'admin')->exists();
+    }
+
+    public function getVendorId(): ?int
+    {
+        if ($this->isSeller()) {
+            return $this->vendor_id; // предполагаем, что vendor_id есть в таблице users
+        }
+        return null;
+    }
+
+    public function sellers(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Seller::class, 'seller_user')
+            ->withTimestamps();
+    }
+    public function getFirstSeller(): ?Seller
+    {
+        return $this->sellers()->first();
+    }
+
+
+    public function getSellerId(): ?int
+    {
+        $seller = $this->getFirstSeller();
+        return $seller ? $seller->id : null;
+    }
+
+    public function chats() {
+        return $this->belongsToMany(Chat::class, 'chat_user');
+    }
+
+
 }

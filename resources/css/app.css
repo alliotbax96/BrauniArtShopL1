@@ -1,11 +1,20 @@
-@import 'tailwindcss';
+@import './bootstrap.min.css';
+@import './animate.min.css';
+@import './magnific-popup.css';
+@import './fontawesome-all.min.css';
+@import './owl.carousel.min.css';
+@import './jquery-ui.min.css';
+@import './flaticon.css';
+@import './odometer.css';
+@import './aos.css';
+@import './slick.css';
+@import './default.css';
+@import './style.css';
+@import './font-awesome/css/font-awesome.min.css';
+@import '../vendor/mediaelement/mediaelementplayer.min.css';
+@import '../vendor/mediaelement/mep.css';
+/* ... и так далее для всех CSS-файлов */
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-@source '../**/*.blade.php';
-@source '../**/*.js';
-
-@theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
-}
+/* Ваши кастомные стили */
+@import './tech.css';
+@import './responsive.css';

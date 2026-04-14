@@ -56,6 +56,17 @@ class ProductGroup extends Model
         return static::byParentId(null);
     }
 
+    public static function NoRootGroups()
+    {
+//        return static::byParentId(null);
+        return static::whereNotNull('parent_id');
+    }
+
+    public function childrenRecursive()
+    {
+        return $this->hasMany(self::class, 'parent_id')->with('childrenRecursive');
+    }
+
     /**
      * Получение дочерних групп для указанного родителя
      *
@@ -65,5 +76,13 @@ class ProductGroup extends Model
     public static function childGroups(int $parentId)
     {
         return static::byParentId($parentId);
+    }
+
+    public function getName(){
+        return $this->name;
+    }
+
+    public function comission(){
+        return $this->belongsTo(Comission::class, 'id', 'product_group_id');
     }
 }

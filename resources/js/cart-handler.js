@@ -1,3 +1,4 @@
+// cart-handler.js
 class CartHandler {
     constructor() {
         this.init();
@@ -24,7 +25,7 @@ class CartHandler {
             e.preventDefault();
             const form = removeLink.closest('form');
             if (form) {
-                this.handleRemoveFromCart(form);
+                this.handleRemoveFromCart(form, removeLink); // Передаём кнопку как параметр
             }
             return;
         }
@@ -79,17 +80,19 @@ class CartHandler {
         }
     }
 
-    async handleRemoveFromCart(form) {
+    async handleRemoveFromCart(form, button) { // Получаем кнопку как параметр
         const itemId = form.dataset.itemId || form.action.split('/').pop();
+
+        // Проверяем флаг skip-ajax
         if (button && button.classList.contains('skip-ajax')) {
             return; // Выходим из функции — форма будет отправлена стандартным способом
         }
+
         if (!confirm('Вы уверены, что хотите удалить этот товар из корзины?')) {
             return;
         }
 
-        const button = form.querySelector('button[type="submit"], .cart_item_del');
-        button.classList.add('loading');
+        button.classList.add('loading'); // Используем переданный параметр
 
         try {
             const formData = new FormData(form);
@@ -174,7 +177,7 @@ class CartHandler {
             </div>
             <div class="cart-content">
                 <h4>
-                    <a href="${item.product_url}">
+            <a href="${item.product_url}">
                 ${item.name} (x${item.quantity})
             </a>
                 </h4>
@@ -187,8 +190,8 @@ class CartHandler {
             </div>
             <div class="del-icon">
                 <form action="${item.remove_url}" method="POST" style="display: inline;">
-                    <input type="hidden" name="_method" value="DELETE">
-                    <button type="submit" style="background: none; border: none; cursor: pointer;">
+            <input type="hidden" name="_method" value="DELETE">
+            <button type="submit" style="background: none; border: none; cursor: pointer;">
                 <i class="far fa-trash-alt"></i>
             </button>
                 </form>
@@ -201,7 +204,7 @@ class CartHandler {
         <li>
             <div class="total-price">
                 <span class="f-left">Итого:</span>
-                <span class="f-right">${cartData.total_price}</span>
+                <span class="f-right">${cartData.total_price} руб.</span>
             </div>
         </li>
         <li>
@@ -218,9 +221,10 @@ class CartHandler {
 // Обновляем счётчик и общую сумму в шапке
         this.updateCartBadge(cartData.total_items || 0);
 
+
         const cartTotalPriceElement = document.querySelector('.cart-total-price');
         if (cartTotalPriceElement) {
-            cartTotalPriceElement.textContent = `${cartData.total_price}`;
+            cartTotalPriceElement.textContent = `${cartData.total_price} руб.`;
         }
 
 // Обновляем количество товаров в счётчике корзины
@@ -274,7 +278,9 @@ class CartHandler {
             boxShadow: '0 2px 10px rgba(0,0,0,0.2)'
         });
         document.body.appendChild(notification);
-        setTimeout(() => { if (notification.parentNode) notification.remove(); }, 3000);
+        setTimeout(() => {
+            if (notification.parentNode) notification.remove();
+        }, 3000);
     }
 }
 
@@ -282,3 +288,4 @@ class CartHandler {
 document.addEventListener('DOMContentLoaded', () => {
     window.cartHandler = new CartHandler();
 });
+

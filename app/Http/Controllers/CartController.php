@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\UserPvz;
 use App\Services\CartService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends BaseController
 {
@@ -21,8 +23,9 @@ class CartController extends BaseController
         $cartItems = $this->cartService->getItemsWithDetails();
         $totalItems = $this->cartService->getTotalItems();
         $totalPrice = $this->cartService->getTotalPrice();
+        $userPvzs = UserPvz::where('user_id', Auth::id())->get();
         $scripts[] = "/assets/scripts/pages/cart.js";
-        return view('index', ['view' => 'pages.cart', 'scripts' => $scripts, compact('cartItems', 'totalItems', 'totalPrice')]);
+        return view('index', ['view' => 'pages.cart', 'scripts' => $scripts, 'userPvzs'=>$userPvzs, 'title'=> 'Корзина | Брауни Арт — маркетплейс качественных товаров с доставкой по России', compact('cartItems', 'totalItems', 'totalPrice')]);
     }
 
     public function getMiniCart()
@@ -39,7 +42,7 @@ class CartController extends BaseController
                     'quantity' => $item->quantity,
                     'price_per_unit' => number_format($product->getProductPrice(), 2, ',', ' '),
                     'total_price' => number_format($product->getProductPrice() * $item->quantity, 2, ',', ' '),
-                    'image_url' => 'https://seller.brauniart.shop/uploads/' . $product->getMainImage(),
+                    'image_url' => 'https://s3.ru1.storage.beget.cloud/d5833d93d74c-brauniartfiles/' . $product->getMainImage(),
                     'product_url' => route('products.show', $product->id),
                     'remove_url' => route('cart.remove', $item->id)
                 ];
@@ -49,7 +52,7 @@ class CartController extends BaseController
         return response()->json([
             'items' => $items,
             'total_items' => $cart ? $this->cartService->getTotalItems() : 0,
-            'total_price' => $cart ? number_format($this->cartService->getTotalPrice(), 2, ',', ' ') . ' руб.' : '0 руб.'
+            'total_price' => $cart ? number_format($this->cartService->getTotalPrice(), 2, ',', ' ') . ' ' : '0'
         ]);
     }
 

@@ -1,0 +1,96 @@
+
+/* Start: CONTROL BAR */
+/*.mejs__controls {*/
+/*    bottom: 0;*/
+/*    display: -webkit-box;*/
+/*    display: -webkit-flex;*/
+/*    display: -ms-flexbox;*/
+/*    display: flex;*/
+/*    height: 2.5rem;*/
+/*    left: 0;*/
+/*    list-style-type: none;*/
+/*    margin: 0;*/
+/*    padding: 0 0.625rem;*/
+/*    position: absolute;*/
+/*    width: 100%;*/
+/*    z-index: 3;*/
+/*}*/
+mejs__container {
+    width: 40px !important;
+}
+
+.mejs__controls:not([style*='display: none']) {
+    /*background: rgba(255, 0, 0, 0.7);*/
+    /*background: -webkit-linear-gradient(transparent, rgba(0, 0, 0, 0.35));*/
+    /*background: linear-gradient(transparent, rgba(0, 0, 0, 0.35));*/
+}
+
+.mejs__button,
+.mejs__time,
+.mejs__time-rail {
+    font-size: 0.625rem;
+    height: 2.5rem;
+    line-height: 0.625rem;
+    margin: 0;
+    /*width: 2rem;*/
+}
+
+.mejs__button > button {
+    background-color: transparent;
+    border: 0;
+    color: #000;
+    cursor: pointer;
+    display: block;
+    font-size: 0;
+    height: 35px;
+    line-height: 0;
+    margin: 8px 8px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    text-decoration: none;
+    width: 35px;
+}
+
+.mejs__button svg {
+    fill: currentColor;
+    height: 35px;
+    width: 35px;
+}
+
+/* :focus for accessibility */
+.mejs__button > button:focus {
+    outline: dotted 0.125rem #fff;
+}
+
+.mejs__container-keyboard-inactive a,
+.mejs__container-keyboard-inactive a:focus,
+.mejs__container-keyboard-inactive button,
+.mejs__container-keyboard-inactive button:focus,
+.mejs__container-keyboard-inactive [role=slider],
+.mejs__container-keyboard-inactive [role=slider]:focus {
+    outline: 0;
+}
+
+/* End: CONTROL BAR */
+
+/* Start: Play (Play / Pause / Replay) */
+.mejs__playpause-button svg {
+    display: none;
+}
+
+.mejs__play svg.mejs__icon-play {
+    display: block;
+}
+
+.mejs__pause svg.mejs__icon-pause {
+    display: block;
+}
+
+.mejs__replay svg.mejs__icon-replay {
+    display: block;
+}
+/* End: Play (Play / Pause / Replay) */
+.mejs__offscreen {
+    display: none;
+}

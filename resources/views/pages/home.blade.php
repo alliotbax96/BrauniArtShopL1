@@ -2,20 +2,20 @@
     <main>
 
         <!-- slider-area -->
-        <section>
-            <div class="container-fluid">
-                <div class="row align-items-start justify-content-between">
-                    <div class="col mini_banner d-none d-lg-flex"><img src="/assets/img/images/right_banner.png" alt=""></div>
-                    <div class="col mini_banner-center"><img src="/assets/img/images/center_banner.png" alt=""></div>
-                    <div class="col mini_banner d-none d-lg-flex"><img src="/assets/img/images/left_banner.png" alt=""></div>
-                </div>
-            </div>
-        </section>
+{{--        <section>--}}
+{{--            <div class="container-fluid">--}}
+{{--                <div class="row align-items-start justify-content-between">--}}
+{{--                    <div class="col mini_banner d-none d-lg-flex"><img src="/assets/img/images/right_banner.png" alt=""></div>--}}
+{{--                    <div class="col mini_banner-center"><img src="/assets/img/images/center_banner.png" alt=""></div>--}}
+{{--                    <div class="col mini_banner d-none d-lg-flex"><img src="/assets/img/images/left_banner.png" alt=""></div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </section>--}}
         <!-- slider-area-end -->
 
         <!-- exclusive-collection-area -->
-        <section class="exclusive-collection pt-50 pb-10">
-            <div class="container-fluid">
+        <section class="exclusive-collection pt-10 pb-10">
+            <div class="custom-container-two">
                 <div class="row justify-content-center">
                 </div>
                 <div id="showmore-list">
@@ -26,7 +26,7 @@
                                     <div class="exclusive-item exclusive-item-three text-center mb-50 card-item">
                                         <div class="exclusive-item-thumb">
                                             <a href="/products/{{$product->getProductId()}}">
-                                                <img src="https://seller.brauniart.shop/uploads/{{$product->getMainImage()}}" alt="" style="object-fit: contain; height: 300px;">
+                                                <img src="https://s3.ru1.storage.beget.cloud/d5833d93d74c-brauniartfiles/{{$product->getMainImage()}}" alt="" style="object-fit: contain; height: 300px;">
                                             </a>
                                         </div>
                                         <h5 class="exclusive-item-content"><a href="/products/{{$product->getProductId()}}">{{$product->getProductName()}}</a></h5>
@@ -63,3 +63,7 @@
         <!-- exclusive-collection-area-end -->
     </main>
     <!-- main-area-end -->
+
+@push('scripts')
+    @vite('resources/js/Pages/home.js')
+@endpush

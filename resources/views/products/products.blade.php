@@ -1,29 +1,23 @@
 <!-- main-area -->
 <main>
     <!-- breadcrumb-area -->
-    <section class="breadcrumb-area breadcrumb-bg" data-background="/assets/img/bg/breadcrumb_bg.jpg">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="breadcrumb-content text-center">
-                        <h2>Каталог</h2>
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="/">Главная</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Каталог</li>
-                            </ol>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <div class="custom-container-two">
+        <!-- Хлебные крошки -->
+        <nav aria-label="breadcrumb breadcrumb-new" class="mb-1 mt-2">
+            <ol class="breadcrumb breadcrumb-new-ol">
+                <li class="breadcrumb-item"><a href="/">Главная</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Каталог</li>
+            </ol>
+        </nav>
+        <!-- Заголовок -->
+        <h1 class="h3 mb-4">Каталог</h1>
+    </div>
     <!-- breadcrumb-area-end -->
 
     <!-- shop-area -->
-    <div class="shop-area gray-bg pt-50 pb-100">
+    <div class="shop-area gray-bg pb-100">
         <div class="custom-container-two">
-            <div class="shop-top-meta mb-40">
+            <div class="shop-top-meta">
                 <p class="show-result"></p>
                 <div class="shop-meta-right">
                     <form id="filters" action="/products" method="get">
@@ -49,10 +43,10 @@
                                 <ul class="treeview">
                                     @foreach($ProductGroups as $item)
                                         @if($item->parent_id == 0)
-                                            <li class="has-children">
+                                            <li class="has-children @if(isset($FilterGroup) && !empty($FilterGroup->parent_id) && $item->id == $FilterGroup->parent_id) expanded @endif">
                                                 <label class="category-toggle">
-                                                    <input form="filters" type="radio" name="category" value="{{ $item->id }}" @if($item->id == $products['filters']['category']) checked @endif>
-                                                    <span class="category-name">{{ $item->name }}</span>
+                                                    <input form="filters" type="radio" name="rootCategory" value="{{ $item->id }}" @if(isset($FilterGroup) && !empty($FilterGroup->parent_id) && $item->id == $FilterGroup->parent_id) checked @endif>
+                                                    <span class="category-name">{{$item->name}}</span>
                                                     <span class="toggle-icon">@if ($item->children->isNotEmpty())▶@endif</span>
                                                 </label>
                                                 <!-- Вложенные категории -->
@@ -61,7 +55,7 @@
                                                         @foreach($item->children as $child)
                                                             <li>
                                                                 <label>
-                                                                    <input form="filters" type="radio" name="category" value="{{ $child->id }}" @if($child->id == $products['filters']['category']) checked @endif>
+                                                                    <input form="filters" type="radio" name="category" value="{{ $child->id }}" @if(isset($FilterGroup) && !empty($FilterGroup->parent_id) && $child->id == $FilterGroup->id) checked @endif>
                                                                     <span class="category-name">{{ $child->name }}</span>
                                                             </li>
                                                         @endforeach
@@ -99,7 +93,9 @@
                             <div class="col-xl-3 col-lg-6 col-md-4 col-sm-6">
                                 <div class="exclusive-item exclusive-item-three text-center mb-50 card-item">
                                     <div class="exclusive-item-thumb">
-                                        <a href="/products/{{$product->id}}"><img src="https://seller.brauniart.shop/uploads/{{$product->getMainImage()}}" alt="" style="object-fit: contain; height: 300px;"></a>
+                                        <a href="/products/{{$product->id}}">
+                                            <img src="https://s3.ru1.storage.beget.cloud/d5833d93d74c-brauniartfiles/{{$product->getMainImage()}}" alt="" style="object-fit: contain; height: 300px;">
+                                        </a>
                                     </div>
                                     <div class="exclusive-item-content">
                                         <h5 style="font-size: 12px;"><a href="/products/{{$product->id}}">{{$product->getProductName()}}</a></h5>
@@ -128,7 +124,7 @@
                             </div>
                         @endforeach
                     </div>
-                    <div class="pagination-wrap">{{ $products['products']->links() }}</div>
+                    <div class="pagination-wrap">{{ $products['products']->withQueryString()->links('pagination::bootstrap-5') }}</div>
                 </div>
             </div>
         </div>
@@ -136,3 +132,6 @@
     <!-- shop-area-end -->
 </main>
 <!-- main-area-end -->
+@push('scripts')
+    @vite('resources/js/Pages/products.js')
+@endpush

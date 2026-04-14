@@ -13,11 +13,12 @@ class Product extends Model
     protected $table = 'products';
     protected $fillable = [
         'productName',
-//        'productQuantity',
+        'productQuantity',
         'productDescription',
         'productGroupId',
         'productSeller',
-        'productCode'
+        'productCode',
+        'productWeight',
     ];
 
     // Отношения
@@ -28,7 +29,7 @@ class Product extends Model
 
     public function images(): HasMany
     {
-        return $this->hasMany(ProductImage::class, 'productId');
+        return $this->hasMany(ProductImage::class, 'productId')->orderBy('order', 'asc');
     }
 
     public function ProductPrice(): HasMany
@@ -38,7 +39,7 @@ class Product extends Model
 
     public function ProductGroup(): HasMany
     {
-        return $this->hasMany(ProductGroup::class, 'productGroupId');
+        return $this->hasMany(ProductGroup::class, 'id', 'productGroupId');
     }
 
     public function prices()
@@ -46,11 +47,10 @@ class Product extends Model
         return $this->hasMany(ProductPrice::class, 'productId');
     }
 
-
-//    public function reviews(): HasMany
-//    {
-//        return $this->hasMany(Review::class, 'id');
-//    }
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class, 'product_id');
+    }
 
     public function quantity(): HasMany
     {
@@ -59,7 +59,27 @@ class Product extends Model
 
 
     /**
-     * Фильтр по категории
+     * Фильтр: только товары с активным продавцом, розничной ценой и главной картинкой
+     */
+    public function scopeWithActiveSellerAndRetailPriceAndMainImage(Builder $query)
+    {
+        return $query->whereHas('seller', function ($sellerQuery) {
+            $sellerQuery->whereHas('legalDetails')
+                ->whereHas('contacts', function ($contractQuery) {
+                    $contractQuery->where('status', true)
+                        ->where('signed_status', true);
+                });
+        })
+            ->whereHas('prices', function ($priceQuery) {
+                $priceQuery->byPriceType('Розничная цена');
+            })
+            ->whereHas('images', function ($imageQuery) {
+                $imageQuery->where('mainImage', true);
+            });
+    }
+
+    /**
+     * Фильтр по категории (включая дочерние категории для родительских)
      */
     public function scopeByCategory(Builder $query, ?int $category)
     {
@@ -67,22 +87,56 @@ class Product extends Model
             return $query;
         }
 
-        return $query->where('productGroupId', $category);
+        // Получаем категорию по ID
+        $group = ProductGroup::find($category);
+
+        if (!$group) {
+            return $query; // Если категория не найдена, возвращаем исходный запрос
+        }
+
+        // Проверяем, является ли категория родительской (parent_id = null)
+        if ($group->parent_id === null) {
+            // Получаем все ID дочерних категорий рекурсивно
+            $childCategoryIds = $this->getChildCategoryIds($group);
+            // Добавляем ID самой родительской категории
+            $categoryIds = array_merge([$category], $childCategoryIds);
+            // Фильтруем товары по всем ID категорий
+            return $query->whereIn('productGroupId', $categoryIds);
+        } else {
+            // Если категория не родительская, фильтруем только по ней
+            return $query->where('productGroupId', $category);
+        }
     }
 
     /**
-     * Фильтр по диапазону цен
+     * Рекурсивно получает все ID дочерних категорий
+     * @param ProductGroup $group
+     * @return array
      */
+    private function getChildCategoryIds(ProductGroup $group): array
+    {
+        $ids = [];
 
-    public function scopeByPriceWithType(Builder $query, ?float $minPrice, ?float $maxPrice, string $priceType = 'Розничная цена')
+        foreach ($group->childrenRecursive as $child) {
+            $ids[] = $child->id;
+            // Рекурсивно добавляем ID дочерних категорий следующего уровня
+            $ids = array_merge($ids, $this->getChildCategoryIds($child));
+        }
+
+        return $ids;
+    }
+
+
+    /**
+     * Фильтр по диапазону цен (без учёта типа цены)
+     */
+    public function scopeByPriceRange(Builder $query, ?float $minPrice, ?float $maxPrice)
     {
         if ((is_null($minPrice) || $minPrice <= 0) && (is_null($maxPrice) || $maxPrice <= 0)) {
             return $query; // Нет условий по цене — не фильтруем
         }
 
-        return $query->whereHas('prices', function ($subQuery) use ($minPrice, $maxPrice, $priceType) {
-            $subQuery->byPriceType($priceType);
-
+        return $query->whereHas('prices', function ($subQuery) use ($minPrice, $maxPrice) {
             if (!is_null($minPrice)) {
                 $subQuery->where('price', '>=', $minPrice);
             }
@@ -145,13 +199,28 @@ class Product extends Model
         $prices = ProductPrice::where('productId', $this->id)
             ->byPriceType($type)
             ->get();
+        if(!isset($prices[0]->price)){
+            return 0;
+        }
         return $prices[0]->price;
     }
 
     public function getProductQuantity(): int
     {
-        return $this->product_quantity;
+        if(count($this->quantity)>0) {
+            return $this->quantity[0]->quantity;
+        }
+        return 0;
     }
+
+    public function getProductQuantityWarehouse(): Warehouse
+    {
+        if(count($this->quantity)>0){
+            return $this->quantity[0]->getWarehouse();
+        }
+        return Warehouse::where('id', 1)->first();
+    }
+
 
     public function getProductImages()
     {
@@ -173,7 +242,7 @@ class Product extends Model
         return $this->productDescription;
     }
 
-    public function getProductGroup(): string
+    public function getProductGroup()
     {
         return $this->productGroup;
     }
@@ -184,15 +253,20 @@ class Product extends Model
         return $this->seller;
     }
 
-//    public function getProductReviews()
-//    {
-//        return $this->reviews->load('user'); // Загружаем связанные данные пользователя
-//    }
+    public function getProductReviews()
+    {
+        return $this->reviews()->with('user')->get();
+    }
 
-//    public function getProductEstimation(): float
-//    {
-//        return $this->reviews()->avg('estimation') ?? 0.0;
-//    }
+    public function getProductEstimation(): float
+    {
+        $average = $this->reviews()
+            ->latest()
+            ->take(40)
+            ->avg('estimation');
+
+        return round($average ?? 0.0, 2);
+    }
 
 
     public function getProductSellerId(): int
@@ -200,8 +274,4 @@ class Product extends Model
         return $this->productSeller;
     }
 
-//    public function getProductWarehouseId(): ?int
-//    {
-//        return $this->quantity()->first()?->warehouse_id;
-//    }
 }

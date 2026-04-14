@@ -3,11 +3,16 @@
 namespace App\Http\Integrations\RedSMS\Requests;
 
 use App\Http\Integrations\RedSMS\RedSMSConnector;
+use Saloon\Contracts\Body\HasBody;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
+use Saloon\Http\PendingRequest;
+use Saloon\Traits\Body\HasJsonBody;
 
-class SendCallCodeRequest extends Request
+class SendCallCodeRequest extends Request implements HasBody
 {
+    use HasJsonBody;
+
     protected ?string $connector = RedSMSConnector::class;
     protected Method $method = Method::POST;
 
@@ -33,16 +38,18 @@ class SendCallCodeRequest extends Request
         ];
     }
 
-    protected function beforeSend(): void
+
+
+    protected function defaultHeaders(): array
     {
         $timestamp = time();
         $ts = $this->login . $timestamp;
         $secret = md5($ts . $this->token);
 
-        $this->addHeaders([
+        return [
             'login' => $this->login,
-            'ts' => (string) $timestamp,
+            'ts' => (string) $ts,
             'secret' => $secret,
-        ]);
+        ];
     }
 }

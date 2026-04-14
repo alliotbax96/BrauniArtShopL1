@@ -3,43 +3,34 @@
 namespace App\Repositories;
 
 use App\Models\Product;
-use Illuminate\Support\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class ProductRepository
 {
     public function find(int $id): ?Product
     {
-        return Product::with([
-            'seller',
-            'images',
-//            'quantity',
-//            'parameters'
-        ])->find($id);
+        return Product::find($id);
     }
 
     public function all(int $perPage = 12): LengthAwarePaginator
     {
-        return Product::with([
-            'seller',
-            'images',
-//            'quantity',
-//            'parameters'
-        ])->paginate($perPage);
+        return Product::paginate($perPage);
     }
 
-    public function filterProducts(array $filters, int $perPage = 15): LengthAwarePaginator
+    // Новый метод — получение всех товаров с условиями
+    public function allWithConditions(int $perPage = 12): LengthAwarePaginator
     {
-        $priceType = $filters['price_type'] ?? 'Розничная цена'; // Тип цены по умолчанию
-        $minPrice = $filters['min_price'] ?? null;
-        $maxPrice = $filters['max_price'] ?? null;
-
         return Product::query()
-            ->byCategory($filters['category'] ?? null)
-            ->byPriceWithType($minPrice, $maxPrice, $priceType)
-            ->searchByName($filters['search'] ?? null)
-            ->searchByArticle($filters['article'] ?? null)
+            ->withActiveSellerAndRetailPriceAndMainImage()
             ->paginate($perPage);
+    }
+
+    public function filterProducts(array $filters, int $perPage = 12): LengthAwarePaginator
+    {
+        // Здесь остаётся существующая логика фильтрации
+        // (можно добавить вызов ->withActiveSellerAndRetailPriceAndMainImage(),
+        // если нужно применять условия и к отфильтрованным данным)
+        return Product::filter($filters)->paginate($perPage);
     }
 
     public function create(array $data): Product
