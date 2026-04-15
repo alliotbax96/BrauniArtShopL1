@@ -154,7 +154,7 @@
 
                                         <?php if(auth()->guard()->check()): ?>
                                             <li>
-                                                <select form="CartForm" name="pvz" id="pvz" class="form-control">
+                                                <select form="CartForm" name="pvz" id="pvz" class="form-control point-select">
                                                     <option disabled>Выберите пункт выдачи</option>
                                                     <?php $__currentLoopData = $userPvzs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $pvz): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                         <option value="<?php echo e($pvz['pvz']); ?>"

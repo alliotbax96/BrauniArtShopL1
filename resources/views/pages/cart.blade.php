@@ -154,7 +154,7 @@
 
                                         @auth
                                             <li>
-                                                <select form="CartForm" name="pvz" id="pvz" class="form-control">
+                                                <select form="CartForm" name="pvz" id="pvz" class="form-control point-select">
                                                     <option disabled>Выберите пункт выдачи</option>
                                                     @foreach($userPvzs as $pvz)
                                                         <option value="{{$pvz['pvz']}}"

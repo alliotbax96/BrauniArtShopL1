@@ -1,18 +1,17 @@
 import axios from 'axios';
 window.axios = axios;
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
 import $ from 'jquery';
-// Гарантируем глобальную доступность jQuery
+import select2 from "select2"
+select2();
+import 'jquery-mask-plugin';
+import 'jquery-validation';
+// // Гарантируем глобальную доступность jQuery
 if (!window.jQuery) {
+    console.log('jQuery int');
     window.$ = window.jQuery = $;
 }
-
-import moment from 'moment';
-window.moment = moment;
-import PerfectScrollbar from 'perfect-scrollbar';
-window.PerfectScrollbar = PerfectScrollbar;
-import Swal from 'sweetalert2';
-window.Swal = Swal;
 
 
 

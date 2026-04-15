@@ -277,8 +277,8 @@
   }
 
   if (typeof exports !== 'undefined') {
-    if (typeof module !== 'undefined' && module.exports) {
-      exports = module.exports = CardInfo
+    if (typeof window !== 'undefined' && window.exports) {
+      exports = window.exports = CardInfo
     }
     exports.CardInfo = CardInfo
   } else if (typeof window !== 'undefined') {

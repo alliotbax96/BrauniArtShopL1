@@ -1,0 +1,78 @@
+{
+    "name": "saloonphp/laravel-plugin",
+    "description": "The official Laravel plugin for Saloon",
+    "license": "MIT",
+    "type": "library",
+    "keywords": [
+        "saloonphp",
+        "saloon",
+        "sdk",
+        "api",
+        "api-integrations"
+    ],
+    "authors": [
+        {
+            "name": "Sam Carré",
+            "email": "29132017+Sammyjo20@users.noreply.github.com",
+            "role": "Developer"
+        }
+    ],
+    "homepage": "https://github.com/saloonphp/laravel-plugin",
+    "require": {
+        "php": "^8.2",
+        "illuminate/console": "^11.0 || ^v12.39.0 || ^13.0",
+        "illuminate/support": "^11.0 || ^12.39.0 || ^13.0",
+        "saloonphp/saloon": "^3.5",
+        "symfony/finder": "^6.4 || ^7.0 || ^8.0"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.48",
+        "laravel/pulse": "^1.4",
+        "laravel/telescope": "^5.16",
+        "orchestra/testbench": "^9.15 || ^10.7 || ^11.0",
+        "pestphp/pest": "^3.0|^4.0",
+        "phpstan/phpstan": "^1.10.57|^2.0.2"
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "Saloon\\Laravel\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Saloon\\Laravel\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        },
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "aliases": {
+                "Saloon": "Saloon\\Laravel\\Facades\\Saloon"
+            },
+            "providers": [
+                "Saloon\\Laravel\\SaloonServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "@php ./vendor/bin/testbench package:discover --ansi"
+        ],
+        "fix-code": [
+            "./vendor/bin/php-cs-fixer fix --allow-risky=yes"
+        ],
+        "pstan": [
+            "./vendor/bin/phpstan analyse --memory-limit=2G"
+        ],
+        "test": [
+            "./vendor/bin/pest"
+        ]
+    }
+}

@@ -52,7 +52,7 @@
                 <ul class="nxl-submenu">
                     <li class="nxl-item"><a class="nxl-link"  href="{{route('seller.products.index')}}">Товары</a></li>
 {{--                    <li class="nxl-item"><a class="nxl-link"  href="#">Товары экспресс</a></li>--}}
-                    <li class="nxl-item"><a class="nxl-link"  href="#">Остатки</a></li>
+                    <li class="nxl-item"><a class="nxl-link"  href="{{route('seller.products.quantity.index')}}">Остатки</a></li>
 {{--                    <li class="nxl-item"><a class="nxl-link"  href="#">Цифровые товары</a></li>--}}
 {{--                    <li class="nxl-item"><a class="nxl-link"  href="#">Услуги</a></li>--}}
 {{--                    <li class="nxl-item"><a class="nxl-link"  href="#">Бронирование</a></li>--}}

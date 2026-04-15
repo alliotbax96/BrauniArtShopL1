@@ -1,54 +1,64 @@
+// Полифиллы — оставляем как есть
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-
+// Затем загружаем зависимости, которые могут требовать jQuery
 import './bootstrap';
-
-import '../vendor/jquery.textfill.js';
+// Popper.js — оставляем как есть (ESM)
 import { createPopper } from '@popperjs/core';
 window.Popper = createPopper;
+// Заменяем прямые импорты минифицированных файлов на npm‑пакеты
+import * as bootstrap from 'bootstrap';
+window.bootstrap = bootstrap;
 
-import '../vendor/bootstrap.min.js';
-import './isotope.pkgd.min.js';
-import './imagesloaded.pkgd.min.js';
-import './jquery.magnific-popup.min.js';
+// 2. Затем Isotope — важно: после jQuery
+import Isotope from 'isotope-layout';
+// Инициализируем Isotope как jQuery‑плагин
+if (typeof $.fn !== 'undefined') {
+    $.fn.isotope = function(options) {
+        return this.each(function() {
+            new Isotope(this, options);
+        });
+    };
+}
+
+import imagesLoaded from 'imagesloaded';
+window.imagesLoaded = imagesLoaded;
+
+import magnificPopup from 'magnific-popup';
+$.fn.magnificPopup = magnificPopup;
 import './owl.carousel.min.js';
-import './jquery.odometer.min.js';
+import odometer from 'odometer';
+window.odometer = odometer;
 import './jquery.countdown.min.js';
 import './jquery.appear.js';
-import './slick.min.js';
-import './ajax-form.js';
-
+import Slick from 'slick-carousel';
+window.Slick = Slick;
+// WOW.js — оставляем импорт, инициализируем после DOM
 import WOW from 'wow.js';
-
-// Экспортируем WOW глобально
 window.WOW = WOW;
-
-// Инициализируем после загрузки DOM
 document.addEventListener('DOMContentLoaded', () => {
     new WOW().init();
 });
-
-
+// AOS — оставляем как есть
 import AOS from 'aos';
-import 'aos/dist/aos.css'; // если нужны стили
-
-// Инициализируем AOS после загрузки DOM
+import 'aos/dist/aos.css';
+window.AOS = AOS;
 document.addEventListener('DOMContentLoaded', () => {
     AOS.init({
         duration: 800,
         easing: 'ease-in-out-cubic',
-        once: true, // анимация срабатывает только один раз
-        offset: 100 // смещение от края экрана
+        once: true,
+        offset: 100
     });
 });
+// Кастомные плагины, которые не имеют npm‑версий
+// import '../vendor/jquery.textfill.js'; // зависит от jQuery
+import textfill from 'textfill';
+window.textfill = textfill;
+import '../vendor/table.check-vox.plugin.js'; // зависит от jQuery
 
-// Экспортируем AOS глобально (если нужно использовать в других файлах)
-window.AOS = AOS;
-
+// Остальные файлы проекта
 import './plugins.js';
-import '../vendor/jquery.maskedinput.min.js';
-import '../vendor/table.check-vox.plugin.js';
-// import '../vendor/mediaelement/mediaelement-and-player.min.js';
-// import '../vendor/mediaelement/mep.js';
+import './ajax-form.js';
 import './main.js';
 import './cart-handler.js';

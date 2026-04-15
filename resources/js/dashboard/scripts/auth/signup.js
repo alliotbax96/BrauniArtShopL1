@@ -28,10 +28,8 @@ function timer(num) {
 
 }
 
-$.mask.definitions['h'] = "[0|1|3|4|5|6|7|9]"
-$(".mask-phone").mask("+7 (h99) 999-99-99", {
-    completed: function () {
-        // removeclass("#" + $(this).attr('id'));
+$(".mask-phone").mask("+7 (999) 999-99-99", {
+    onComplete: function () {
         $.post('/signup', { phone: $(this).val(), type: 'authcode' }, function (data) {
             // console.log(data);
             var result = jQuery.parseJSON(data);
@@ -60,8 +58,7 @@ $("input[name=\"email\"]").on('change', function(){
 });
 
 $(".kode").mask("9999", {
-    completed: function () {
-        // removeclass("#" + $(this).attr('id'));
+    onComplete: function () {
         $.post('/signup', { code: $(this).val(), phone: $('.mask-phone').val(), type: 'checkcode' }, function (data) {
             var result = jQuery.parseJSON(data);
             if (result.result === true) {

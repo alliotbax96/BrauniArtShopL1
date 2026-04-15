@@ -28,9 +28,8 @@ function timer(num) {
 
 }
 
-$.mask.definitions['h'] = "[0|1|3|4|5|6|7|9]"
-$(".mask_phone").mask("+7 (h99) 999-99-99", {
-    completed: function () {
+$(".mask_phone").mask("+7 (999) 999-99-99", {
+    onComplete: function () {
         $.post('/auth/code', $("#signup").serialize(), function (result) {
             if (result.result === true) {
                 $("input[name=\"phone\"]").removeClass('is-invalid');
@@ -45,7 +44,7 @@ $(".mask_phone").mask("+7 (h99) 999-99-99", {
 });
 
 $(".code").mask("9999", {
-    completed: function () {
+    onComplete: function () {
         // removeclass("#" + $(this).attr('id'));
         $.post('/auth/checkCode', $("#signup").serialize(), function (result) {
             if (result.result === true) {
@@ -64,7 +63,6 @@ $(".code").mask("9999", {
 
 $("#signup").on("submit", function (){
     $.post('/signup', $(this).serialize(), function (result){
-        console.log(result);
         if(result.result === true){
             window.location.href = "/";
         } else {

@@ -17,6 +17,7 @@ use App\Http\Controllers\Dashboard\Orders\PackingController;
 use App\Http\Controllers\Dashboard\Finance\PaymentsController;
 use App\Http\Controllers\Dashboard\Support\ChatController;
 use App\Http\Controllers\Dashboard\Support\MessageController;
+use App\Http\Controllers\Dashboard\Products\ProductQuantityController;
 
 Route::domain('id.brauniart.shop')->group(function () {
     Route::group(['middleware' => ['guest']], function () {
@@ -61,6 +62,11 @@ Route::domain('id.brauniart.shop')->group(function () {
           Route::prefix('products')->name('products.')->group(function () {
               Route::get('/', [ProductsController::class, 'index'])->name('index');
               Route::get('/ajax', [ProductsController::class, 'ajax'])->name('ajax');
+              Route::prefix('quantity')->name('quantity.')->group(function () {
+                  Route::get('/', [ProductQuantityController::class, 'index'])->name('index');
+                  Route::get('/ajax', [ProductQuantityController::class, 'ajax'])->name('ajax');
+                  Route::post('/', [ProductQuantityController::class, 'updateQuantity'])->name('update');
+              });
               Route::get('/create', [ProductsController::class, 'create'])->name('create');
               Route::post('/create', [ProductsController::class, 'store'])->name('store');
               Route::get('/delete/{id}', [ProductsController::class, 'destroy'])->name('delete');

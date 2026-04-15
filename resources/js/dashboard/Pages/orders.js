@@ -1,4 +1,4 @@
-import '../../../vendor/dashboard/js/dataTables.min.js';
-import '../../../vendor/dashboard/js/dataTables.bs5.min.js';
+import 'datatables.net';
+import 'datatables.net-bs5';
 import '../scripts/orders/orders-init.js';
 import '../scripts/orders/orders.js';

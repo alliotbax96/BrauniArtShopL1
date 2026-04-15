@@ -218,6 +218,7 @@
 
 <!-- Внешние скрипты (оставляем как есть) -->
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@cdek-it/widget@3" charset="utf-8"></script>
+
 <script>
     feather.replace();
 </script>

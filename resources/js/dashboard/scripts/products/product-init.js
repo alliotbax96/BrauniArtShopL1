@@ -126,24 +126,50 @@ $(document).ready(function () {
         theme: 'bootstrap-5'
     });
 
-    // Получаем textarea через jQuery
+// Получаем textarea через jQuery
     var $textarea = $('#ProductDescriptionTextArea');
 
-    // Получаем начальное содержимое
+// Получаем начальное содержимое
     var QuillText = $textarea.val();
 
-    // Инициализируем редактор (если ещё не инициализирован)
+// Инициализируем редактор (если ещё не инициализирован)
     var quill = new Quill('#ProductDescription', {
         theme: 'snow',
+        modules: {
+            toolbar: [
+                ['bold', 'italic', 'underline', 'strike'],
+                ['blockquote', 'code-block'],
+                [{ 'header': 1 }, { 'header': 2 }],
+                [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                [{ 'script': 'sub' }, { 'script': 'super' }],
+                [{ 'indent': '-1' }, { 'indent': '+1' }],
+                [{ 'direction': 'rtl' }],
+                [{ 'size': ['small', false, 'large', 'huge'] }],
+                [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+                [{ 'color': [] }, { 'background': [] }],
+                [{ 'font': [] }],
+                [{ 'align': [] }],
+                ['clean'],
+                ['link']
+            ]
+        }
     });
-    // Загружаем начальное содержимое в редактор, если оно есть
+
+// Загружаем начальное содержимое в редактор, если оно есть
     if (QuillText && QuillText.trim()) {
-        quill.pasteHTML(QuillText);
+        // Способ 1: используем clipboard.dangerouslyPasteHTML (простой, но небезопасный)
+        quill.clipboard.dangerouslyPasteHTML(0, QuillText);
     }
+
     var syncTimeout = null;
     quill.on('text-change', function() {
-            $textarea.html(quill.root.innerHTML);
+        clearTimeout(syncTimeout);
+        syncTimeout = setTimeout(function() {
+            // Синхронизируем содержимое с textarea
+            $textarea.val(quill.root.innerHTML);
+        }, 500); // Задержка 500 мс для оптимизации
     });
+
 
     // Поле «Вес» — только цифры и точка
     $('#ProductWeight').on('input', function() {

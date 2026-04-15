@@ -6,7 +6,10 @@
     =============================================*/
 
 $(document).ready(function() {
-    $('.point-select').select2({theme: 'bootstrap-5'});
+    $('.point-select').select2({
+        theme: 'bootstrap-5',
+        width: '400px'
+    });
 });
 
 class CartManager {

@@ -1,4 +1,9 @@
 document.addEventListener('DOMContentLoaded', function(){
+    if (typeof CardInfo === 'undefined') {
+        console.error('CardInfo не загружен!');
+        return;
+    }
+
     CardInfo.setDefaultOptions({
         banksLogosPath: '/assets/img/cardLogo/banks-logos/',
         brandsLogosPath: '/assets/img/cardLogo/brands-logos/'

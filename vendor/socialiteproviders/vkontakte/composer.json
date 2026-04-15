@@ -1,0 +1,33 @@
+{
+    "name": "socialiteproviders/vkontakte",
+    "description": "VKontakte OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite",
+        "vkontakte"
+    ],
+    "authors": [
+        {
+            "name": "Brian Faust",
+            "email": "hello@brianfaust.de"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/vkontakte"
+    },
+    "require": {
+        "php": "^8.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "^4.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\VKontakte\\": ""
+        }
+    }
+}

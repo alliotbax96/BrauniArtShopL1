@@ -13,6 +13,8 @@
 @import './font-awesome/css/font-awesome.min.css';
 @import '../vendor/mediaelement/mediaelementplayer.min.css';
 @import '../vendor/mediaelement/mep.css';
+@import '../vendor/dashboard/css/select2.min.css';
+@import '../vendor/dashboard/css/select2-theme.min.css';
 /* ... и так далее для всех CSS-файлов */
 
 /* Ваши кастомные стили */
