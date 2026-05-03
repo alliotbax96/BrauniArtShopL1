@@ -17,7 +17,7 @@
 
 
     <!-- contact-area -->
-    <section class="contact-area primary-bg pt-100 pb-70">
+    <section class="contact-area pt-100 pb-70">
         <div class="custom-container-two">
             <div class="contact-wrap-padding">
                 <div class="row justify-content-center">

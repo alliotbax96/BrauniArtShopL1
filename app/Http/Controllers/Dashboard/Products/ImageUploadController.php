@@ -59,12 +59,13 @@ class ImageUploadController extends BaseController
                     // Создаём миниатюру — передаём путь в S3, а не URL!
                     $this->createThumbnailOnS3($Sfilename, $thumbName, $info);
 
-
+                    $mode = $request->mode ? $request->mode : 6;
                     // Формируем HTML с URL из S3
                     $data = $this->buildImageHtml(
                         $filename,
                         $thumbName,
-                        Storage::disk('s3')->url('uploads/tmp/')
+                        Storage::disk('s3')->url('uploads/tmp/'),
+                        $mode
                     );
                 } else {
                     throw new \Exception('Не удалось загрузить файл.');
@@ -156,10 +157,10 @@ class ImageUploadController extends BaseController
     /**
      * Формирование HTML-разметки для изображения
      */
-    private function buildImageHtml(string $filename, string $thumbName, string $baseUrl): string
+    private function buildImageHtml(string $filename, string $thumbName, string $baseUrl, int $mode = 6): string
     {
         return <<<HTML
-<div class="col-sm-6">
+<div class="col-sm-{$mode}">
     <div class="card stretch stretch-full">
         <div class="card-body p-0 ht-200 position-relative">
             <img src="{$baseUrl}{$thumbName}" class="img-fluid ht-200" alt="">

@@ -14,6 +14,14 @@ class ProductImage extends Model
         'order'
     ];
 
+    public function isMain(): bool
+    {
+        if($this->mainImage){
+            return true;
+        }
+        return false;
+    }
+
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class, 'productId');

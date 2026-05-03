@@ -1,70 +1,3 @@
-<!-- header-top -->
-<div class="header-top-area">
-    <div class="custom-container-two">
-        <div class="row">
-            <div class="col-md-8 col-sm-7">
-                <div class="header-top-left">
-                    <ul>
-                        <li>
-                            <div class="heder-top-guide">
-                                <div class="dropdown">
-                                    <button class="dropdown-toggle" type="button" id="dropdownMenuButton2"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Помощь
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                                        <a class="dropdown-item" href="https://support.brauniart.shop/">База знаний</a>
-                                        <a class="dropdown-item"
-                                           href="https://t.me/BrauniArtShop">Поддержка</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li>
-                            <div class="heder-top-guide">
-                                <div class="dropdown">
-                                    <button class="dropdown-toggle" type="button" id="dropdownMenuButton3"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Продавайте с нами
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton3">
-                                        <a class="dropdown-item" href="//id.brauniart.shop">Кабинет
-                                            продавца</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-
-                    </ul>
-                </div>
-            </div>
-
-            <div class="col-md-4 col-sm-5">
-                <div class="header-top-right">
-                    <ul>
-                        <li>
-                            @if($currentUser)
-                                <input type="hidden" id="authuserid" value="{$auth_user.id}">
-                                <a href="//id.brauniart.shop" target="_blank"><i
-                                        class="flaticon-user"></i>{{$currentUser->name}}</a>
-                                |
-                                <a href="/cart" target="_blank"><i class="flaticon-shopping-bags"></i>Корзина</a>
-                                |
-                                <a href="/logout">Выйти</a>
-                            @else
-                                <a href="/auth/"><i class="flaticon-user"></i>Войти через BaID</a>
-                            @endif
-                        </li>
-
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- header-top-end -->
-
 <!-- menu-area -->
 <div id="sticky-header" class="main-header menu-area container-header pt-3">
     <div class="custom-container-two">
@@ -77,32 +10,71 @@
                             <a href="/"><img src="/assets/img/logo/logo.png" alt="Logo"></a>
                         </div>
                         <div class="header-category d-none d-lg-flex">
-                            <a href="#" class="btn-catalog cat-toggle">КАТАЛОГ</a>
-                            @include('elements.miniCatalog')
+                            <x-miniCatalog
+                                :ProductGroups="$ProductGroups"
+                                :shopMode="Cookie::get('ShopMode')"
+                            />
                         </div>
                         <div class="col-md-auto mx-1 header-search-wrap d-none d-lg-flex">
-                            <div>
-                                <form id="search_form" action="/products" method="get"></form>
-                                <input form="search_form" id="search-input" list="search" name="search" type="text"
-                                       placeholder="Введите ваш поисковый запрос.....">
-                                <button form="search_form" type="submit"><i class="flaticon-magnifying-glass-1"></i>
-                                </button>
-                            </div>
+                            <x-search
+                                :shopMode="Cookie::get('ShopMode')"
+                            />
                         </div>
                         <div class="header-action d-none d-md-block">
                             <ul>
-                                <li><a href="@if($currentUser) /orders @else /auth @endif"><i
-                                            class="flaticon-shopping-bag"></i></a></li>
-                                <li><a href="@if($currentUser) /dev @else /auth @endif"><i
-                                            class="flaticon-heart"></i></a></li>
-                                <li class="header-shop-cart">
-                                    <a href="/cart/">
-                                        <i class="flaticon-shopping-bags"></i>
-                                        <span class="cart-count">{{$cartItemsCount}}</span>
+                                <li class="dropdown tooltip-wrapper">
+                                    <a href="@if(!$currentUser) /auth @else javascript:void(0) @endif"
+                                       @if($currentUser) data-bs-toggle="dropdown" aria-expanded="false" @endif>
+                                        <i class="flaticon-user"></i>
+                                        <span class="tooltip-text">
+                                            @if($currentUser)
+                                                Учетная запись
+                                            @else
+                                                Авторизация
+                                            @endif
+                                        </span>
                                     </a>
-                                    <span class="cart-total-price">{{$cartTotalPrice}}</span>
-                                     @include('elements.miniCart')
+                                    @if($currentUser)
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a class="dropdown-item" href="{{ route('sso.initiate') }}"
+                                               target="_blank">Учетная запись</a>
+                                        </li>
+                                        <li style="margin-left: 0;">
+                                            <a class="dropdown-item" href="/logout">Выход</a>
+                                        </li>
+                                    </ul>
+                                    @endif
                                 </li>
+
+                                @switch($CurrentShopMode)
+                                    @case(1)
+                                        <li class="tooltip-wrapper">
+                                            <a href="@if($currentUser) /orders @else /auth @endif">
+                                                <i class="flaticon-shopping-bag"></i>
+                                                <span class="tooltip-text">Ваши заказы</span>
+                                            </a>
+                                        </li>
+                                        <li class="header-shop-cart tooltip-wrapper">
+                                            <a href="/cart/">
+                                                <i class="flaticon-shopping-bags"></i>
+                                                <span class="cart-count">{{$cartItemsCount}}</span>
+                                                <span class="tooltip-text">Корзина</span>
+                                            </a>
+                                            <span class="cart-total-price">{{$cartTotalPrice}}</span>
+                                            @include('elements.miniCart')
+                                        </li>
+                                        @break
+
+                                    @case(4)
+                                        <li class="tooltip-wrapper">
+                                            <a href="@if($currentUser) /bookings @else /auth @endif">
+                                                <i class="flaticon-calendar"></i>
+                                                <span class="tooltip-text">Ваши бронирования</span>
+                                            </a>
+                                        </li>
+                                        @break
+                                @endswitch
                             </ul>
                         </div>
                     </nav>
@@ -111,41 +83,57 @@
                     <nav class="menu-nav show">
                         <div class="navbar-wrap main-menu d-none d-lg-flex">
                             <ul class="navigation">
-                                @foreach($ShopModes as $ShopMode)
-                                    <li class="active"><a href="/selectMode/{{$ShopMode['id']}}">{{$ShopMode['ShopModeName']}}</a></li>
-                                @endforeach
-                                <li class="dropdown mobile_m"><a href="#">Каталог</a>
-                                    <ul class="submenu">
-                                        @foreach($ProductGroups as $item)
-                                        @if ($item->children->isNotEmpty())
-                                        <li class="dropdown">
-                                            <a href="/products">
-                                                {{$item->name}}
-                                            </a>
+                                @switch($CurrentShopMode)
+                                    @case(1)
+                                        <li class="dropdown mobile_m"><a href="#">Каталог</a>
                                             <ul class="submenu">
-                                                @foreach($item->children as $children)
-                                                <li>
-                                                    <a href="/products?category={{$children->id}}">
-                                                      {{$children->name}}
-                                                    </a>
-                                                </li>
+                                                @foreach($ProductGroups as $item)
+                                                    @if ($item->children->isNotEmpty())
+                                                        <li class="dropdown">
+                                                            <a href="/products">
+                                                                {{$item->name}}
+                                                            </a>
+                                                            <ul class="submenu">
+                                                                @foreach($item->children as $children)
+                                                                    <li>
+                                                                        <a href="/products?category={{$children->id}}">
+                                                                            {{$children->name}}
+                                                                        </a>
+                                                                    </li>
+                                                                @endforeach
+                                                            </ul>
+                                                        </li>
+                                                    @else
+                                                        <li>
+                                                            <a href="/products?category={{$item->id}}">
+                                                                {{$item->name}}
+                                                            </a>
+                                                        </li>
+                                                    @endif
                                                 @endforeach
                                             </ul>
                                         </li>
-                                        @else
-                                        <li>
-                                            <a href="/products?category={{$item->id}}">
-                                                {{$item->name}}
+                                        @break
+                                    @case(4)
+                                        <li class="mobile_m">
+                                            <a href="/quests">
+                                                Все квесты
                                             </a>
                                         </li>
-                                        @endif
-                                        @endforeach
-                                    </ul>
+                                        @break
+                                @endswitch
+                                @foreach($ShopModes as $ShopMode)
+                                    <li class="@if($CurrentShopMode == $ShopMode['id']) active @endif"><a
+                                            href="/shopMode/{{$ShopMode['id']}}">{{$ShopMode['ShopModeName']}}</a></li>
+                                @endforeach
+                                <li class="@if(Route::currentRouteName() == 'aboutUs') active @endif">
+                                    <a href="/aboutUs">О нас</a>
                                 </li>
-                                <li class="{if $url1 == 'aboutUs'}active{/if}"><a href="/aboutUs">О нас</a></li>
-                                <li class="{if $url1 == 'PayAndDelivery'}active{/if}"><a
-                                        href="/PayAndDelivery">Доставка и оплата</a></li>
-                                <li class="{if $url1 == 'contacts'}active{/if}"><a href="/contacts">Контакты</a>
+                                <li class="@if(Route::currentRouteName() == 'PayAndDelivery') active @endif">
+                                    <a href="/PayAndDelivery">Доставка и оплата</a>
+                                </li>
+                                <li class="@if(Route::currentRouteName() == 'contacts') active @endif">
+                                    <a href="/contacts">Контакты</a>
                                 </li>
                             </ul>
                         </div>
@@ -162,13 +150,35 @@
                         </div>
                         <div class="header-action">
                             <ul>
-                                <li><a href="@if($currentUser) /orders @else /auth @endif"><i
-                                            class="flaticon-shopping-bag"></i></a></li>
-                                <li><a href="/auth"><i class="flaticon-heart"></i></a></li>
-                                <li class="header-shop-cart"><a href="/cart/"><i class="flaticon-shopping-bags"></i>
-                                        <span class="cart-count">0</span></a>
-                                    <span class="cart-total-price">0</span>
-                                </li>
+
+                                @switch($CurrentShopMode)
+                                    @case(1)
+                                        <li>
+                                            <a href="@if($currentUser) /orders @else /auth @endif">
+                                                <i class="flaticon-shopping-bag"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/auth">
+                                                <i class="flaticon-heart"></i>
+                                            </a>
+                                        </li>
+                                        <li class="header-shop-cart">
+                                            <a href="/cart/">
+                                                <i class="flaticon-shopping-bags"></i>
+                                                <span class="cart-count">0</span>
+                                            </a>
+                                            <span class="cart-total-price">0</span>
+                                        </li>
+                                        @break
+                                    @case(4)
+                                        <li>
+                                            <a href="/bookings">
+                                                <i class="flaticon-calendar"></i>
+                                            </a>
+                                        </li>
+                                        @break
+                                @endswitch
                             </ul>
                         </div>
                         <br>
@@ -191,7 +201,6 @@
     </div>
 </div>
 <!-- menu-area-end -->
-
 
 <!-- header-search-area -->
 <div class="header-search-area mobile_m">

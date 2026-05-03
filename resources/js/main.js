@@ -654,12 +654,16 @@ $("#amount").val($("#slider-range").slider("values", 0) + "р. - " + $("#slider-
 	=    		 Aos Active  	         =
 =============================================*/
 function aosAnimation() {
-	AOS.init({
-		duration: 1000,
-		mirror: true,
-		once: true,
-		disable: 'mobile',
-	});
+    if (window.AOS) {
+        AOS.init({
+            duration: 1000,
+            mirror: true,
+            once: true,
+            disable: 'mobile',
+        });
+    } else {
+        console.error('AOS library is not loaded');
+    }
 }
 
 /*=============================================
@@ -675,14 +679,18 @@ function popupModal() {
 	=    		 Wow Active  	         =
 =============================================*/
 function wowAnimation() {
-	var wow = new WOW({
-		boxClass: 'wow',
-		animateClass: 'animated',
-		offset: 0,
-		mobile: false,
-		live: true
-	});
-	wow.init();
+    if (window.AOS) {
+        var wow = new WOW({
+            boxClass: 'wow',
+            animateClass: 'animated',
+            offset: 0,
+            mobile: false,
+            live: true
+        });
+        wow.init();
+    } else {
+        console.error('WOW library is not loaded');
+    }
 }
 
 $(".product-plus-minus").append('<div class="dec qtybutton">-</div><div class="inc qtybutton">+</div>');

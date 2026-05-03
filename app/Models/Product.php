@@ -47,11 +47,6 @@ class Product extends Model
         return $this->hasMany(ProductPrice::class, 'productId');
     }
 
-    public function reviews(): HasMany
-    {
-        return $this->hasMany(Review::class, 'product_id');
-    }
-
     public function quantity(): HasMany
     {
         return $this->hasMany(ProductQuantity::class, 'product_id');
@@ -252,21 +247,29 @@ class Product extends Model
     {
         return $this->seller;
     }
+    // App\Models\Product.php
 
+    public function reviews()
+    {
+        return $this->morphMany(Review::class, 'reviewable');
+    }
+
+// Методы для получения статистики (можно оставить как есть или обновить)
     public function getProductReviews()
     {
-        return $this->reviews()->with('user')->get();
+        return $this->reviews()->with('user')->latest()->get();
     }
 
     public function getProductEstimation(): float
     {
-        $average = $this->reviews()
-            ->latest()
-            ->take(40)
-            ->avg('estimation');
-
-        return round($average ?? 0.0, 2);
+        return $this->reviews()->avg('estimation') ?? 0;
     }
+
+    public function isNew(): bool
+    {
+        return $this->created_at >= now()->subWeek();
+    }
+
 
 
     public function getProductSellerId(): int

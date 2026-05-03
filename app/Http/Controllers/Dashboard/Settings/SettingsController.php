@@ -10,19 +10,116 @@ use App\Models\SellerPvz;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-
+use Nette\Schema\ValidationException;
 class SettingsController extends BaseController
 {
     public function index(Request $request) {
         if(!Auth::user()->groupInfo()->hasPermission('view_settings')) {
             abort(403, 'У вас нет прав для просмотра данного раздела!');
         }
+
         $this->shareCommonData(); // вызываем один раз
         $userLegalEnityDetail = LegalEntityDetail::where('user_id', Auth::id())->get();
+
         $seller = Auth::user()->getFirstSeller();
+
+        if(Auth::user()->isAdmin()){
+            $SellerList = Seller::all();
+            $seller = isset($_COOKIE['selectedSellerId']) ? Seller::find($_COOKIE['selectedSellerId']) : Auth::user()->getFirstSeller();
+        }
+
+        $SelectSellerList = isset($SellerList) ? $SellerList : '';
+
         $SellerLegalDetail = $seller->legalDetails()->get()->first();
         $contract = $seller->contacts()->where('seller_legal_details_id', $SellerLegalDetail->id)->first();
-        return view('dashboard.index',['View' => 'dashboard.settings.index', 'title'=>'Настройки продавца | Единая система BaID', 'PageName'=>'Настройки продавца', 'InPageName'=>'Основные', 'userLegalEnityDetail' => $userLegalEnityDetail, 'SellerLegalDetail' => $SellerLegalDetail, 'seller' => $seller, 'contract' => $contract]);
+        return view('dashboard.index',['View' => 'dashboard.settings.index', 'title'=>'Настройки продавца | Единая система BaID', 'PageName'=>'Настройки продавца', 'InPageName'=>'Основные', 'userLegalEnityDetail' => $userLegalEnityDetail, 'SellerLegalDetail' => $SellerLegalDetail, 'Seller' => $seller, 'contract' => $contract, 'SelectSellerList' => $SelectSellerList]);
+    }
+
+    public function BecomeASeller() {
+        $this->shareCommonData();
+        $seller = Auth::user()->getFirstSeller();
+        if(isset($seller)) {
+            abort(403, 'У вас нет прав для просмотра данного раздела!');
+        }
+        $userLegalEnityDetail = LegalEntityDetail::where('user_id', Auth::id())->get();
+        return view('dashboard.index',['View' => 'dashboard.settings.BecomeASeller', 'title'=>'Стать продавцом | Единая система BaID', 'PageName'=>'Стать продавцом', 'userLegalEnityDetail'=>$userLegalEnityDetail]);
+    }
+
+    public function BecomeASeller_process(Request $request)
+    {
+        try {
+            $user = Auth::user();
+            if (!$user) {
+                return redirect()->route('BecomeASeller')->with(['message' => 'Пользователь не авторизован', 'data'=>$request->all()]);
+            }
+
+            $seller = $user->getFirstSeller();
+            if ($seller) {
+                return redirect()->route('BecomeASeller')->with(['message' => 'У вас уже есть аккаунт продавца', 'data'=>$request->all()]);
+            }
+
+            $validated = $request->validate([
+                'StoreName' => 'required|string|max:255',
+                'companyPhone' => 'required|string|max:255',
+                'companyEntityDetails' => 'required|integer|exists:legal_entity_details,id',
+            ], [
+                'StoreName.required' => 'Поле "Название кабинета (Магазина)" обязательно для заполнения!',
+                'companyPhone.required' => 'Поле "Номер телефона" обязательно для заполнения!',
+                'companyEntityDetails.required' => 'Поле "Реквизиты" обязательно для заполнения',
+                'companyEntityDetails.exists' => 'Указанные реквизиты не найдены в системе'
+            ]);
+
+            // Проверяем существование реквизитов
+            $legalEntityDetail = LegalEntityDetail::find($validated['companyEntityDetails']);
+            if (!$legalEntityDetail) {
+                return redirect()->route('BecomeASeller')->with(['message' => 'Реквизиты компании не найдены', 'data'=>$request->all()]);
+            }
+
+            // Проверяем, связана ли уже эта запись реквизитов с каким‑либо продавцом
+            $existingSeller = $legalEntityDetail->sellers()->first();
+            if ($existingSeller) {
+                return redirect()->route('BecomeASeller')->with([
+                    'message' => 'Выбранные реквизиты уже связаны с другим продавцом. Выберите другие реквизиты или обратитесь в поддержку.',
+                    'data' => $request->all()
+                ]);
+            }
+
+            // Создаём продавца в транзакции для целостности данных
+            $seller = DB::transaction(function () use ($validated, $legalEntityDetail, $user) {
+                $seller = Seller::create([
+                    'name' => $validated['StoreName'],
+                    'phone' => $validated['companyPhone'],
+                    'user_id' => $user->id,
+                ]);
+
+                // Связываем с реквизитами
+                $seller->legalDetails()->sync([$validated['companyEntityDetails']]);
+
+                // Создаём контракт
+                SellerContract::create([
+                    'seller_id' => $seller->id,
+                    'status' => null,
+                    'signed_status' => null,
+                    'seller_legal_details_id' => $validated['companyEntityDetails']
+                ]);
+
+                $seller->users()->sync([$user->id]);
+                $user->groups()->sync([2]);
+
+                return $seller;
+            });
+
+            return redirect()->route('seller.settings.index')->with(['message' => 'Вы успешно зарегистрировались в качестве продавца! Осталось настроить логистику и подписать договор!']);
+
+        } catch (ValidationException $e) {
+            return redirect()->route('BecomeASeller')->with(['message' => 'Ошибка валидации данных', 'errors' => $e->errors(), 'data'=>$request->all()]);
+        } catch (\Illuminate\Database\QueryException $e) {
+            \Log::error('Database error in BecomeASeller_process: ' . $e->getMessage());
+            return redirect()->route('BecomeASeller')->with(['message' => 'Произошла ошибка при сохранении данных. Попробуйте позже.', 'data'=>$request->all()]);
+        } catch (\Exception $e) {
+            \Log::error('Unexpected error in BecomeASeller_process: ' . $e->getMessage());
+            return redirect()->route('BecomeASeller')->with(['message' => 'Произошла непредвиденная ошибка. Обратитесь в поддержку.', 'data'=>$request->all()]);
+        }
     }
 
     public function update(Request $request)
@@ -49,9 +146,27 @@ class SettingsController extends BaseController
                 ], 401);
             }
 
+            // Проверяем существование реквизитов
+            $legalEntityDetail = LegalEntityDetail::find($validated['companyEntityDetails']);
+            if (!$legalEntityDetail) {
+                return redirect()->route('BecomeASeller')->with(['message' => 'Реквизиты компании не найдены', 'data'=>$request->all()]);
+            }
+
+            // Проверяем, связана ли уже эта запись реквизитов с каким‑либо продавцом
+            $existingSeller = $legalEntityDetail->sellers()->first();
+            if ($existingSeller && Auth::user()->sellers()->first()->id != $existingSeller->id) {
+                return redirect()->route('BecomeASeller')->with([
+                    'message' => 'Выбранные реквизиты уже связаны с другим продавцом. Выберите другие реквизиты или обратитесь в поддержку.',
+                    'data' => $request->all()
+                ]);
+            }
+
             // Здесь должна быть логика обновления данных
 
             $seller = $user->getFirstSeller();
+            if(Auth::user()->isAdmin()){
+                $seller = isset($_COOKIE['selectedSellerId']) ? Seller::find($_COOKIE['selectedSellerId']) : Auth::user()->getFirstSeller();
+            }
             $seller->name = $validated['StoreName'];
             $seller->phone = $validated['companyPhone'];
             $seller->save();
@@ -97,7 +212,6 @@ class SettingsController extends BaseController
         }
     }
 
-
     public function PvzUpdateOrCreate(Request $request)
     {
         if(!Auth::user()->groupInfo()->hasPermission('edit_settings')) {
@@ -111,6 +225,9 @@ class SettingsController extends BaseController
         ]);
 
         $sellerId = Auth::user()->getFirstSeller()->id;
+        if(Auth::user()->isAdmin()){
+            $sellerId = isset($_COOKIE['selectedSellerId']) ? $_COOKIE['selectedSellerId'] : Auth::user()->getFirstSeller();
+        }
         SellerPvz::where('seller_id', $sellerId)->delete();
         $clientPvz = $validated['client_pvz'];
         $pvzName = $validated['pvz_name'];

@@ -1,5 +1,6 @@
 /* Удаление загруженной картинки */
-function remove_img(target) {
+/* Удаление загруженной картинки */
+window.remove_img = function(target) {
     const $card = $(target).closest('.card'); // Находим ближайший родительский .card
 
     if (confirm('Вы уверены, что хотите удалить это изображение?')) {

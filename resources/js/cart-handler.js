@@ -12,7 +12,7 @@ class CartHandler {
 
     handleEvents(e) {
         // Обработка добавления в корзину
-        const addLink = e.target.closest('.add-to-cart-link');
+        const addLink = e.target.closest('.AdToCartLink');
         if (addLink) {
             e.preventDefault();
             this.handleAddToCart(addLink);

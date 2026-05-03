@@ -1,5 +1,4 @@
 import './bootstrap';
-
 import moment from 'moment';
 window.moment = moment;
 import PerfectScrollbar from 'perfect-scrollbar';

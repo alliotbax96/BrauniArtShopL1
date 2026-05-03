@@ -35,21 +35,11 @@ class ReqPayment extends Request implements HasBody
         return '/Charge';
     }
 
-    private function generateToken(): string
+    private function generateToken($hashData): string
     {
-        // Получаем данные из коннектора
-        $terminalId = $this->TerminalId;
         $terminalPassword = $this->TerminalPassword;
 
-        // Формируем массив для хеширования
-        $hashData = [
-            'PaymentId'=>$this->PaymentID,
-            'RebildID'=>$this->RebildID,
-            'TerminalKey' => $terminalId,
-            'Password' => $terminalPassword,
-        ];
-
-        \Log::debug('Hash data before sorting:', $hashData);
+        $hashData['Password'] = $terminalPassword;
 
         // Сортируем по ключам
         ksort($hashData);
@@ -60,27 +50,21 @@ class ReqPayment extends Request implements HasBody
         // Генерируем SHA256 хеш
         $token = hash('sha256', $hashString);
 
-        \Log::debug('Generated token:', ['token' => $token]);
+        \Log::debug('Generated token:', ['hash'=> $hashData, 'token' => $token]);
 
         return $token;
     }
 
     protected function defaultBody(): array
     {
-        $token = $this->generateToken();
-
-        \Log::debug('AddCustomer request data before sending:', [
+        $hashData = array(
             'PaymentId'=>$this->PaymentID,
-            'RebildID'=>$this->RebildID,
+            'RebillId'=>$this->RebildID,
             'TerminalKey' => $this->TerminalId,
-            'Token' => $token,
-        ]);
+        );
 
-        return [
-            'PaymentId'=>$this->PaymentID,
-            'RebildID'=>$this->RebildID,
-            'TerminalKey' => $this->TerminalId,
-            'Token' => $token,
-        ];
+        $token = $this->generateToken($hashData);
+        $hashData['Token'] = $token;
+        return $hashData;
     }
 }

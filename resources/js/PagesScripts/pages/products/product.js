@@ -21,7 +21,7 @@ $(".qtybutton").on("click", function() {
     }
 
     $input.val(newValue).attr("value", newValue);
-    $(".add-to-cart-link").attr('data-quantity', newValue);
+    $(".AdToCartLink").attr('data-quantity', newValue);
 });
 
 // Обработчик ручного ввода количества
@@ -32,5 +32,5 @@ $(".p_product-input").on("change", function() {
 
     value = Math.max(1, Math.min(value, max));
     $input.val(value).attr("value", value);
-    $(".add-to-cart-link").attr('data-quantity', value);
+    $(".AdToCartLink").attr('data-quantity', value);
 });

@@ -136,7 +136,10 @@
 
                                                 <!-- Выбор карты -->
                                                 <div class="bankcard-selection mt-3">
+
+                                                    @if(count($Cards)>0)
                                                     @foreach($Cards as $k => $card)
+                                                         @if($card['Status'] == 'A')
                                                         <div class="bankcard-option user-card mb-2">
                                                             <input type="radio" name="payment-card" id="card-{{$k+1}}"
                                                                    data-pan="{{strtok($card['Pan'], '*')}}"
@@ -149,7 +152,13 @@
                                                                     class="bankcard-number">{{ substr($card['Pan'], -4) }}</div>
                                                             </label>
                                                         </div>
+                                                        @endif
                                                     @endforeach
+                                                    @else
+                                                        @php
+                                                         $k=0;
+                                                        @endphp
+                                                    @endif
 
                                                     <!-- Новая карта -->
                                                     <div class="bankcard-option">

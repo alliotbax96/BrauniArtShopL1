@@ -9,9 +9,7 @@ import 'jquery-mask-plugin';
 import 'jquery-validation';
 // // Гарантируем глобальную доступность jQuery
 if (!window.jQuery) {
-    console.log('jQuery int');
     window.$ = window.jQuery = $;
 }
-
 
 

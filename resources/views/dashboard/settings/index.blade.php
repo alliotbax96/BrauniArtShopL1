@@ -38,7 +38,11 @@
                                 </form>
                             </div>
                             <div class="row mb-4 align-items-center">
-                                <div id="alert_seller_general"></div>
+                                <div id="alert_seller_general">
+                                    @if(session()->has('message'))
+                                        <div class="alert alert-success">{{session('message')}}</div>
+                                    @endif
+                                </div>
                                 <div class="col-lg-4">
                                     <label for="StoreName" class="fw-semibold">Название
                                         кабинета(Магазина):</label>
@@ -48,7 +52,7 @@
                                         <input type="text" class="form-control" form="seller_general"
                                                name="StoreName" id="StoreName"
                                                placeholder="Название кабинета(Магазина)"
-                                               value="{{$currentUser->getFirstSeller()->name}}">
+                                               value="{{$Seller->name}}">
                                     </div>
                                 </div>
                             </div>
@@ -60,7 +64,7 @@
                                     <div class="input-group">
                                         <input type="text" class="form-control mask-phone" form="seller_general"
                                                name="companyPhone" id="companyPhone"
-                                               placeholder="Номер телефона" value="{{$currentUser->getFirstSeller()->phone}}">
+                                               placeholder="Номер телефона" value="{{$Seller->phone}}">
                                     </div>
                                 </div>
                             </div>
@@ -76,8 +80,11 @@
                                             @else
                                             <option value="0" disabled selected>--Выберете реквизиты--</option>
                                             @foreach($userLegalEnityDetail as $userLegalEnityDetailItem)
-                                            <option value="{{$userLegalEnityDetailItem->id}}" @if($SellerLegalDetail->id == $userLegalEnityDetailItem->id) selected @endif>{{$userLegalEnityDetailItem->legal_name}}</option>
+                                            <option value="{{$userLegalEnityDetailItem->id}}" @if($SellerLegalDetail->id == $userLegalEnityDetailItem->id) @php $isSellerLegal = true; @endphp selected @endif>{{$userLegalEnityDetailItem->legal_name}}</option>
                                             @endforeach
+                                            @endif
+                                            @if(!isset($isSellerLegal))
+                                            <option value="{{$SellerLegalDetail->id}}" selected>{{$SellerLegalDetail->legal_name}}</option>
                                             @endif
                                         </select>
                                     </div>
@@ -117,7 +124,7 @@
                                     <div class="input-group">
                                         <input type="text" class="form-control" form="delivery_form" name="pvz"
                                                id="pvzInput" placeholder="Пункт сдачи заказов до 200 килограмм:"
-                                               value=" @if(isset($seller->SellerPvz)) {{$seller->SellerPvz->pvz_name}} @endif" disabled="true">
+                                               value=" @if(isset($Seller->SellerPvz)) {{$Seller->SellerPvz->pvz_name}} @endif" disabled="true">
                                         <div class="input-group-text border-start bg-gray-2 c-pointer">
                                             <a href="#" id="AddPvz">
                                                 <i class="feather feather-map"></i>

@@ -70,7 +70,7 @@
     <!-- about-area-end -->
 
     <!-- features-area -->
-    <section class="features-area theme-bg pt-100 pb-70">
+    <section class="features-area pt-100 pb-70">
         <div class="custom-container-two">
             <div class="row justify-content-center">
                 <div class="col-lg-8">

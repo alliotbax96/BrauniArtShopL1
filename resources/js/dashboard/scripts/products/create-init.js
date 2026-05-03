@@ -126,13 +126,11 @@ $(document).ready(function () {
         theme: 'bootstrap-5'
     });
 
-// Получаем textarea через jQuery
+    // Получаем textarea через jQuery
     var $textarea = $('#ProductDescriptionTextArea');
-
-// Получаем начальное содержимое
+    // Получаем начальное содержимое
     var QuillText = $textarea.val();
-
-// Инициализируем редактор (если ещё не инициализирован)
+    // Инициализируем редактор (если ещё не инициализирован)
     var quill = new Quill('#ProductDescription', {
         theme: 'snow',
         modules: {
@@ -154,8 +152,7 @@ $(document).ready(function () {
             ]
         }
     });
-
-// Загружаем начальное содержимое в редактор, если оно есть
+    // Загружаем начальное содержимое в редактор, если оно есть
     if (QuillText && QuillText.trim()) {
         // Способ 1: используем clipboard.dangerouslyPasteHTML (простой, но небезопасный)
         quill.clipboard.dangerouslyPasteHTML(0, QuillText);

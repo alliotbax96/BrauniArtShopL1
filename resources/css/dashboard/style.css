@@ -97,3 +97,85 @@
     float: right;
     margin-right: 25px;
 }
+
+#features-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.feature-tag {
+    padding: 8px 16px;
+    border-radius: 8px;
+    background-color: #f0f0f0;
+    display: flex;
+    align-items: center;
+}
+
+.feature-tag::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.feature-tag.vip::before { background-color: green; }
+.feature-tag.bugs::before { background-color: teal; }
+.feature-tag.team::before { background-color: blue; }
+.feature-tag.primary::before { background-color: teal; }
+.feature-tag.personal::before { background-color: orange; }
+
+.remove-btn {
+    margin-left: 8px;
+    cursor: pointer;
+    font-size: 12px;
+    color: #666;
+}
+
+.is-invalid {
+    border-color: #dc3545 !important;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
+}
+
+.form-error {
+    font-size: 0.875rem;
+    color: #dc3545;
+    margin-top: 0.25rem;
+}
+
+/*Ahunter*/
+.u-AhunterSuggestions
+{
+    border: 1px solid #AAAAAA;
+    background: white;
+    overflow: auto;
+    border-radius: 2px;
+}
+
+.u-AhunterSuggestion
+{
+    padding: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.u-AhunterEmptySuggestion
+{
+    padding: 5px;
+    font-style: italic;
+    color: #b8661f;
+}
+
+.u-AhunterSelectedSuggestion
+{
+    background: #E7E7E7;
+}
+
+.u-AhunterSuggestions strong
+{
+    font-weight: bold;
+    color: #1B7BB1;
+}
+/*endAhunter*/

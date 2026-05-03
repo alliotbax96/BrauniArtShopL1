@@ -89,14 +89,13 @@ class CheckoutController extends BaseController
         $SelectedCard = $request->input('payment-card');
 
         try {
-            // Инициализируем переменную для хранения ID заказа
             $orderId = null;
+            $paymentUrl = null;
 
-            DB::transaction(function () use ($userId, $paymentMethod, $selectedItems, $SelectedCard, &$orderId) {
-                // Получаем корзину пользователя
+            DB::transaction(function () use ($userId, $paymentMethod, $selectedItems, $SelectedCard, &$orderId, &$paymentUrl) {
+                // Этап 1: создание заказа
                 $cart = Cart::where('user_id', $userId)->firstOrFail();
 
-                // Получаем выбранные позиции корзины с данными
                 $cartItems = CartItem::where('cart_id', $cart->id)
                     ->whereIn('id', $selectedItems)
                     ->with(['seller', 'cart'])
@@ -109,7 +108,7 @@ class CheckoutController extends BaseController
                 // Рассчитываем сумму заказа
                 $orderAmount = $cartItems->sum(function ($item) {
                     $product = $item->getProduct();
-                    return $item->quantity * ($product->price ?? 0);
+                    return $item->quantity * ($product->getProductPrice() ?? 0);
                 });
 
                 // Расчёт доставки
@@ -117,17 +116,17 @@ class CheckoutController extends BaseController
                 $deliveryData = $deliveryCalculator->calculate($cartItems);
                 $finalOrderAmount = $orderAmount + $deliveryData['total'];
 
-                // Создаём заказ
+                // Создаём заказ в статусе 'pending'
                 $order = Order::create([
                     'user_id' => $userId,
                     'amount' => $finalOrderAmount,
                     'payment_method' => $paymentMethod,
                     'status' => 'pending',
                     'selected_items' => json_encode($selectedItems),
-                    'PickUpPoint' => UserPvz::where('user_id', $userId)->where('last', 1)->firstOrFail()->id,
+                    'PickUpPoint' => UserPvz::where('user_id', $userId)
+                        ->where('last', 1)->firstOrFail()->id,
                 ]);
 
-                // Сохраняем ID заказа для использования вне транзакции
                 $orderId = $order->id;
 
                 // Собираем уникальные ID продавцов из позиций корзины
@@ -138,7 +137,7 @@ class CheckoutController extends BaseController
                     OrderSellerStatus::create([
                         'order_id' => $order->id,
                         'seller_id' => $sellerId,
-                        'status' => 'pending' // Начальный статус для каждого продавца
+                        'status' => 'pending'
                     ]);
                 }
 
@@ -162,87 +161,120 @@ class CheckoutController extends BaseController
                     ->whereIn('id', $selectedItems)
                     ->delete();
 
-                // Интеграция с эквайрингом
+
+                // Этап 2: обработка оплаты (внутри той же транзакции)
                 $paymentResult = $this->processPayment($order, $paymentMethod, $SelectedCard);
 
-                if ($paymentResult['Success'] != 1) {
-                    throw new \Exception('Ошибка интеграции');
+                if (!$paymentResult['Success']) {
+                    throw new \Exception('Ошибка интеграции с платёжной системой: ' . ($paymentResult['Error'] ?? 'неизвестная ошибка'));
                 }
 
-                // Обновляем статус заказа после успешной оплаты
-                if (isset($paymentResult['Paid'])) {
+                $order->update(['paymentId' => $paymentResult['PaymentId'] ?? null]);
+                if (isset($paymentResult['Paid']) && $paymentResult['Paid'] === 'CONFIRMED') {
+                    // Успешная оплата: обновляем статус
                     $order->update(['status' => 'paid']);
-
-                    // Дополнительно обновляем статусы всех продавцов на 'paid' после успешной оплаты
                     $order->sellerStatuses()->update(['status' => 'paid']);
                 } else {
-                    // Если требуется перенаправление на страницу оплаты, сохраняем URL в сессии
-                    if (!empty($paymentResult['result'])) {
-                        session(['payment_url_' . $order->id => $paymentResult['result']['pdfUrl']]);
-                    } else {
-                        session(['payment_url_' . $order->id => $paymentResult['PaymentURL']]);
+                    // Требуется перенаправление на оплату
+                    if (!empty($paymentResult['result']['pdfUrl'])) {
+                        $paymentUrl = $paymentResult['result']['pdfUrl'];
+                    } elseif (!empty($paymentResult['PaymentURL'])) {
+                        $paymentUrl = $paymentResult['PaymentURL'];
                     }
-                    throw new \Exception('Требуется перенаправление на страницу оплаты');
+                    if (!$paymentUrl) {
+                        throw new \Exception('Не удалось получить URL для оплаты');
+                    }
                 }
             });
-
-            // Обработка результатов после успешной транзакции
-            if (session()->has('payment_url_' . $orderId)) {
-                // Перенаправляем на страницу оплаты
-                return redirect(session('payment_url_' . $orderId));
+            // Транзакция успешно завершена — все изменения сохранены
+            if ($paymentUrl) {
+                session(['payment_url_' . $orderId => $paymentUrl]);
+                return redirect($paymentUrl);
+            } else {
+                return redirect()->route('orders', ['order_id' => $orderId])
+                    ->with('success', 'Заказ успешно оформлен и оплачен!');
             }
-
-            return redirect()->route('orders', ['order_id' => $orderId])
-                ->with('success', 'Заказ успешно оформлен и оплачен!');
-
         } catch (\Exception $e) {
             \Log::error('Ошибка оформления заказа: ' . $e->getMessage());
-
-            // Если ошибка связана с необходимостью оплаты, перенаправляем на URL
-            if (str_contains($e->getMessage(), 'Требуется перенаправление')) {
-                $paymentUrl = session('payment_url_' . $orderId);
-                if ($paymentUrl) {
-                    return redirect($paymentUrl);
-                }
-            }
-//            echo $e->getMessage();
-                        return back()
-                            ->withErrors(['error' => 'Произошла ошибка при оформлении заказа: ' . $e->getMessage()])
-                            ->withInput();
+            return redirect()->route('cart.index')
+                ->withErrors(['error' => 'Произошла ошибка при оформлении заказа: ' . $e->getMessage()])
+                ->withInput();
         }
     }
 
-
-    private function processPayment(Order $order, string $paymentMethod, string $SelectedCard = null): array
+    private function processPayment(Order $order, string $paymentMethod, ?string $selectedCard = null): array
     {
-      if($paymentMethod == 'card'){
-          $tbankService = new TbankService();
-          if($SelectedCard != 0){
-              $result = $tbankService->init($order->id, $order->amount, Auth::id());
-              if (!$result['Success']) {
-                  return ['Success' => false, 'PaymentId' => null, 'Error' => 'Ошибка инициализации платежа!'];
-              }
-              $card = UserCard::where('user_id', Auth::id())->where('CardID', $SelectedCard)->first();
-              if(!$card){
-                  return ['Success' => false, 'PaymentId' => null, 'Error' => 'Карта не найдена!'];
-              }
-              $payResult = $tbankService->ReqPayment($result['PaymentId'], $card['RebildID']);
-              if($payResult['Status'] != 'CONFIRMED'){
-                  return ['Success' => false, 'PaymentId' => null, 'Error' => $payResult['Error']];
-              }
-//              return ['Success' => true, 'PaymentId' => '1111', 'Paid'=> 'CONFIRMED'];
-          } else {
+        // Валидация входных данных
+        if (!$order || !$order->id) {
+            return ['Success' => false, 'PaymentId' => null, 'Error' => 'Неверный заказ'];
+        }
 
-              return $tbankService->init($order->id, $order->amount, Auth::id(),'Y');
-          }
-      }  elseif($paymentMethod == 'invoice') {
-          $tbankService = new TbankService();
-          $result = $tbankService->SendInvoice($order);
-          if(!isset($result['pdfUrl'])){
-              return ['Success' => false, 'result' => null];
-          }
-          return ['Success' => true, 'result' => $result];
-      }
-      return ['Success' => false, 'PaymentId' => null];
+        $tbankService = new TbankService();
+
+        if ($paymentMethod === 'card') {
+            // Обработка оплаты картой, если указана карта
+            if ($selectedCard !== null && $selectedCard !== '' && $selectedCard != 0) {
+                // Инициализация платежа
+                $initResult = $tbankService->init($order->id, $order->amount, Auth::id());
+                if (!$initResult['Success']) {
+                    return [
+                        'Success' => false,
+                        'PaymentId' => null,
+                        'Error' => 'Ошибка инициализации платежа: ' . ($initResult['Error'] ?? 'неизвестная ошибка')
+                    ];
+                }
+
+                $card = UserCard::where('CardID', $selectedCard)
+                    ->first();
+                if (!$card) {
+                    return [
+                        'Success' => false,
+                        'PaymentId' => null,
+                        'Error' => 'Карта не найдена'
+                    ];
+                }
+                // Оплата с выбранной картой
+                $payResult = $tbankService->ReqPayment($initResult['PaymentId'], $card->RebildID);
+                if ($payResult['Status'] !== 'CONFIRMED') {
+                    return [
+                        'Success' => false,
+                        'PaymentId' => $initResult['PaymentId'],
+                        'Error' => $payResult['Error'] ?? 'Ошибка подтверждения платежа'
+                    ];
+                }
+
+                return [
+                    'Success' => true,
+                    'PaymentId' => $initResult['PaymentId'],
+                    'Paid' => 'CONFIRMED'
+                ];
+            } else {
+                // Быстрая оплата без выбора карты
+                // Инициализация платежа
+                $initResult = $tbankService->init($order->id, $order->amount, Auth::id(), 'Y');
+                return $initResult;
+            }
+        } elseif ($paymentMethod === 'invoice') {
+            $invoiceResult = $tbankService->SendInvoice($order);
+            if (!isset($invoiceResult['pdfUrl'])) {
+                return [
+                    'Success' => false,
+                    'PaymentId' => null,
+                    'Error' => 'Не удалось создать счёт на оплату: ' . ($invoiceResult['Error'] ?? 'неизвестная ошибка')
+                ];
+            }
+            return [
+                'Success' => true,
+                'result' => $invoiceResult,
+                'PaymentId' => $order->id // или другой идентификатор, если есть
+            ];
+        } else {
+            return [
+                'Success' => false,
+                'PaymentId' => null,
+                'Error' => 'Неподдерживаемый метод оплаты'
+            ];
+        }
     }
+
 }

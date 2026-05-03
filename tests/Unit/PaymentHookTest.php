@@ -14,10 +14,10 @@ class PaymentHookTest extends TestCase
         $response = $this->postJson('/checkout/PaymentHook', [
             'TerminalKey' => 'TBankTest',
             'Amount' => '100000',
-            'OrderId' => 'binding##'.time(),
+            'OrderId' => '104',
             'Success' => '1',
             'Status' => 'string',
-            'PaymentId' => '8219017238',
+            'PaymentId' => '8420638345',
             'ErrorCode' => '0',
             'Message' => 'string',
             'Details' => 'string',

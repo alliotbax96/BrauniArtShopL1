@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Products;
 
-use App\Models\Product;
 use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +13,7 @@ class ReviewController extends BaseController
     /**
      * Создание нового отзыва
      */
-    public function store(Request $request, Product $product)
+    public function store(Request $request, $reviewableType, $reviewableId)
     {
         // Проверяем авторизацию
         if (!Auth::check()) {
@@ -22,6 +21,20 @@ class ReviewController extends BaseController
                 'error' => 'Для оставления отзыва необходимо авторизоваться'
             ]);
         }
+
+        // Определяем модель по типу
+        $modelClass = match ($reviewableType) {
+            'product' => \App\Models\Product::class,
+            'quests' => \App\Models\Quest::class,
+            // добавьте другие типы по необходимости
+            default => null,
+        };
+
+        if (!$modelClass) {
+            return response()->json(['error' => 'Неизвестный тип сущности'], 400);
+        }
+
+        $reviewable = $modelClass::findOrFail($reviewableId);
 
         // Валидация данных
         try {
@@ -35,9 +48,10 @@ class ReviewController extends BaseController
             ]);
         }
 
-        // Проверяем, не оставлял ли пользователь уже отзыв на этот товар
+        // Проверяем, не оставлял ли пользователь уже отзыв на эту сущность
         $existingReview = Review::where('user_id', Auth::id())
-            ->where('product_id', $product->id)
+            ->where('reviewable_id', $reviewableId)
+            ->where('reviewable_type', $modelClass)
             ->first();
 
         if ($existingReview) {
@@ -47,7 +61,8 @@ class ReviewController extends BaseController
         // Создаём отзыв
         $review = Review::create([
             'user_id' => Auth::id(),
-            'product_id' => $product->id,
+            'reviewable_id' => $reviewableId,
+            'reviewable_type' => $modelClass,
             'estimation' => $validated['estimation'],
             'comment' => $validated['comment'] ?? null
         ]);
@@ -56,15 +71,26 @@ class ReviewController extends BaseController
     }
 
     /**
-     * Получение отзывов товара
+     * Получение отзывов сущности
      */
-    public function show(Product $product)
+    public function show($reviewableType, $reviewableId)
     {
-        $reviews = $product->getProductReviews();
-        $averageRating = $product->getProductEstimation();
+        $modelClass = match ($reviewableType) {
+            'product' => \App\Models\Product::class,
+            'quests' => \App\Models\Quest::class,
+            default => null,
+        };
+
+        if (!$modelClass) {
+            return response()->json(['error' => 'Неизвестный тип сущности'], 400);
+        }
+
+        $reviewable = $modelClass::findOrFail($reviewableId);
+        $reviews = $reviewable->reviews()->with('user')->get();
+        $averageRating = $reviewable->reviews()->avg('estimation') ?? 0;
 
         return response()->json([
-            'average_rating' => $averageRating,
+            'average_rating' => round($averageRating, 2),
             'total_reviews' => $reviews->count(),
             'reviews' => $reviews
         ]);

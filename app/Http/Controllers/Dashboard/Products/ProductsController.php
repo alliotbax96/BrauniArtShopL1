@@ -38,7 +38,6 @@ class ProductsController extends BaseController
             'CreateObject' => '/seller/products/create'
         ]);
     }
-
     public function ajax(Request $request)
     {
         if(!Auth::user()->groupInfo()->hasPermission('view_products')) {
@@ -188,7 +187,6 @@ class ProductsController extends BaseController
             ], 500);
         }
     }
-
     public function show(int $id){
         if(!Auth::user()->groupInfo()->hasPermission('edit_products')) {
             abort(403, 'У вас нет прав для просмотра данного раздела!');
@@ -207,7 +205,6 @@ class ProductsController extends BaseController
         $productGroups = ProductGroup::NoRootGroups()->get();
         return view('dashboard.index', ['View' => 'dashboard.products.show', 'title'=> $product->getProductName().' | Единая система BaID', 'PageName'=>'Управление товарами', 'InPageName'=>$product->getProductName(), 'product' => $product, 'productGroups' => $productGroups]);
     }
-
     public function create(){
         if(!Auth::user()->groupInfo()->hasPermission('create_products')) {
             abort(403, 'У вас нет прав для просмотра данного раздела!');
@@ -216,7 +213,6 @@ class ProductsController extends BaseController
         $productGroups = ProductGroup::NoRootGroups()->get();
         return view('dashboard.index', ['View' => 'dashboard.products.create', 'title'=> 'Создание товара | Единая система BaID', 'PageName'=>'Управление товарами', 'InPageName'=>'Создание товара', 'productGroups' => $productGroups]);
     }
-
     public function store(Request $request)
     {
         if(!Auth::user()->groupInfo()->hasPermission('create_products')) {
@@ -329,7 +325,6 @@ class ProductsController extends BaseController
             ]);
         }
     }
-
     public function update(Request $request, int $id)
     {
         if(!Auth::user()->groupInfo()->hasPermission('edit_products')) {
@@ -448,7 +443,6 @@ class ProductsController extends BaseController
             ]);
         }
     }
-
     private function processProductImages(int $productId, array $imagePaths): void
     {
         foreach ($imagePaths as $index => $tempPath) {
@@ -473,7 +467,6 @@ class ProductsController extends BaseController
             }
         }
     }
-
     private function updateProductImages(int $productId, array $newImagePaths): void
     {
         // Удаляем старые изображения из БД и S3
@@ -580,7 +573,6 @@ class ProductsController extends BaseController
         }
     }
 
-
     /**
      * Возвращает читаемое название поля для отображения пользователю
      * @param string $field Техническое имя поля
@@ -600,6 +592,4 @@ class ProductsController extends BaseController
 
         return $fieldNames[$field] ?? $field;
     }
-
-
 }

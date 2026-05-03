@@ -63,7 +63,7 @@ class TbankService
             throw $e;
         }
     }
-    public function init(string $OrderId, string $Amount, string $customerKey, string $Recurrent = null, string $SuccessURL = '', string $FailURL = ''): array
+    public function init(string $OrderId, string $Amount, string $customerKey, string $Recurrent = '', string $SuccessURL = '', string $FailURL = ''): array
     {
         try {
             // Создаём коннектор

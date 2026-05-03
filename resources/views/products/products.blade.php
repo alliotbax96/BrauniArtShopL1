@@ -22,10 +22,10 @@
                 <div class="shop-meta-right">
                     <form id="filters" action="/products" method="get">
                         <select class="custom-select perPageSelect" name="perPage">
-                            <option value="8" @if($products['perPage'] == 8) selected @endif>8</option>
+                            <option value="8" @if($products['perPage'] == 9) selected @endif>9</option>
                             <option value="12" @if($products['perPage'] == 12) selected @endif>12</option>
-                            <option value="16" @if($products['perPage'] == 16) selected @endif>16</option>
-                            <option value="20" @if($products['perPage'] == 20) selected @endif>20</option>
+                            <option value="16" @if($products['perPage'] == 18) selected @endif>18</option>
+                            <option value="20" @if($products['perPage'] == 21) selected @endif>21</option>
                             <option value="24" @if($products['perPage'] == 24) selected @endif>24</option>
                         </select>
                     </form>
@@ -45,9 +45,13 @@
                                         @if($item->parent_id == 0)
                                             <li class="has-children @if(isset($FilterGroup) && !empty($FilterGroup->parent_id) && $item->id == $FilterGroup->parent_id) expanded @endif">
                                                 <label class="category-toggle">
-                                                    <input form="filters" type="radio" name="rootCategory" value="{{ $item->id }}" @if(isset($FilterGroup) && !empty($FilterGroup->parent_id) && $item->id == $FilterGroup->parent_id) checked @endif>
+                                                    <input form="filters" type="radio" name="rootCategory"
+                                                           value="{{ $item->id }}"
+                                                           @if(isset($FilterGroup) && !empty($FilterGroup->parent_id) && $item->id == $FilterGroup->parent_id) checked @endif>
                                                     <span class="category-name">{{$item->name}}</span>
-                                                    <span class="toggle-icon">@if ($item->children->isNotEmpty())▶@endif</span>
+                                                    <span class="toggle-icon">@if ($item->children->isNotEmpty())
+                                                            ▶
+                                                        @endif</span>
                                                 </label>
                                                 <!-- Вложенные категории -->
                                                 @if ($item->children->isNotEmpty())
@@ -55,7 +59,9 @@
                                                         @foreach($item->children as $child)
                                                             <li>
                                                                 <label>
-                                                                    <input form="filters" type="radio" name="category" value="{{ $child->id }}" @if(isset($FilterGroup) && !empty($FilterGroup->parent_id) && $child->id == $FilterGroup->id) checked @endif>
+                                                                    <input form="filters" type="radio" name="category"
+                                                                           value="{{ $child->id }}"
+                                                                           @if(isset($FilterGroup) && !empty($FilterGroup->parent_id) && $child->id == $FilterGroup->id) checked @endif>
                                                                     <span class="category-name">{{ $child->name }}</span>
                                                             </li>
                                                         @endforeach
@@ -77,9 +83,11 @@
                                 <div id="slider-range"></div>
                                 <div class="price_slider_amount">
                                     <span>Цена :</span>
-                                    <input type="text" id="amount" name="price" placeholder="Add Your Price" />
-                                    <input form="filters" type="hidden" name="min_price" value="{{$products['filters']['min_price']}}">
-                                    <input form="filters" type="hidden" name="max_price" value="{{$products['filters']['max_price']}}">
+                                    <input type="text" id="amount" name="price" placeholder="Add Your Price"/>
+                                    <input form="filters" type="hidden" name="min_price"
+                                           value="{{$products['filters']['min_price']}}">
+                                    <input form="filters" type="hidden" name="max_price"
+                                           value="{{$products['filters']['max_price']}}">
                                 </div>
                             </div>
                             <br>
@@ -90,38 +98,9 @@
                 <div class="col-xl-9 col-lg-8">
                     <div class="row list">
                         @foreach($products['products'] as $product)
-                            <div class="col-xl-3 col-lg-6 col-md-4 col-sm-6">
-                                <div class="exclusive-item exclusive-item-three text-center mb-50 card-item">
-                                    <div class="exclusive-item-thumb">
-                                        <a href="/products/{{$product->id}}">
-                                            <img src="https://s3.ru1.storage.beget.cloud/d5833d93d74c-brauniartfiles/{{$product->getMainImage()}}" alt="" style="object-fit: contain; height: 300px;">
-                                        </a>
-                                    </div>
-                                    <div class="exclusive-item-content">
-                                        <h5 style="font-size: 12px;"><a href="/products/{{$product->id}}">{{$product->getProductName()}}</a></h5>
-                                        <p></p>
-                                        <div class="exclusive--item--price">
-                                            <span class="new-price">{{$product->getProductPrice()}} руб.</span>
-                                        </div>
-                                        <div class="rating">
-                                            @for($i = 0; $i < 5; $i++)
-                                                <i class="fas fa-star"></i>
-                                            @endfor
-                                        </div>
-                                        <div class="cart_buttons_block">
-{{--                                            <a href="#" class="btn-primary adtocart">В корзину</a>--}}
-                                            <x-add-to-cart-button
-                                                :product-id="$product->getProductId()"
-                                                :seller-id="$product->getProductSellerId()"
-                                                quantity="1"
-                                                button-text="В корзину"
-                                                link-class="btn-primary adtocart"
-                                                :options="[]"
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                          <x-productsCard
+                            :product="$product"
+                          />
                         @endforeach
                     </div>
                     <div class="pagination-wrap">{{ $products['products']->withQueryString()->links('pagination::bootstrap-5') }}</div>

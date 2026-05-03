@@ -23,10 +23,10 @@
                     </a>
                 </div>
                 <div class="d-flex align-items-center gap-2 page-header-right-items-wrapper">
-                    @if(isset($SelectSellerList))
+                    @if($currentUser->isAdmin() && isset($SelectSellerList))
                         <select class="form-control" name="sellerId" id="SellerSelect">
                          @foreach($SelectSellerList as $seller)
-                                <option value="{{$seller->id}}" @if($seller->id == $_COOKIE['selectedSellerId']) selected @endif>{{$seller->name}}({{$seller->id}})</option>
+                                <option value="{{$seller->id}}" @if(isset($_COOKIE['selectedSellerId']) && $seller->id == $_COOKIE['selectedSellerId']) selected  @elseif($seller->id == $currentUser->getFirstSeller()->id) selected @endif>{{$seller->name}}({{$seller->id}})</option>
                          @endforeach
                         </select>
                     @endif

@@ -13,9 +13,10 @@ class Order extends Model
         'user_id',
         'amount',
         'payment_method',
+        'paymentId',
         'status',
         'selected_items',
-        'PickUpPoint',
+        'PickUpPoint'
     ];
 
     protected $casts = [

@@ -21,7 +21,9 @@
 
     <!-- Vite CSS -->
     @vite(['resources/css/app.css'])
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Roboto:wght@300;400;500&display=swap"
+        rel="stylesheet">
 
     <!-- Внешние скрипты (оставляем как есть, но исправляем протокол) -->
     <script src="https://api-maps.yandex.ru/2.1/?apikey=ddf6f3c5-7470-4e2c-b2a9-359a8c35e699&lang=ru_RU"></script>
@@ -29,7 +31,17 @@
     <script src="https://unpkg.com/feather-icons"></script>
 </head>
 
-<body>
+@php
+    if (isset($shopMode)) {
+     $CurrentShopMode = $shopMode;
+    } elseif (Cookie::get('ShopMode') !== null) {
+     $CurrentShopMode = Cookie::get('ShopMode');
+    } else {
+     $CurrentShopMode = 1;
+    }
+@endphp
+
+<body class=" @if($CurrentShopMode == 4) dark-theme @endif ">
 
 <!-- preloader  -->
 <div id="preloader">
@@ -37,7 +49,7 @@
         <div class="animation-preloader">
             <div class="spinner"></div>
             <div class="txt-loading">
-                                    <span data-text-preloader="B" class="letters-loading">
+                <span data-text-preloader="B" class="letters-loading">
                         B
                     </span>
                 <span data-text-preloader="R" class="letters-loading">
@@ -114,10 +126,16 @@
 </header>
 <!-- header-area-en@end -->
 <div class="main_alert"></div>
-
 @if(isset($view))
     @include($view)
 @endif
+
+{{--modal--}}
+@if(isset($modal))
+    @include($modal)
+@endif
+{{--end-modal--}}
+
 <!-- footer-area -->
 <footer class="footer-area">
     <div class="footer-top pt-65 pb-25">
@@ -147,7 +165,7 @@
                         </div>
                         <div class="fw-link">
                             <ul>
-{{--                                <li><a href="https://t.me/brauniartshop" target="_blank">Поддержка</a></li>--}}
+                                {{--                                <li><a href="https://t.me/brauniartshop" target="_blank">Поддержка</a></li>--}}
                                 <li><a href="/refunds">Возвраты</a></li>
                                 <li><a href="/assets/docs/conditions.pdf" target="_blank">Условия
                                         покупки</a></li>
@@ -168,7 +186,7 @@
                             <ul>
                                 <li><a href="/orders">Заказы</a></li>
                                 <li><a href="/PayAndDelivery">Оплата и доставка</a></li>
-{{--                                <li><a href="/dev">Избранное</a></li>--}}
+                                {{--                                <li><a href="/dev">Избранное</a></li>--}}
                                 <li><a href="//id.brauniart.shop" target="_blank">Кабинет продавца</a></li>
                             </ul>
                         </div>
@@ -199,7 +217,8 @@
             <div class="row align-items-center">
                 <div class="col">
                     <div class="copyright-text">
-                        <p><a href="/">БРАУНИАРТ МАГАЗИН</a> VER {{$verName}} | Все права защищены {{date('Y')}} | Разработано <a
+                        <p><a href="/">БРАУНИАРТ МАГАЗИН</a> VER {{$verName}} | Все права защищены {{date('Y')}} |
+                            Разработано <a
                                 href="//albax-s.ru">ALBAX Studio</a></p>
                     </div>
                 </div>
@@ -209,9 +228,9 @@
 </footer>
 <!-- footer-area-end -->
 
-<div class="app-footer app-player grey bg">
-    <div class="playlist" style="width:100%"></div>
-</div>
+{{--<div class="app-footer app-player grey bg">--}}
+{{--    <div class="playlist" style="width:100%"></div>--}}
+{{--</div>--}}
 
 <!-- В конце body -->
 @vite('resources/js/app.js')
@@ -224,16 +243,16 @@
 </script>
 @stack('scripts')
 @if(session('error'))
-<div class="notification" style="position: fixed; top: 20px; right: 20px; padding: 15px 20px; background-color: #F44336; color: white; border-radius: 4px; z-index: 10000; box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 10px;">{{session('error')}}</div>
-<script type="module">
-    $(document).ready(function(){
-    setTimeout(() => {
-        $(".notification").remove();
-    }, 5000);
-    });
-</script>
+    <div class="notification"
+         style="position: fixed; top: 20px; right: 20px; padding: 15px 20px; background-color: #F44336; color: white; border-radius: 4px; z-index: 10000; box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 10px;">{{session('error')}}</div>
+    <script type="module">
+        $(document).ready(function () {
+            setTimeout(() => {
+                $(".notification").remove();
+            }, 5000);
+        });
+    </script>
 @endif
-
 @if(!empty($productSchema))
     <script type="application/ld+json">
         {!! $productSchema !!}

@@ -86,16 +86,16 @@
                         </div>
                         <p></p>
 
-                        <div class="product-details-size mb-40">
-                            <span>Помол : </span>
-                            <a href="#">Инструкция</a>
-                            <ul>
-                                <li><a href="#">Турка</a></li>
-                                <li><a href="#">Эспрессо</a></li>
-                                <li><a href="#">Гейзер</a></li>
-                                <li><a href="#">Френч-пресс</a></li>
-                            </ul>
-                        </div>
+{{--                        <div class="product-details-size mb-40">--}}
+{{--                            <span>Помол : </span>--}}
+{{--                            <a href="#">Инструкция</a>--}}
+{{--                            <ul>--}}
+{{--                                <li><a href="#">Турка</a></li>--}}
+{{--                                <li><a href="#">Эспрессо</a></li>--}}
+{{--                                <li><a href="#">Гейзер</a></li>--}}
+{{--                                <li><a href="#">Френч-пресс</a></li>--}}
+{{--                            </ul>--}}
+{{--                        </div>--}}
 
                         <p>Продавец: {{$product['productWithConditions']->getSeller()->name}}</p>
                         <div class="perched-info">
@@ -112,7 +112,7 @@
                                 :seller-id="$product['productWithConditions']->getProductSellerId()"
                                 quantity="1"
                                 button-text="В корзину"
-                                link-class="btn-primary"
+                                link-class="btn-primary AdToCartLink"
                                 :options="[]"
                             />
                         </div>

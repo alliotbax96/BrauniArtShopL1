@@ -1,11 +1,8 @@
 <?php
 
-use App\Events\MessageSent;
+use App\Http\Controllers\Dashboard\Quest\QuestController;
 use App\Http\Controllers\Dashboard\Settings\SettingsController;
-use App\Http\Controllers\Dashboard\Support\SupportController;
 use App\Http\Controllers\Dashboard\Users\UsersController;
-use App\Models\Message;
-use App\Services\TbankService;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Dashboard\HomeController;
 use App\Http\Controllers\Login\LoginController;
@@ -18,10 +15,12 @@ use App\Http\Controllers\Dashboard\Finance\PaymentsController;
 use App\Http\Controllers\Dashboard\Support\ChatController;
 use App\Http\Controllers\Dashboard\Support\MessageController;
 use App\Http\Controllers\Dashboard\Products\ProductQuantityController;
+use App\Http\Controllers\Login\SsoController;
 
 Route::domain('id.brauniart.shop')->group(function () {
     Route::group(['middleware' => ['guest']], function () {
-      Route::get('login', [LoginController::class, 'dashboardLogin'])->name('login');
+        Route::get('/sso/auth', [SsoController::class, 'handleSsoAuth'])->name('sso.auth');
+        Route::get('login', [LoginController::class, 'dashboardLogin'])->name('login');
       Route::prefix('auth')->name('auth.')->group(function () {
           Route::post('/code', [LoginController::class, 'sendCode'])->name('code');
           Route::post('/checkCode', [LoginController::class, 'checkCode'])->name('checkCode');
@@ -57,7 +56,8 @@ Route::domain('id.brauniart.shop')->group(function () {
             });
 
         });
-
+        Route::get('/BecomeASeller', [SettingsController::class, 'BecomeASeller'])->name('BecomeASeller');
+        Route::post('/BecomeASeller', [SettingsController::class, 'BecomeASeller_process'])->name('BecomeASeller_process');
         Route::prefix('seller')->name('seller.')->group(function () {
           Route::prefix('products')->name('products.')->group(function () {
               Route::get('/', [ProductsController::class, 'index'])->name('index');
@@ -113,16 +113,21 @@ Route::domain('id.brauniart.shop')->group(function () {
               Route::post('/{chat}/read', [MessageController::class, 'markAsRead']);
               Route::post('/{chat}/upload', [MessageController::class, 'upload']);
           });
+          Route::prefix('quests')->name('quests.')->group(function () {
+              Route::get('/', [QuestController::class, 'index'])->name('index');
+              Route::get('/ajax', [QuestController::class, 'ajax'])->name('ajax');
+              Route::get('/create', [QuestController::class, 'create'])->name('create');
+              Route::post('/create', [QuestController::class, 'store'])->name('store');
+              Route::get('/{id}', [QuestController::class, 'edit'])->name('edit');
+              Route::post('/{id}', [QuestController::class, 'update'])->name('update');
+          });
         });
-
         Route::prefix('admin')->name('admin.')->group(function () {
 
         });
-
         Route::prefix('tests')->name('tests.')->group(function () {
 
         });
-
         Route::get('/logout', [LoginController::class, 'logout']);
     });
 

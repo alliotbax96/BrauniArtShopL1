@@ -3,12 +3,12 @@ import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 // Затем загружаем зависимости, которые могут требовать jQuery
 import './bootstrap';
-// Popper.js — оставляем как есть (ESM)
-import { createPopper } from '@popperjs/core';
-window.Popper = createPopper;
 // Заменяем прямые импорты минифицированных файлов на npm‑пакеты
 import * as bootstrap from 'bootstrap';
 window.bootstrap = bootstrap;
+// Popper.js — оставляем как есть (ESM)
+import { createPopper } from '@popperjs/core';
+window.Popper = createPopper;
 
 // 2. Затем Isotope — важно: после jQuery
 import Isotope from 'isotope-layout';
@@ -31,26 +31,18 @@ import odometer from 'odometer';
 window.odometer = odometer;
 import './jquery.countdown.min.js';
 import './jquery.appear.js';
+
 import Slick from 'slick-carousel';
 window.Slick = Slick;
+
 // WOW.js — оставляем импорт, инициализируем после DOM
 import WOW from 'wow.js';
 window.WOW = WOW;
-document.addEventListener('DOMContentLoaded', () => {
-    new WOW().init();
-});
 // AOS — оставляем как есть
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 window.AOS = AOS;
-document.addEventListener('DOMContentLoaded', () => {
-    AOS.init({
-        duration: 800,
-        easing: 'ease-in-out-cubic',
-        once: true,
-        offset: 100
-    });
-});
+
 // Кастомные плагины, которые не имеют npm‑версий
 // import '../vendor/jquery.textfill.js'; // зависит от jQuery
 import textfill from 'textfill';

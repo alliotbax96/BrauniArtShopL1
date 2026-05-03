@@ -8,8 +8,6 @@ class NotificationsApp {
         this.chatIds = new Set();
         this.admin = admin;
 
-        console.log('🔔 NotificationsApp: Инициализация системы уведомлений', { userId });
-
         if (!window.pusherAppKey || !window.pusherCluster) {
             console.error('❌ NotificationsApp: Отсутствуют настройки Pusher (pusherAppKey или pusherCluster)');
             return;
@@ -19,7 +17,6 @@ class NotificationsApp {
     }
 
     init() {
-        console.log('🚀 NotificationsApp: Запуск инициализации...');
 
         try {
             this.pusher = new Pusher(window.pusherAppKey, {
@@ -29,7 +26,6 @@ class NotificationsApp {
                 logToConsole: true
             });
 
-            console.log('✅ NotificationsApp: Pusher инициализирован');
             this.loadChatsAndSubscribe();
         } catch (error) {
             console.error('💥 NotificationsApp: Критическая ошибка при инициализации:', error);
@@ -43,7 +39,6 @@ class NotificationsApp {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             const chats = await response.json();
-            console.log('📥 NotificationsApp: Получен список чатов:', chats);
 
             // Подписываемся на все чаты
             chats.forEach(chat => {
@@ -73,7 +68,6 @@ class NotificationsApp {
 
             newChats.forEach(chat => {
                 if (chat.id && !this.chatIds.has(chat.id)) {
-                    console.log('🆕 NotificationsApp: Обнаружен новый чат:', chat.id);
                     this.subscribeToChatChannel(chat.id);
                     this.chatIds.add(chat.id);
                 }
@@ -85,13 +79,11 @@ class NotificationsApp {
 
     subscribeToChatChannel(chatId) {
         const channelName = `chat.${chatId}`;
-        console.log(`📡 NotificationsApp: Подписываемся на канал '${channelName}'...`);
 
         const channel = this.pusher.subscribe(channelName);
 
         // Обработчики системных событий Pusher
         channel.bind('pusher:subscription_succeeded', () => {
-            console.log(`✅ NotificationsApp: Успешная подписка на канал ${channelName}`);
             this.bindChatEvents(channel, chatId);
             this.chatIds.add(chatId);
         });
@@ -104,16 +96,13 @@ class NotificationsApp {
     }
 
     bindChatEvents(channel, chatId) {
-        console.log(`🎯 NotificationsApp: Привязываем события к каналу ${chatId}...`);
 
         channel.bind('message.sent', (data) => {
-            console.log('📩 NotificationsApp: Получено событие "message.sent"', data);
 
             const message = data.message;
 
             // Не показываем уведомления для сообщений текущего пользователя
             if (message.user.id === this.userId) {
-                console.log('💬 NotificationsApp: Сообщение от текущего пользователя — пропускаем уведомление');
                 return;
             }
 
@@ -293,16 +282,13 @@ class NotificationsApp {
     }
 
     destroy() {
-        console.log('🗑️ NotificationsApp: Очищаем ресурсы...');
 
         this.channels.forEach((channel, chatId) => {
             channel.unbind_all();
-            console.log(`🗑️ NotificationsApp: Канал ${chatId} отписан`);
         });
 
         if (this.pusher) {
             this.pusher.disconnect();
-            console.log('🗑️ NotificationsApp: Pusher отключён');
         }
 
         // Очищаем интервалы
@@ -328,17 +314,11 @@ class NotificationsApp {
             this.pusher.unsubscribe(`chat.${chatId}`);
             this.channels.delete(chatId);
             this.chatIds.delete(chatId);
-            console.log(`🗑️ NotificationsApp: Отписались от канала чата ${chatId}`);
         }
     }
 }
 
 function debugNotificationsInit() {
-    console.log('🔎 NotificationsApp: Диагностика инициализации');
-    console.log('Pusher доступен:', typeof Pusher !== 'undefined');
-    console.log('window.pusherAppKey:', window.pusherAppKey);
-    console.log('window.pusherCluster:', window.pusherCluster);
-    console.log('userId предоставлен:', !!window.currentUserId);
 }
 
 // Экспорт для использования в Blade

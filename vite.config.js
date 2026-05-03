@@ -29,6 +29,10 @@ export default defineConfig({
                 'resources/js/dashboard/Pages/profile.js',
                 'resources/js/dashboard/Pages/settings.js',
                 'resources/js/dashboard/Pages/users.js',
+                'resources/js/dashboard/Pages/QuestCreate.js',
+                'resources/js/dashboard/Pages/QuestEdit.js',
+                'resources/js/dashboard/Pages/Quest.js',
+                'resources/js/Pages/quests.js'
             ],
             refresh: true,
         }),
@@ -57,7 +61,7 @@ export default defineConfig({
         alias: {
             popper: '/node_modules/@popperjs/core/lib/popper.js',
             '@': '/resources/js',
-            jquery: '/node_modules/jquery/dist/jquery.js',
+            // jquery: '/node_modules/jquery/dist/jquery.js',
         }
     },
 

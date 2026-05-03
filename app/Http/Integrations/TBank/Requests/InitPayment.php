@@ -16,8 +16,8 @@ class InitPayment extends Request implements HasBody
      */
     protected ?string $connector = TBankConnector::class;
     protected Method $method = Method::POST;
-    protected $TerminalId;
-    protected $TerminalPassword;
+    protected string $TerminalId;
+    protected string $TerminalPassword;
 
     public function __construct(
         protected string $CustomerKey,
@@ -43,7 +43,7 @@ class InitPayment extends Request implements HasBody
     {
         $terminalPassword = $this->TerminalPassword;
 
-        $hashData['TerminalPassword'] = $terminalPassword;
+        $hashData['Password'] = $terminalPassword;
 
         // Сортируем по ключам
         ksort($hashData);
@@ -54,7 +54,7 @@ class InitPayment extends Request implements HasBody
         // Генерируем SHA256 хеш
         $token = hash('sha256', $hashString);
 
-        \Log::debug('Generated token:', ['token' => $token]);
+        \Log::debug('Generated token:', ['hash'=> $hashData, 'token' => $token]);
 
         return $token;
     }
@@ -73,7 +73,7 @@ class InitPayment extends Request implements HasBody
         ];
 
         if($this->Recurrent == 'Y') {
-            $hashData['NotificationURL'] = 'https://brauniart.shop/checkout/PaymentHook';
+            $hashData['NotificationURL'] = 'https://brauniart.shop/api/PaymentHook';
             $hashData['Recurrent'] = 'Y';
         }
 

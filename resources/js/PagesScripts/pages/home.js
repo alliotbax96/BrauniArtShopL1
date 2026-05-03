@@ -1,8 +1,10 @@
 var block_show = false;
 
-function scrollMore(){
+function scrollMore() {
     var $target = $('#showmore-triger');
-
+    if ($target.val() === 'none' || $target.data('page') === 'none') {
+        return false;
+    }
     if (block_show) {
         return false;
     }
@@ -13,40 +15,38 @@ function scrollMore(){
     var eh = $target.outerHeight();
     var dh = $(document).height();
 
-    if (wt + wh >= et || wh + wt == dh || eh + et < wh){
-        var page = $target.attr('data-page');
+    if (wt + wh >= et || wh + wt == dh || eh + et < wh) {
+        var page = parseInt($target.attr('data-page')) || 1;
         page++;
         block_show = true;
 
         $.ajax({
             url: '/home/ajax?page=' + page,
             dataType: 'html',
-            success: function(data){
-                if(data == 0){
-                    page = 1;
-                    $.ajax({
-                        url: '/home/ajax?page=' + page,
-                        dataType: 'html',
-                        success: function(data){
-                            $('#showmore-list .prod-list').append(data);
-                            block_show = false;
-                        }
-                    });
-                } else {
+            success: function(data) {
+                if (data.trim() !== '') {
                     $('#showmore-list .prod-list').append(data);
-                    block_show = false;
+                    // Переинициализация Masonry/Isotope, если используется
+                    if (typeof $grid !== 'undefined') {
+                        // $grid.append($(data)).masonry('appended', $(data));
+                    }
+                } else {
+                    $target.attr('data-page', 'none');
                 }
+                block_show = false;
+            },
+            error: function() {
+                block_show = false;
             }
         });
         $target.attr('data-page', page);
     }
 }
 
-$(window).scroll(function(){
+$(window).scroll(function() {
     scrollMore();
 });
 
-$(document).ready(function(){
+$(document).ready(function() {
     scrollMore();
 });
-
