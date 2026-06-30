@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\OrderSellerStatus;
+use App\Notifications\OrderShippedNotification;
 
 class CheckoutController extends BaseController
 {
@@ -178,6 +179,30 @@ class CheckoutController extends BaseController
                         'price' => $product->getProductPrice() ?? 0,
                         'name' => $product->GetProductName() ?? 'Товар без названия',
                     ]);
+
+                    $seller = \App\Models\Seller::findOrFail($cartItem->seller_id);
+
+                    // Получаем связанных пользователей (сразу с email, чтобы не делать N+1 в цикле)
+                    $users = $seller->users()->whereNotNull('email')->get();
+                    $count = $users->count();
+
+                    if ($count === 0) {
+                        return response()->json([
+                            'status'  => 'warning',
+                            'message' => 'У продавца нет связанных пользователей с email',
+                            'seller'  => $seller->name,
+                            'count'   => 0,
+                        ], 200);
+                    }
+
+                    // Отправляем уведомления
+                    $seller->notifyRelatedUsers(
+                        subject: 'Оформлен новый заказ',
+                        greeting: 'Здравствуйте, ' . $seller->name . '!',
+                        line: 'Оформлен новый заказ, обработайте его пожалуйста в личном кабинете!',
+                        actionUrl: 'https://id.brauniart.shop',
+                        actionText: 'Перейти в кабинет продавца',
+                    );
                 }
 
                 // Удаляем выбранные позиции из корзины
@@ -210,6 +235,7 @@ class CheckoutController extends BaseController
                     }
                 }
             });
+            Auth::user()->notify(new OrderShippedNotification($order));
             // Транзакция успешно завершена — все изменения сохранены
             if ($paymentUrl) {
                 session(['payment_url_' . $orderId => $paymentUrl]);

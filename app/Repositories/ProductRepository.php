@@ -18,11 +18,43 @@ class ProductRepository
     }
 
     // Новый метод — получение всех товаров с условиями
+//    public function allWithConditions(int $perPage = 12): LengthAwarePaginator
+//    {
+//        return Product::query()
+//            ->withActiveSellerAndRetailPriceAndMainImage()
+//            ->paginate($perPage);
+//    }
+
     public function allWithConditions(int $perPage = 12): LengthAwarePaginator
     {
-        return Product::query()
-            ->withActiveSellerAndRetailPriceAndMainImage()
-            ->paginate($perPage);
+        $query = Product::query()
+            ->with([
+                'seller',
+                'seller.sellerPvz',
+                'seller.contacts',
+                'prices',
+                'images',
+                'quantity',
+            ]);
+
+        // Применяем scope-фильтр (он делает whereHas внутри себя)
+        $query->withActiveSellerAndRetailPriceAndMainImage();
+
+        // Фильтр: остаток > 0
+        $query->whereHas('quantity', function ($q) {
+            $q->where('quantity', '>', 0);
+        });
+
+        // Фильтр: у продавца есть контракт со статусами
+        $query->whereHas('seller.contacts', function ($q) {
+            $q->where('status', true)
+                ->where('signed_status', true);
+        });
+
+        // Фильтр: у продавца есть PVZ
+        $query->whereHas('seller.sellerPvz');
+
+        return $query->paginate($perPage);
     }
 
     public function filterProducts(array $filters, int $perPage = 12): LengthAwarePaginator

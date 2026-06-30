@@ -105099,3 +105099,1049 @@ Check out your Vite / network configuration and https://vite.dev/config/server-o
 [2026-06-23 16:26:47] development.DEBUG: [vite] server connection lost. Polling for restart... {"url":"https://id.brauniart.shop/","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-23T13:26:46.548Z"} 
 [2026-06-23 18:49:42] development.ERROR: ❌ NotificationsApp: Ошибка проверки новых чатов: Error HTTP error! status: 504 Error: HTTP error! status: 504
     at NotificationsApp.checkForNewChats (http://[::1]:5173/resources/js/dashboard/scripts/notifications.js:65:23) {"url":"https://id.brauniart.shop/","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-23T15:49:41.461Z"} 
+[2026-06-30 21:30:59] development.ERROR: ❌ NotificationsApp: Ошибка проверки новых чатов: SyntaxError Unexpected token '<', "<!DOCTYPE "... is not valid JSON SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON {"url":"https://id.brauniart.shop/","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T18:30:59.345Z"} 
+[2026-06-30 21:31:17] development.ERROR: Uncaught TypeError: n(...).modal is not a function https://brauniart.shop/build/assets/app-BCVYQJGd.js 11 143350 TypeError n(...).modal is not a function TypeError: n(...).modal is not a function
+    at https://brauniart.shop/build/assets/app-BCVYQJGd.js:11:143350 {"url":"https://brauniart.shop/","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T18:31:17.589Z"} 
+[2026-06-30 21:31:17] development.ERROR: Uncaught TypeError: n(...).modal is not a function https://brauniart.shop/build/assets/app-BCVYQJGd.js 11 143350 TypeError n(...).modal is not a function TypeError: n(...).modal is not a function
+    at https://brauniart.shop/build/assets/app-BCVYQJGd.js:11:143350 {"url":"https://brauniart.shop/","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T18:31:17.589Z"} 
+[2026-06-30 21:31:36] development.ERROR: Uncaught TypeError: n(...).modal is not a function https://brauniart.shop/build/assets/app-BCVYQJGd.js 11 143350 TypeError n(...).modal is not a function TypeError: n(...).modal is not a function
+    at https://brauniart.shop/build/assets/app-BCVYQJGd.js:11:143350 {"url":"https://brauniart.shop/products?category=5","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T18:31:35.153Z"} 
+[2026-06-30 21:31:36] development.ERROR: Uncaught TypeError: n(...).modal is not a function https://brauniart.shop/build/assets/app-BCVYQJGd.js 11 143350 TypeError n(...).modal is not a function TypeError: n(...).modal is not a function
+    at https://brauniart.shop/build/assets/app-BCVYQJGd.js:11:143350 {"url":"https://brauniart.shop/products?category=5","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T18:31:35.153Z"} 
+[2026-06-30 21:33:25] development.ERROR: Uncaught TypeError: n(...).modal is not a function https://brauniart.shop/build/assets/app-BCVYQJGd.js 11 143350 TypeError n(...).modal is not a function TypeError: n(...).modal is not a function
+    at https://brauniart.shop/build/assets/app-BCVYQJGd.js:11:143350 {"url":"https://brauniart.shop/products/60","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T18:33:24.152Z"} 
+[2026-06-30 21:33:25] development.ERROR: Uncaught TypeError: n(...).modal is not a function https://brauniart.shop/build/assets/app-BCVYQJGd.js 11 143350 TypeError n(...).modal is not a function TypeError: n(...).modal is not a function
+    at https://brauniart.shop/build/assets/app-BCVYQJGd.js:11:143350 {"url":"https://brauniart.shop/products/60","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T18:33:24.152Z"} 
+[2026-06-30 21:43:10] development.DEBUG: 🔔 ChatApp: Инициализация чата 17 1 {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T18:43:10.155Z"} 
+[2026-06-30 21:43:10] development.DEBUG: 🚀 ChatApp: Запуск инициализации... {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T18:43:10.155Z"} 
+[2026-06-30 21:43:10] development.DEBUG: ✅ ChatApp: Pusher инициализирован {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T18:43:10.155Z"} 
+[2026-06-30 21:43:10] development.DEBUG: 📡 ChatApp: Подписываемся на канал 'chat.17'... {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T18:43:10.155Z"} 
+[2026-06-30 21:43:10] development.DEBUG: 🎯 ChatApp: Привязываем события к каналу... {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T18:43:10.155Z"} 
+[2026-06-30 21:43:10] development.DEBUG: 📝 ChatApp: Отмечаем сообщения как прочитанные... {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T18:43:10.155Z"} 
+[2026-06-30 21:43:10] development.DEBUG: ⬇️ ChatApp: Пытаемся скроллить к низу... {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T18:43:10.155Z"} 
+[2026-06-30 21:43:10] development.DEBUG: 🔄 ChatApp: Чат уже прокручен до конца или нет контента для скролла {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T18:43:10.155Z"} 
+[2026-06-30 21:43:10] development.DEBUG: 🎉 ChatApp: Инициализация завершена успешно {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T18:43:10.155Z"} 
+[2026-06-30 21:43:10] development.DEBUG: ✅ ChatApp: Успешная подписка на канал {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T18:43:10.430Z"} 
+[2026-06-30 21:43:10] development.DEBUG: ✅ ChatApp: Обработчики отправки сообщений настроены {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T18:43:10.430Z"} 
+[2026-06-30 21:43:10] development.DEBUG: ✅ ChatApp: Сообщения отмечены как прочитанные {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T18:43:10.750Z"} 
+[2026-06-30 22:13:51] development.DEBUG: 🔔 ChatApp: Инициализация чата 17 1 {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:13:49.705Z"} 
+[2026-06-30 22:13:51] development.DEBUG: 🚀 ChatApp: Запуск инициализации... {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:13:49.705Z"} 
+[2026-06-30 22:13:51] development.DEBUG: ✅ ChatApp: Pusher инициализирован {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:13:49.707Z"} 
+[2026-06-30 22:13:51] development.DEBUG: 📡 ChatApp: Подписываемся на канал 'chat.17'... {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:13:49.707Z"} 
+[2026-06-30 22:13:51] development.DEBUG: 🎯 ChatApp: Привязываем события к каналу... {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:13:49.707Z"} 
+[2026-06-30 22:13:51] development.DEBUG: 📝 ChatApp: Отмечаем сообщения как прочитанные... {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:13:49.707Z"} 
+[2026-06-30 22:13:51] development.DEBUG: ⬇️ ChatApp: Пытаемся скроллить к низу... {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:13:49.707Z"} 
+[2026-06-30 22:13:51] development.DEBUG: 🔄 ChatApp: Чат уже прокручен до конца или нет контента для скролла {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:13:49.707Z"} 
+[2026-06-30 22:13:51] development.DEBUG: 🎉 ChatApp: Инициализация завершена успешно {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:13:49.707Z"} 
+[2026-06-30 22:13:51] development.DEBUG: ✅ ChatApp: Успешная подписка на канал {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:13:49.964Z"} 
+[2026-06-30 22:13:51] development.DEBUG: ✅ ChatApp: Обработчики отправки сообщений настроены {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:13:49.964Z"} 
+[2026-06-30 22:13:51] development.DEBUG: ✅ ChatApp: Сообщения отмечены как прочитанные {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:13:50.098Z"} 
+[2026-06-30 22:20:42] development.DEBUG: 🔔 ChatApp: Инициализация чата 17 1 {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:20:41.714Z"} 
+[2026-06-30 22:20:42] development.DEBUG: 🚀 ChatApp: Запуск инициализации... {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:20:41.714Z"} 
+[2026-06-30 22:20:42] development.DEBUG: ✅ ChatApp: Pusher инициализирован {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:20:41.716Z"} 
+[2026-06-30 22:20:42] development.DEBUG: 📡 ChatApp: Подписываемся на канал 'chat.17'... {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:20:41.716Z"} 
+[2026-06-30 22:20:42] development.DEBUG: 🎯 ChatApp: Привязываем события к каналу... {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:20:41.716Z"} 
+[2026-06-30 22:20:42] development.DEBUG: 📝 ChatApp: Отмечаем сообщения как прочитанные... {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:20:41.716Z"} 
+[2026-06-30 22:20:42] development.DEBUG: ⬇️ ChatApp: Пытаемся скроллить к низу... {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:20:41.716Z"} 
+[2026-06-30 22:20:42] development.DEBUG: 🔄 ChatApp: Чат уже прокручен до конца или нет контента для скролла {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:20:41.716Z"} 
+[2026-06-30 22:20:42] development.DEBUG: 🎉 ChatApp: Инициализация завершена успешно {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:20:41.716Z"} 
+[2026-06-30 22:20:42] development.DEBUG: ✅ ChatApp: Успешная подписка на канал {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:20:42.007Z"} 
+[2026-06-30 22:20:42] development.DEBUG: ✅ ChatApp: Обработчики отправки сообщений настроены {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:20:42.007Z"} 
+[2026-06-30 22:20:43] development.DEBUG: ✅ ChatApp: Сообщения отмечены как прочитанные {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:20:42.189Z"} 
+[2026-06-30 22:22:49] development.DEBUG: 🔔 ChatApp: Инициализация чата 17 1 {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:22:48.689Z"} 
+[2026-06-30 22:22:49] development.DEBUG: 🚀 ChatApp: Запуск инициализации... {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:22:48.689Z"} 
+[2026-06-30 22:22:49] development.DEBUG: ✅ ChatApp: Pusher инициализирован {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:22:48.691Z"} 
+[2026-06-30 22:22:49] development.DEBUG: 📡 ChatApp: Подписываемся на канал 'chat.17'... {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:22:48.691Z"} 
+[2026-06-30 22:22:49] development.DEBUG: 🎯 ChatApp: Привязываем события к каналу... {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:22:48.691Z"} 
+[2026-06-30 22:22:49] development.DEBUG: 📝 ChatApp: Отмечаем сообщения как прочитанные... {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:22:48.691Z"} 
+[2026-06-30 22:22:49] development.DEBUG: ⬇️ ChatApp: Пытаемся скроллить к низу... {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:22:48.691Z"} 
+[2026-06-30 22:22:49] development.DEBUG: 🔄 ChatApp: Чат уже прокручен до конца или нет контента для скролла {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:22:48.691Z"} 
+[2026-06-30 22:22:49] development.DEBUG: 🎉 ChatApp: Инициализация завершена успешно {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:22:48.691Z"} 
+[2026-06-30 22:22:49] development.DEBUG: ✅ ChatApp: Успешная подписка на канал {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:22:49.020Z"} 
+[2026-06-30 22:22:49] development.DEBUG: ✅ ChatApp: Обработчики отправки сообщений настроены {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:22:49.020Z"} 
+[2026-06-30 22:22:49] development.DEBUG: ✅ ChatApp: Сообщения отмечены как прочитанные {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:22:49.071Z"} 
+[2026-06-30 22:22:56] development.DEBUG: 🔔 ChatApp: Инициализация чата 17 1 {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:22:55.640Z"} 
+[2026-06-30 22:22:56] development.DEBUG: 🚀 ChatApp: Запуск инициализации... {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:22:55.640Z"} 
+[2026-06-30 22:22:56] development.DEBUG: ✅ ChatApp: Pusher инициализирован {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:22:55.641Z"} 
+[2026-06-30 22:22:56] development.DEBUG: 📡 ChatApp: Подписываемся на канал 'chat.17'... {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:22:55.641Z"} 
+[2026-06-30 22:22:56] development.DEBUG: 🎯 ChatApp: Привязываем события к каналу... {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:22:55.641Z"} 
+[2026-06-30 22:22:56] development.DEBUG: 📝 ChatApp: Отмечаем сообщения как прочитанные... {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:22:55.641Z"} 
+[2026-06-30 22:22:56] development.DEBUG: ⬇️ ChatApp: Пытаемся скроллить к низу... {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:22:55.641Z"} 
+[2026-06-30 22:22:56] development.DEBUG: 🔄 ChatApp: Чат уже прокручен до конца или нет контента для скролла {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:22:55.642Z"} 
+[2026-06-30 22:22:56] development.DEBUG: 🎉 ChatApp: Инициализация завершена успешно {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:22:55.642Z"} 
+[2026-06-30 22:22:56] development.DEBUG: ✅ ChatApp: Успешная подписка на канал {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:22:55.892Z"} 
+[2026-06-30 22:22:56] development.DEBUG: ✅ ChatApp: Обработчики отправки сообщений настроены {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:22:55.893Z"} 
+[2026-06-30 22:22:56] development.DEBUG: ✅ ChatApp: Сообщения отмечены как прочитанные {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:22:56.039Z"} 
+[2026-06-30 22:26:13] development.DEBUG: 🔔 ChatApp: Инициализация чата 17 1 {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:26:11.721Z"} 
+[2026-06-30 22:26:13] development.DEBUG: 🚀 ChatApp: Запуск инициализации... {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:26:11.721Z"} 
+[2026-06-30 22:26:13] development.DEBUG: ✅ ChatApp: Pusher инициализирован {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:26:11.721Z"} 
+[2026-06-30 22:26:13] development.DEBUG: 📡 ChatApp: Подписываемся на канал 'chat.17'... {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:26:11.721Z"} 
+[2026-06-30 22:26:13] development.DEBUG: 🎯 ChatApp: Привязываем события к каналу... {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:26:11.721Z"} 
+[2026-06-30 22:26:13] development.DEBUG: 📝 ChatApp: Отмечаем сообщения как прочитанные... {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:26:11.722Z"} 
+[2026-06-30 22:26:13] development.DEBUG: ⬇️ ChatApp: Пытаемся скроллить к низу... {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:26:11.722Z"} 
+[2026-06-30 22:26:13] development.DEBUG: 🔄 ChatApp: Чат уже прокручен до конца или нет контента для скролла {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:26:11.722Z"} 
+[2026-06-30 22:26:13] development.DEBUG: 🎉 ChatApp: Инициализация завершена успешно {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:26:11.722Z"} 
+[2026-06-30 22:26:13] development.DEBUG: ✅ ChatApp: Успешная подписка на канал {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:26:11.970Z"} 
+[2026-06-30 22:26:13] development.DEBUG: ✅ ChatApp: Обработчики отправки сообщений настроены {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:26:11.970Z"} 
+[2026-06-30 22:26:13] development.DEBUG: ✅ ChatApp: Сообщения отмечены как прочитанные {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:26:12.116Z"} 
+[2026-06-30 22:30:49] development.DEBUG: 🔔 ChatApp: Инициализация чата 17 1 {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:30:48.711Z"} 
+[2026-06-30 22:30:49] development.DEBUG: 🚀 ChatApp: Запуск инициализации... {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:30:48.712Z"} 
+[2026-06-30 22:30:49] development.DEBUG: ✅ ChatApp: Pusher инициализирован {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:30:48.713Z"} 
+[2026-06-30 22:30:49] development.DEBUG: 📡 ChatApp: Подписываемся на канал 'chat.17'... {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:30:48.713Z"} 
+[2026-06-30 22:30:49] development.DEBUG: 🎯 ChatApp: Привязываем события к каналу... {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:30:48.713Z"} 
+[2026-06-30 22:30:49] development.DEBUG: 📝 ChatApp: Отмечаем сообщения как прочитанные... {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:30:48.713Z"} 
+[2026-06-30 22:30:49] development.DEBUG: ⬇️ ChatApp: Пытаемся скроллить к низу... {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:30:48.713Z"} 
+[2026-06-30 22:30:49] development.DEBUG: 🔄 ChatApp: Чат уже прокручен до конца или нет контента для скролла {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:30:48.714Z"} 
+[2026-06-30 22:30:49] development.DEBUG: 🎉 ChatApp: Инициализация завершена успешно {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:30:48.714Z"} 
+[2026-06-30 22:30:49] development.DEBUG: ✅ ChatApp: Успешная подписка на канал {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:30:48.973Z"} 
+[2026-06-30 22:30:49] development.DEBUG: ✅ ChatApp: Обработчики отправки сообщений настроены {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:30:48.974Z"} 
+[2026-06-30 22:30:49] development.DEBUG: ✅ ChatApp: Сообщения отмечены как прочитанные {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:30:49.082Z"} 
+[2026-06-30 22:36:58] development.DEBUG: 🔔 ChatApp: Инициализация чата 17 1 {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:36:56.750Z"} 
+[2026-06-30 22:36:58] development.DEBUG: 🚀 ChatApp: Запуск инициализации... {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:36:56.750Z"} 
+[2026-06-30 22:36:58] development.DEBUG: ✅ ChatApp: Pusher инициализирован {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:36:56.752Z"} 
+[2026-06-30 22:36:58] development.DEBUG: 📡 ChatApp: Подписываемся на канал 'chat.17'... {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:36:56.752Z"} 
+[2026-06-30 22:36:58] development.DEBUG: 🎯 ChatApp: Привязываем события к каналу... {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:36:56.752Z"} 
+[2026-06-30 22:36:58] development.DEBUG: 📝 ChatApp: Отмечаем сообщения как прочитанные... {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:36:56.752Z"} 
+[2026-06-30 22:36:58] development.DEBUG: ⬇️ ChatApp: Пытаемся скроллить к низу... {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:36:56.753Z"} 
+[2026-06-30 22:36:58] development.DEBUG: 🔄 ChatApp: Чат уже прокручен до конца или нет контента для скролла {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:36:56.753Z"} 
+[2026-06-30 22:36:58] development.DEBUG: 🎉 ChatApp: Инициализация завершена успешно {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:36:56.753Z"} 
+[2026-06-30 22:36:58] development.DEBUG: ✅ ChatApp: Успешная подписка на канал {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:36:57.006Z"} 
+[2026-06-30 22:36:58] development.DEBUG: ✅ ChatApp: Обработчики отправки сообщений настроены {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:36:57.006Z"} 
+[2026-06-30 22:36:58] development.DEBUG: ✅ ChatApp: Сообщения отмечены как прочитанные {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:36:57.158Z"} 
+[2026-06-30 22:46:09] development.DEBUG: 🔔 ChatApp: Инициализация чата 17 1 {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:46:07.939Z"} 
+[2026-06-30 22:46:09] development.DEBUG: 🚀 ChatApp: Запуск инициализации... {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:46:07.939Z"} 
+[2026-06-30 22:46:09] development.DEBUG: ✅ ChatApp: Pusher инициализирован {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:46:07.940Z"} 
+[2026-06-30 22:46:09] development.DEBUG: 📡 ChatApp: Подписываемся на канал 'chat.17'... {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:46:07.940Z"} 
+[2026-06-30 22:46:09] development.DEBUG: 🎯 ChatApp: Привязываем события к каналу... {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:46:07.940Z"} 
+[2026-06-30 22:46:09] development.DEBUG: 📝 ChatApp: Отмечаем сообщения как прочитанные... {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:46:07.940Z"} 
+[2026-06-30 22:46:09] development.DEBUG: ⬇️ ChatApp: Пытаемся скроллить к низу... {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:46:07.941Z"} 
+[2026-06-30 22:46:09] development.DEBUG: 🔄 ChatApp: Чат уже прокручен до конца или нет контента для скролла {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:46:07.941Z"} 
+[2026-06-30 22:46:09] development.DEBUG: 🎉 ChatApp: Инициализация завершена успешно {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:46:07.941Z"} 
+[2026-06-30 22:46:09] development.DEBUG: ✅ ChatApp: Успешная подписка на канал {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:46:08.212Z"} 
+[2026-06-30 22:46:09] development.DEBUG: ✅ ChatApp: Обработчики отправки сообщений настроены {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:46:08.213Z"} 
+[2026-06-30 22:46:09] development.DEBUG: ✅ ChatApp: Сообщения отмечены как прочитанные {"url":"https://id.brauniart.shop/seller/chat/17","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:46:08.331Z"} 
+[2026-06-30 22:49:13] development.DEBUG: Таблица найдена, инициализируем DataTable... {"url":"https://id.brauniart.shop/seller/products/quantity","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T19:49:13.104Z"} 
+[2026-06-30 23:35:22] development.DEBUG: [vite] server connection lost. Polling for restart... {"url":"https://id.brauniart.shop/admin/sellers","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T20:35:22.310Z"} 
+[2026-06-30 23:35:22] development.DEBUG: [vite] server connection lost. Polling for restart... {"url":"https://brauniart.shop/","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T20:35:22.310Z"} 
+[2026-06-30 23:35:23] development.DEBUG: [vite] server connection lost. Polling for restart... {"url":"https://brauniart.shop/","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T20:35:22.310Z"} 
+[2026-06-30 23:35:23] development.DEBUG: [vite] server connection lost. Polling for restart... {"url":"https://brauniart.shop/","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T20:35:22.310Z"} 
+[2026-06-30 23:35:46] development.ERROR: Uncaught ReferenceError: $ is not defined http://[::1]:5173/resources/js/dashboard/scripts/admin/sellers.js 4 1 ReferenceError $ is not defined ReferenceError: $ is not defined
+    at http://[::1]:5173/resources/js/dashboard/scripts/admin/sellers.js:4:1 {"url":"https://id.brauniart.shop/admin/sellers","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T20:35:45.900Z"} 
+[2026-06-30 23:35:46] development.ERROR: Uncaught ReferenceError: $ is not defined http://[::1]:5173/resources/js/dashboard/scripts/admin/sellers.js 4 1 ReferenceError $ is not defined ReferenceError: $ is not defined
+    at http://[::1]:5173/resources/js/dashboard/scripts/admin/sellers.js:4:1 {"url":"https://id.brauniart.shop/admin/sellers","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T20:35:45.900Z"} 
+[2026-06-30 23:37:47] development.ERROR: DataTable AJAX error: 4 {
+    "message": "The route admin/%7B%7B%20route('dashboard.admin.sellers.ajax')%20%7D%7D could not be found.",
+    "exception": "Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException",
+    "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Routing/AbstractRouteCollection.php",
+    "line": 44,
+    "trace": [
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Routing/RouteCollection.php",
+            "line": 184,
+            "function": "handleMatchedRoute",
+            "class": "Illuminate\\Routing\\AbstractRouteCollection",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
+            "line": 777,
+            "function": "match",
+            "class": "Illuminate\\Routing\\RouteCollection",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
+            "line": 764,
+            "function": "findRoute",
+            "class": "Illuminate\\Routing\\Router",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
+            "line": 753,
+            "function": "dispatchToRoute",
+            "class": "Illuminate\\Routing\\Router",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php",
+            "line": 200,
+            "function": "dispatch",
+            "class": "Illuminate\\Routing\\Router",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+            "line": 180,
+            "function": "{closure:Illuminate\\Foundation\\Http\\Kernel::dispatchToRouter():197}",
+            "class": "Illuminate\\Foundation\\Http\\Kernel",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php",
+            "line": 21,
+            "function": "{closure:Illuminate\\Pipeline\\Pipeline::prepareDestination():178}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php",
+            "line": 31,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+            "line": 219,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php",
+            "line": 21,
+            "function": "{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():194}:195}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php",
+            "line": 51,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+            "line": 219,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Middleware\\TrimStrings",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePostSize.php",
+            "line": 27,
+            "function": "{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():194}:195}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+            "line": 219,
+            "function": "handle",
+            "class": "Illuminate\\Http\\Middleware\\ValidatePostSize",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php",
+            "line": 109,
+            "function": "{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():194}:195}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+            "line": 219,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php",
+            "line": 61,
+            "function": "{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():194}:195}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+            "line": 219,
+            "function": "handle",
+            "class": "Illuminate\\Http\\Middleware\\HandleCors",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php",
+            "line": 58,
+            "function": "{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():194}:195}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+            "line": 219,
+            "function": "handle",
+            "class": "Illuminate\\Http\\Middleware\\TrustProxies",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks.php",
+            "line": 22,
+            "function": "{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():194}:195}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+            "line": 219,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Middleware\\InvokeDeferredCallbacks",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePathEncoding.php",
+            "line": 26,
+            "function": "{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():194}:195}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+            "line": 219,
+            "function": "handle",
+            "class": "Illuminate\\Http\\Middleware\\ValidatePathEncoding",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+            "line": 137,
+            "function": "{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():194}:195}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php",
+            "line": 175,
+            "function": "then",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php",
+            "line": 144,
+            "function": "sendRequestThroughRouter",
+            "class": "Illuminate\\Foundation\\Http\\Kernel",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Application.php",
+            "line": 1220,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Kernel",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/public/index.php",
+            "line": 20,
+            "function": "handleRequest",
+            "class": "Illuminate\\Foundation\\Application",
+            "type": "->"
+        }
+    ]
+} The route admin/%7B%7B%20route('dashboard.admin.sellers.ajax')%20%7D%7D could not be found. Symfony\Component\HttpKernel\Exception\NotFoundHttpException /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Routing/AbstractRouteCollection.php 44 /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Routing/RouteCollection.php 184 handleMatchedRoute Illuminate\Routing\AbstractRouteCollection -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Routing/Router.php 777 match Illuminate\Routing\RouteCollection -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Routing/Router.php 764 findRoute Illuminate\Routing\Router -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Routing/Router.php 753 dispatchToRoute Illuminate\Routing\Router -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php 200 dispatch Illuminate\Routing\Router -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php 180 {closure:Illuminate\Foundation\Http\Kernel::dispatchToRouter():197} Illuminate\Foundation\Http\Kernel -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php 21 {closure:Illuminate\Pipeline\Pipeline::prepareDestination():178} Illuminate\Pipeline\Pipeline -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php 31 handle Illuminate\Foundation\Http\Middleware\TransformsRequest -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php 219 handle Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php 21 {closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195} Illuminate\Pipeline\Pipeline -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php 51 handle Illuminate\Foundation\Http\Middleware\TransformsRequest -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php 219 handle Illuminate\Foundation\Http\Middleware\TrimStrings -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePostSize.php 27 {closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195} Illuminate\Pipeline\Pipeline -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php 219 handle Illuminate\Http\Middleware\ValidatePostSize -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php 109 {closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195} Illuminate\Pipeline\Pipeline -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php 219 handle Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php 61 {closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195} Illuminate\Pipeline\Pipeline -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php 219 handle Illuminate\Http\Middleware\HandleCors -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php 58 {closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195} Illuminate\Pipeline\Pipeline -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php 219 handle Illuminate\Http\Middleware\TrustProxies -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks.php 22 {closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195} Illuminate\Pipeline\Pipeline -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php 219 handle Illuminate\Foundation\Http\Middleware\InvokeDeferredCallbacks -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePathEncoding.php 26 {closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195} Illuminate\Pipeline\Pipeline -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php 219 handle Illuminate\Http\Middleware\ValidatePathEncoding -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php 137 {closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195} Illuminate\Pipeline\Pipeline -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php 175 then Illuminate\Pipeline\Pipeline -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php 144 sendRequestThroughRouter Illuminate\Foundation\Http\Kernel -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Application.php 1220 handle Illuminate\Foundation\Http\Kernel -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/public/index.php 20 handleRequest Illuminate\Foundation\Application -> 404 Not Found error Not Found {
+    "message": "The route admin/%7B%7B%20route('dashboard.admin.sellers.ajax')%20%7D%7D could not be found.",
+    "exception": "Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException",
+    "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Routing/AbstractRouteCollection.php",
+    "line": 44,
+    "trace": [
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Routing/RouteCollection.php",
+            "line": 184,
+            "function": "handleMatchedRoute",
+            "class": "Illuminate\\Routing\\AbstractRouteCollection",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
+            "line": 777,
+            "function": "match",
+            "class": "Illuminate\\Routing\\RouteCollection",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
+            "line": 764,
+            "function": "findRoute",
+            "class": "Illuminate\\Routing\\Router",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
+            "line": 753,
+            "function": "dispatchToRoute",
+            "class": "Illuminate\\Routing\\Router",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php",
+            "line": 200,
+            "function": "dispatch",
+            "class": "Illuminate\\Routing\\Router",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+            "line": 180,
+            "function": "{closure:Illuminate\\Foundation\\Http\\Kernel::dispatchToRouter():197}",
+            "class": "Illuminate\\Foundation\\Http\\Kernel",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php",
+            "line": 21,
+            "function": "{closure:Illuminate\\Pipeline\\Pipeline::prepareDestination():178}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php",
+            "line": 31,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+            "line": 219,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php",
+            "line": 21,
+            "function": "{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():194}:195}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php",
+            "line": 51,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+            "line": 219,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Middleware\\TrimStrings",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePostSize.php",
+            "line": 27,
+            "function": "{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():194}:195}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+            "line": 219,
+            "function": "handle",
+            "class": "Illuminate\\Http\\Middleware\\ValidatePostSize",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php",
+            "line": 109,
+            "function": "{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():194}:195}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+            "line": 219,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php",
+            "line": 61,
+            "function": "{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():194}:195}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+            "line": 219,
+            "function": "handle",
+            "class": "Illuminate\\Http\\Middleware\\HandleCors",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php",
+            "line": 58,
+            "function": "{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():194}:195}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+            "line": 219,
+            "function": "handle",
+            "class": "Illuminate\\Http\\Middleware\\TrustProxies",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks.php",
+            "line": 22,
+            "function": "{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():194}:195}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+            "line": 219,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Middleware\\InvokeDeferredCallbacks",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePathEncoding.php",
+            "line": 26,
+            "function": "{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():194}:195}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+            "line": 219,
+            "function": "handle",
+            "class": "Illuminate\\Http\\Middleware\\ValidatePathEncoding",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+            "line": 137,
+            "function": "{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():194}:195}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php",
+            "line": 175,
+            "function": "then",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php",
+            "line": 144,
+            "function": "sendRequestThroughRouter",
+            "class": "Illuminate\\Foundation\\Http\\Kernel",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Application.php",
+            "line": 1220,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Kernel",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/public/index.php",
+            "line": 20,
+            "function": "handleRequest",
+            "class": "Illuminate\\Foundation\\Application",
+            "type": "->"
+        }
+    ]
+} {"url":"https://id.brauniart.shop/admin/sellers","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T20:37:45.761Z"} 
+[2026-06-30 23:38:19] development.ERROR: DataTable AJAX error: 4 {
+    "message": "The route admin/%7B%7B%20route('dashboard.admin.sellers.ajax')%20%7D%7D could not be found.",
+    "exception": "Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException",
+    "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Routing/AbstractRouteCollection.php",
+    "line": 44,
+    "trace": [
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Routing/RouteCollection.php",
+            "line": 184,
+            "function": "handleMatchedRoute",
+            "class": "Illuminate\\Routing\\AbstractRouteCollection",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
+            "line": 777,
+            "function": "match",
+            "class": "Illuminate\\Routing\\RouteCollection",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
+            "line": 764,
+            "function": "findRoute",
+            "class": "Illuminate\\Routing\\Router",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
+            "line": 753,
+            "function": "dispatchToRoute",
+            "class": "Illuminate\\Routing\\Router",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php",
+            "line": 200,
+            "function": "dispatch",
+            "class": "Illuminate\\Routing\\Router",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+            "line": 180,
+            "function": "{closure:Illuminate\\Foundation\\Http\\Kernel::dispatchToRouter():197}",
+            "class": "Illuminate\\Foundation\\Http\\Kernel",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php",
+            "line": 21,
+            "function": "{closure:Illuminate\\Pipeline\\Pipeline::prepareDestination():178}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php",
+            "line": 31,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+            "line": 219,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php",
+            "line": 21,
+            "function": "{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():194}:195}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php",
+            "line": 51,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+            "line": 219,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Middleware\\TrimStrings",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePostSize.php",
+            "line": 27,
+            "function": "{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():194}:195}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+            "line": 219,
+            "function": "handle",
+            "class": "Illuminate\\Http\\Middleware\\ValidatePostSize",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php",
+            "line": 109,
+            "function": "{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():194}:195}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+            "line": 219,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php",
+            "line": 61,
+            "function": "{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():194}:195}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+            "line": 219,
+            "function": "handle",
+            "class": "Illuminate\\Http\\Middleware\\HandleCors",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php",
+            "line": 58,
+            "function": "{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():194}:195}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+            "line": 219,
+            "function": "handle",
+            "class": "Illuminate\\Http\\Middleware\\TrustProxies",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks.php",
+            "line": 22,
+            "function": "{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():194}:195}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+            "line": 219,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Middleware\\InvokeDeferredCallbacks",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePathEncoding.php",
+            "line": 26,
+            "function": "{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():194}:195}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+            "line": 219,
+            "function": "handle",
+            "class": "Illuminate\\Http\\Middleware\\ValidatePathEncoding",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+            "line": 137,
+            "function": "{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():194}:195}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php",
+            "line": 175,
+            "function": "then",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php",
+            "line": 144,
+            "function": "sendRequestThroughRouter",
+            "class": "Illuminate\\Foundation\\Http\\Kernel",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Application.php",
+            "line": 1220,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Kernel",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/public/index.php",
+            "line": 20,
+            "function": "handleRequest",
+            "class": "Illuminate\\Foundation\\Application",
+            "type": "->"
+        }
+    ]
+} The route admin/%7B%7B%20route('dashboard.admin.sellers.ajax')%20%7D%7D could not be found. Symfony\Component\HttpKernel\Exception\NotFoundHttpException /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Routing/AbstractRouteCollection.php 44 /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Routing/RouteCollection.php 184 handleMatchedRoute Illuminate\Routing\AbstractRouteCollection -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Routing/Router.php 777 match Illuminate\Routing\RouteCollection -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Routing/Router.php 764 findRoute Illuminate\Routing\Router -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Routing/Router.php 753 dispatchToRoute Illuminate\Routing\Router -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php 200 dispatch Illuminate\Routing\Router -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php 180 {closure:Illuminate\Foundation\Http\Kernel::dispatchToRouter():197} Illuminate\Foundation\Http\Kernel -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php 21 {closure:Illuminate\Pipeline\Pipeline::prepareDestination():178} Illuminate\Pipeline\Pipeline -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php 31 handle Illuminate\Foundation\Http\Middleware\TransformsRequest -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php 219 handle Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php 21 {closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195} Illuminate\Pipeline\Pipeline -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php 51 handle Illuminate\Foundation\Http\Middleware\TransformsRequest -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php 219 handle Illuminate\Foundation\Http\Middleware\TrimStrings -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePostSize.php 27 {closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195} Illuminate\Pipeline\Pipeline -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php 219 handle Illuminate\Http\Middleware\ValidatePostSize -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php 109 {closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195} Illuminate\Pipeline\Pipeline -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php 219 handle Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php 61 {closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195} Illuminate\Pipeline\Pipeline -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php 219 handle Illuminate\Http\Middleware\HandleCors -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php 58 {closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195} Illuminate\Pipeline\Pipeline -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php 219 handle Illuminate\Http\Middleware\TrustProxies -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks.php 22 {closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195} Illuminate\Pipeline\Pipeline -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php 219 handle Illuminate\Foundation\Http\Middleware\InvokeDeferredCallbacks -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePathEncoding.php 26 {closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195} Illuminate\Pipeline\Pipeline -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php 219 handle Illuminate\Http\Middleware\ValidatePathEncoding -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php 137 {closure:{closure:Illuminate\Pipeline\Pipeline::carry():194}:195} Illuminate\Pipeline\Pipeline -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php 175 then Illuminate\Pipeline\Pipeline -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php 144 sendRequestThroughRouter Illuminate\Foundation\Http\Kernel -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Application.php 1220 handle Illuminate\Foundation\Http\Kernel -> /Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/public/index.php 20 handleRequest Illuminate\Foundation\Application -> 404 Not Found error Not Found {
+    "message": "The route admin/%7B%7B%20route('dashboard.admin.sellers.ajax')%20%7D%7D could not be found.",
+    "exception": "Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException",
+    "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Routing/AbstractRouteCollection.php",
+    "line": 44,
+    "trace": [
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Routing/RouteCollection.php",
+            "line": 184,
+            "function": "handleMatchedRoute",
+            "class": "Illuminate\\Routing\\AbstractRouteCollection",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
+            "line": 777,
+            "function": "match",
+            "class": "Illuminate\\Routing\\RouteCollection",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
+            "line": 764,
+            "function": "findRoute",
+            "class": "Illuminate\\Routing\\Router",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
+            "line": 753,
+            "function": "dispatchToRoute",
+            "class": "Illuminate\\Routing\\Router",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php",
+            "line": 200,
+            "function": "dispatch",
+            "class": "Illuminate\\Routing\\Router",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+            "line": 180,
+            "function": "{closure:Illuminate\\Foundation\\Http\\Kernel::dispatchToRouter():197}",
+            "class": "Illuminate\\Foundation\\Http\\Kernel",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php",
+            "line": 21,
+            "function": "{closure:Illuminate\\Pipeline\\Pipeline::prepareDestination():178}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php",
+            "line": 31,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+            "line": 219,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php",
+            "line": 21,
+            "function": "{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():194}:195}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php",
+            "line": 51,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+            "line": 219,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Middleware\\TrimStrings",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePostSize.php",
+            "line": 27,
+            "function": "{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():194}:195}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+            "line": 219,
+            "function": "handle",
+            "class": "Illuminate\\Http\\Middleware\\ValidatePostSize",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php",
+            "line": 109,
+            "function": "{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():194}:195}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+            "line": 219,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php",
+            "line": 61,
+            "function": "{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():194}:195}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+            "line": 219,
+            "function": "handle",
+            "class": "Illuminate\\Http\\Middleware\\HandleCors",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php",
+            "line": 58,
+            "function": "{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():194}:195}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+            "line": 219,
+            "function": "handle",
+            "class": "Illuminate\\Http\\Middleware\\TrustProxies",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks.php",
+            "line": 22,
+            "function": "{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():194}:195}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+            "line": 219,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Middleware\\InvokeDeferredCallbacks",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePathEncoding.php",
+            "line": 26,
+            "function": "{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():194}:195}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+            "line": 219,
+            "function": "handle",
+            "class": "Illuminate\\Http\\Middleware\\ValidatePathEncoding",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+            "line": 137,
+            "function": "{closure:{closure:Illuminate\\Pipeline\\Pipeline::carry():194}:195}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php",
+            "line": 175,
+            "function": "then",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php",
+            "line": 144,
+            "function": "sendRequestThroughRouter",
+            "class": "Illuminate\\Foundation\\Http\\Kernel",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/vendor/laravel/framework/src/Illuminate/Foundation/Application.php",
+            "line": 1220,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Kernel",
+            "type": "->"
+        },
+        {
+            "file": "/Users/artemnegladenko/Projects/Web/BrauniartShopL1.nosync/public/index.php",
+            "line": 20,
+            "function": "handleRequest",
+            "class": "Illuminate\\Foundation\\Application",
+            "type": "->"
+        }
+    ]
+} {"url":"https://id.brauniart.shop/admin/sellers","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T20:38:15.071Z"} 
+[2026-06-30 23:41:27] development.DEBUG: [vite] server connection lost. Polling for restart... {"url":"https://brauniart.shop/","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T20:41:27.790Z"} 
+[2026-06-30 23:41:27] development.DEBUG: [vite] server connection lost. Polling for restart... {"url":"https://id.brauniart.shop/admin/sellers","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T20:41:27.790Z"} 
+[2026-06-30 23:41:28] development.DEBUG: [vite] server connection lost. Polling for restart... {"url":"https://brauniart.shop/","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T20:41:27.790Z"} 
+[2026-06-30 23:41:28] development.DEBUG: [vite] server connection lost. Polling for restart... {"url":"https://id.brauniart.shop/admin/sellers","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T20:41:27.790Z"} 
+[2026-06-30 23:56:18] development.WARNING: jQuery.Deferred exception: Cannot read properties of undefined (reading 'sClass') TypeError: Cannot read properties of undefined (reading 'sClass')
+    at _fnColumnOptions (http://[::1]:5173/node_modules/.vite/deps/chunk-NUUN23WB.js?v=0003e8c3:1398:26)
+    at _fnDetectHeader (http://[::1]:5173/node_modules/.vite/deps/chunk-NUUN23WB.js?v=0003e8c3:2417:13)
+    at _fnBuildHead (http://[::1]:5173/node_modules/.vite/deps/chunk-NUUN23WB.js?v=0003e8c3:1987:18)
+    at _fnInitialise (http://[::1]:5173/node_modules/.vite/deps/chunk-NUUN23WB.js?v=0003e8c3:2846:3)
+    at HTMLTableElement.<anonymous> (http://[::1]:5173/node_modules/.vite/deps/chunk-NUUN23WB.js?v=0003e8c3:292:7)
+    at jQuery.each (http://[::1]:5173/node_modules/.vite/deps/chunk-BPTN4AMZ.js?v=0003e8c3:218:28)
+    at jQuery.fn.init.each (http://[::1]:5173/node_modules/.vite/deps/chunk-BPTN4AMZ.js?v=0003e8c3:100:25)
+    at jQuery.fn.init.DataTable [as dataTable] (http://[::1]:5173/node_modules/.vite/deps/chunk-NUUN23WB.js?v=0003e8c3:29:8)
+    at $.fn.DataTable (http://[::1]:5173/node_modules/.vite/deps/chunk-NUUN23WB.js?v=0003e8c3:8551:18)
+    at HTMLDocument.<anonymous> (http://[::1]:5173/resources/js/dashboard/scripts/admin/sellers.js:5:40) null {"url":"https://id.brauniart.shop/admin/sellers","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T20:56:17.437Z"} 
+[2026-06-30 23:56:18] development.ERROR: Uncaught TypeError: Cannot read properties of undefined (reading 'sClass') http://[::1]:5173/node_modules/.vite/deps/chunk-BPTN4AMZ.js?v=0003e8c3 2180 11 TypeError Cannot read properties of undefined (reading 'sClass') TypeError: Cannot read properties of undefined (reading 'sClass')
+    at _fnColumnOptions (http://[::1]:5173/node_modules/.vite/deps/chunk-NUUN23WB.js?v=0003e8c3:1398:26)
+    at _fnDetectHeader (http://[::1]:5173/node_modules/.vite/deps/chunk-NUUN23WB.js?v=0003e8c3:2417:13)
+    at _fnBuildHead (http://[::1]:5173/node_modules/.vite/deps/chunk-NUUN23WB.js?v=0003e8c3:1987:18)
+    at _fnInitialise (http://[::1]:5173/node_modules/.vite/deps/chunk-NUUN23WB.js?v=0003e8c3:2846:3)
+    at HTMLTableElement.<anonymous> (http://[::1]:5173/node_modules/.vite/deps/chunk-NUUN23WB.js?v=0003e8c3:292:7)
+    at jQuery.each (http://[::1]:5173/node_modules/.vite/deps/chunk-BPTN4AMZ.js?v=0003e8c3:218:28)
+    at jQuery.fn.init.each (http://[::1]:5173/node_modules/.vite/deps/chunk-BPTN4AMZ.js?v=0003e8c3:100:25)
+    at jQuery.fn.init.DataTable [as dataTable] (http://[::1]:5173/node_modules/.vite/deps/chunk-NUUN23WB.js?v=0003e8c3:29:8)
+    at $.fn.DataTable (http://[::1]:5173/node_modules/.vite/deps/chunk-NUUN23WB.js?v=0003e8c3:8551:18)
+    at HTMLDocument.<anonymous> (http://[::1]:5173/resources/js/dashboard/scripts/admin/sellers.js:5:40) {"url":"https://id.brauniart.shop/admin/sellers","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T20:56:17.439Z"} 
+[2026-06-30 23:56:18] development.ERROR: Uncaught TypeError: Cannot read properties of undefined (reading 'sClass') http://[::1]:5173/node_modules/.vite/deps/chunk-BPTN4AMZ.js?v=0003e8c3 2180 11 TypeError Cannot read properties of undefined (reading 'sClass') TypeError: Cannot read properties of undefined (reading 'sClass')
+    at _fnColumnOptions (http://[::1]:5173/node_modules/.vite/deps/chunk-NUUN23WB.js?v=0003e8c3:1398:26)
+    at _fnDetectHeader (http://[::1]:5173/node_modules/.vite/deps/chunk-NUUN23WB.js?v=0003e8c3:2417:13)
+    at _fnBuildHead (http://[::1]:5173/node_modules/.vite/deps/chunk-NUUN23WB.js?v=0003e8c3:1987:18)
+    at _fnInitialise (http://[::1]:5173/node_modules/.vite/deps/chunk-NUUN23WB.js?v=0003e8c3:2846:3)
+    at HTMLTableElement.<anonymous> (http://[::1]:5173/node_modules/.vite/deps/chunk-NUUN23WB.js?v=0003e8c3:292:7)
+    at jQuery.each (http://[::1]:5173/node_modules/.vite/deps/chunk-BPTN4AMZ.js?v=0003e8c3:218:28)
+    at jQuery.fn.init.each (http://[::1]:5173/node_modules/.vite/deps/chunk-BPTN4AMZ.js?v=0003e8c3:100:25)
+    at jQuery.fn.init.DataTable [as dataTable] (http://[::1]:5173/node_modules/.vite/deps/chunk-NUUN23WB.js?v=0003e8c3:29:8)
+    at $.fn.DataTable (http://[::1]:5173/node_modules/.vite/deps/chunk-NUUN23WB.js?v=0003e8c3:8551:18)
+    at HTMLDocument.<anonymous> (http://[::1]:5173/resources/js/dashboard/scripts/admin/sellers.js:5:40) {"url":"https://id.brauniart.shop/admin/sellers","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T20:56:17.439Z"} 
+[2026-07-01 00:03:25] development.DEBUG: [vite] server connection lost. Polling for restart... {"url":"https://id.brauniart.shop/admin/sellers","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T21:03:25.649Z"} 
+[2026-07-01 00:03:25] development.DEBUG: [vite] server connection lost. Polling for restart... {"url":"https://brauniart.shop/","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T21:03:25.650Z"} 
+[2026-07-01 00:03:25] development.DEBUG: [vite] server connection lost. Polling for restart... {"url":"https://id.brauniart.shop/admin/sellers","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T21:03:25.649Z"} 
+[2026-07-01 00:03:25] development.DEBUG: [vite] server connection lost. Polling for restart... {"url":"https://brauniart.shop/","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T21:03:25.650Z"} 
+[2026-07-01 00:18:54] development.WARNING: Не удалось определить contract_id для обновления {"url":"https://id.brauniart.shop/admin/sellers","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T21:18:54.784Z"} 
+[2026-07-01 00:20:57] development.DEBUG: — {"url":"https://id.brauniart.shop/admin/sellers","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T21:20:57.134Z"} 
+[2026-07-01 00:20:57] development.WARNING: Не удалось определить contract_id для обновления {"url":"https://id.brauniart.shop/admin/sellers","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T21:20:57.134Z"} 
+[2026-07-01 00:23:11] development.DEBUG: — {"url":"https://id.brauniart.shop/admin/sellers","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T21:23:11.700Z"} 
+[2026-07-01 00:23:11] development.WARNING: Не удалось определить contract_id для обновления {"url":"https://id.brauniart.shop/admin/sellers","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T21:23:11.700Z"} 
+[2026-07-01 00:23:39] development.DEBUG:   1 {"url":"https://id.brauniart.shop/admin/sellers","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T21:23:39.617Z"} 
+[2026-07-01 00:23:39] development.DEBUG: — {"url":"https://id.brauniart.shop/admin/sellers","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T21:23:39.618Z"} 
+[2026-07-01 00:23:39] development.WARNING: Не удалось определить contract_id для обновления {"url":"https://id.brauniart.shop/admin/sellers","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T21:23:39.618Z"} 
+[2026-07-01 00:27:27] development.DEBUG: Статус обновлён: true Статус успешно обновлён 4 0 {"url":"https://id.brauniart.shop/admin/sellers","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T21:27:26.945Z"} 
+[2026-07-01 00:27:36] development.DEBUG: Статус обновлён: true Статус успешно обновлён 4 1 {"url":"https://id.brauniart.shop/admin/sellers","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T21:27:36.720Z"} 
+[2026-07-01 00:41:32] development.DEBUG: Статус обновлён: true Статус успешно обновлён 4 0 1 {"url":"https://id.brauniart.shop/admin/sellers","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T21:41:32.471Z"} 
+[2026-07-01 00:41:39] development.DEBUG: Статус обновлён: true Статус успешно обновлён 4 0 0 {"url":"https://id.brauniart.shop/admin/sellers","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T21:41:39.600Z"} 
+[2026-07-01 00:41:47] development.DEBUG: Статус обновлён: true Статус успешно обновлён 4 0 1 {"url":"https://id.brauniart.shop/admin/sellers","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T21:41:47.223Z"} 
+[2026-07-01 00:41:53] development.DEBUG: Статус обновлён: true Статус успешно обновлён 4 1 1 {"url":"https://id.brauniart.shop/admin/sellers","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T21:41:53.636Z"} 
+[2026-07-01 00:51:10] development.DEBUG: [vite] server connection lost. Polling for restart... {"url":"https://brauniart.shop/","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T21:51:10.696Z"} 
+[2026-07-01 00:51:10] development.DEBUG: [vite] server connection lost. Polling for restart... {"url":"https://id.brauniart.shop/","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T21:51:10.696Z"} 
+[2026-07-01 00:51:10] development.DEBUG: [vite] server connection lost. Polling for restart... {"url":"https://brauniart.shop/","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T21:51:10.695Z"} 
+[2026-07-01 00:51:10] development.DEBUG: [vite] server connection lost. Polling for restart... {"url":"https://id.brauniart.shop/","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T21:51:10.696Z"} 
+[2026-07-01 00:51:10] development.DEBUG: [vite] server connection lost. Polling for restart... {"url":"https://brauniart.shop/","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T21:51:10.696Z"} 
+[2026-07-01 00:51:10] development.DEBUG: [vite] server connection lost. Polling for restart... {"url":"https://brauniart.shop/","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T21:51:10.695Z"} 
+[2026-07-01 01:05:07] development.DEBUG: [vite] server connection lost. Polling for restart... {"url":"https://brauniart.shop/","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T22:05:07.537Z"} 
+[2026-07-01 01:05:07] development.DEBUG: [vite] server connection lost. Polling for restart... {"url":"https://brauniart.shop/","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T22:05:07.537Z"} 
+[2026-07-01 01:05:08] development.DEBUG: [vite] server connection lost. Polling for restart... {"url":"https://id.brauniart.shop/","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T22:05:07.537Z"} 
+[2026-07-01 01:05:08] development.DEBUG: [vite] server connection lost. Polling for restart... {"url":"https://brauniart.shop/","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T22:05:07.537Z"} 
+[2026-07-01 01:05:08] development.DEBUG: [vite] server connection lost. Polling for restart... {"url":"https://brauniart.shop/","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T22:05:07.537Z"} 
+[2026-07-01 01:18:56] development.DEBUG: [vite] server connection lost. Polling for restart... {"url":"https://brauniart.shop/","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T22:18:56.144Z"} 
+[2026-07-01 01:18:57] development.DEBUG: [vite] server connection lost. Polling for restart... {"url":"https://brauniart.shop/","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T22:18:56.144Z"} 
+[2026-07-01 01:18:57] development.DEBUG: [vite] server connection lost. Polling for restart... {"url":"https://brauniart.shop/","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T22:18:56.144Z"} 
+[2026-07-01 01:19:09] development.DEBUG: [vite] server connection lost. Polling for restart... {"url":"https://brauniart.shop/","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T22:19:08.986Z"} 
+[2026-07-01 01:26:33] development.DEBUG: [vite] server connection lost. Polling for restart... {"url":"https://brauniart.shop/","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T22:26:33.555Z"} 
+[2026-07-01 01:26:34] development.DEBUG: [vite] server connection lost. Polling for restart... {"url":"https://brauniart.shop/","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T22:26:33.555Z"} 
+[2026-07-01 01:26:34] development.DEBUG: [vite] server connection lost. Polling for restart... {"url":"https://brauniart.shop/","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T22:26:33.555Z"} 
+[2026-07-01 01:26:46] development.DEBUG: [vite] server connection lost. Polling for restart... {"url":"https://brauniart.shop/","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 YaBrowser/26.4.0.0 Safari/537.36","timestamp":"2026-06-30T22:26:46.101Z"} 

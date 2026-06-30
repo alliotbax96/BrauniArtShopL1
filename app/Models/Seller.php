@@ -68,7 +68,7 @@ class Seller extends Model
 
     public function contacts()
     {
-        return $this->HasMany(SellerContract::class, 'seller_id', 'id');
+        return $this->hasMany(SellerContract::class, 'seller_id', 'id');
     }
 
     /**
@@ -109,5 +109,26 @@ class Seller extends Model
     {
         $status = $this->getSalesStatus();
         return in_array($status, ['company', 'self_employed']);
+    }
+
+    public function notifyRelatedUsers(
+        string $subject,
+        string $greeting,
+        string $line,
+        ?string $actionUrl = null,
+        ?string $actionText = null
+    ): void {
+        $this->users()
+            ->where('email', '!=', null)
+            ->each(function (User $user) use ($subject, $greeting, $line, $actionUrl, $actionText) {
+                $user->notify(new \App\Notifications\SellerNotification(
+                    $this,
+                    $subject,
+                    $greeting,
+                    $line,
+                    $actionUrl,
+                    $actionText,
+                ));
+            });
     }
 }

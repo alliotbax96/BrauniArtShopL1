@@ -70,6 +70,9 @@ class HomeController extends BaseController
             case 4:
                 $products = $this->indexQuests($validPerPage);
             break;
+            case 8:
+                $products = $this->indexBooks($validPerPage);
+            break;
         }
         return view('elements.ajaxHome', ['products' => compact('products')]);
     }

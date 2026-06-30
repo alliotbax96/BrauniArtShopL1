@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard\Products;
 use App\Http\Controllers\Dashboard\BaseController;
 use App\Models\Product;
 use App\Models\ProductGroup;
+use App\Models\Seller;
 use App\Services\ProductService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -122,25 +123,27 @@ class ProductsController extends BaseController
                         : '';
 
                     $nameHtml = '
-                    <div class="hstack gap-4">
-                <div class="avatar-image border-0">' . $imageHtml . '</div>
-                <div>
-                    <a href="/seller/products/' . $product->id . '" class="text-truncate-2-line">' .
-                        htmlspecialchars($product->getProductName() ?? 'Не указано') . '</a>' .
-                        $warningHtml . '
-                        <div class="project-list-action fs-12 d-flex align-items-center gap-3 mt-2">
-                <a href="/seller/products/' . $product->id . '">Изменить</a>
-                <span class="vr text-muted"></span>
-                <a href="javascript:void(0);" class="text-danger delete_product" data-id="' . $product->id . '">Удалить</a>
-            </div>
-        </div>
-    </div>';
+                                  <div class="hstack gap-4">
+                                   <div class="avatar-image border-0">' . $imageHtml . '</div>
+                                  <div>
+                                  <a href="/seller/products/' . $product->id . '" class="text-truncate-2-line">' .
+                                      htmlspecialchars($product->getProductName() ?? 'Не указано') . '</a>' .
+                                      $warningHtml . '
+                                      <div class="project-list-action fs-12 d-flex align-items-center gap-3 mt-2">
+                                  <a href="/seller/products/' . $product->id . '">Изменить</a>
+                                  <span class="vr text-muted"></span>
+                                  <a href="javascript:void(0);" class="text-danger delete_product" data-id="' . $product->id . '">
+                                  Удалить
+                                  </a>
+                                  </div>
+                                  </div>
+                                  </div>';
 
                     $formattedProducts[] = [
                         'id' => $product->id,
                         'name' => $nameHtml,
                         'article' => htmlspecialchars($product->productCode ?? ''),
-                        'category' => htmlspecialchars(($product->getProductGroup()[0]->getName() ?? 'Не указана')),
+                        'category' => htmlspecialchars(($product->getProductGroup()[0]->name ?? 'Не указана')),
                         'price' => ($product->getProductPrice() ?? 0) . ' руб.',
                     ];
                 } catch (\Exception $e) {
@@ -202,16 +205,22 @@ class ProductsController extends BaseController
             abort(404, 'Товар не найден');
         }
 
-        $productGroups = ProductGroup::NoRootGroups()->get();
-        return view('dashboard.index', ['View' => 'dashboard.products.show', 'title'=> $product->getProductName().' | Единая система BaID', 'PageName'=>'Управление товарами', 'InPageName'=>$product->getProductName(), 'product' => $product, 'productGroups' => $productGroups]);
+        $productGroups = ProductGroup::where('parent_id', null)->get();
+        if(Auth::user()->isAdmin()) {
+            $sellers = Seller::all();
+        }
+        return view('dashboard.index', ['View' => 'dashboard.products.show', 'sellers'=>$sellers ? $sellers : '', 'title'=> $product->getProductName().' | Единая система BaID', 'PageName'=>'Управление товарами', 'InPageName'=>$product->getProductName(), 'product' => $product, 'productGroups' => $productGroups]);
     }
     public function create(){
         if(!Auth::user()->groupInfo()->hasPermission('create_products')) {
             abort(403, 'У вас нет прав для просмотра данного раздела!');
         }
         $this->shareCommonData();
-        $productGroups = ProductGroup::NoRootGroups()->get();
-        return view('dashboard.index', ['View' => 'dashboard.products.create', 'title'=> 'Создание товара | Единая система BaID', 'PageName'=>'Управление товарами', 'InPageName'=>'Создание товара', 'productGroups' => $productGroups]);
+        $productGroups = ProductGroup::where('parent_id', null)->get();
+        if(Auth::user()->isAdmin()) {
+          $sellers = Seller::all();
+        }
+        return view('dashboard.index', ['View' => 'dashboard.products.create', 'sellers'=>$sellers ? $sellers : '', 'title'=> 'Создание товара | Единая система BaID', 'PageName'=>'Управление товарами', 'InPageName'=>'Создание товара', 'productGroups' => $productGroups]);
     }
     public function store(Request $request)
     {

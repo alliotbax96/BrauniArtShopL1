@@ -13,7 +13,19 @@
                                 </div>
                                 <fieldset>
                                     <input type="hidden" name="product_id" value="{{$product->getProductId()}}">
-                                    <input type="hidden" name="productSeller" value="{{$product->getProductSellerId()}}">
+                                    @if($currentUser->isAdmin())
+                                        <div class="mb-4">
+                                            <label for="productSeller" class="form-label">Продавец <span
+                                                    class="text-danger">*</span></label>
+                                            <select id="productSeller" class="form-select" name="productSeller" required>
+                                                @foreach($sellers as $item)
+                                                    <option value="{{$item->id}}" {{$item->id == $product->seller_id ? 'selected' : ''}}>{{$item->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    @else
+                                        <input type="hidden" name="productSeller" value="{{$currentUser->getSellerId()}}">
+                                    @endif
                                     <div class="mb-4">
                                         <label for="ProductName" class="form-label">Наименование<span
                                                 class="text-danger">*</span></label>

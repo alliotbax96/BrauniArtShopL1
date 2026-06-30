@@ -2,14 +2,6 @@
 <div class="main-content">
     <div class="row">
         <!-- [Invoices Awaiting Payment] start -->
-        <div class="col-xxl-12">
-            <div class="card no-border">
-                <button class="btn btn-primary" onclick='window.location.href="https://t.me/BrauniArtShop_bot";'>
-                    <i class="feather-send"></i>
-                    Подключить уведомления в телеграм
-                </button>
-            </div>
-        </div>
         <div class="col-xxl-12 col-md-6">
             <div class="card stretch stretch-full">
                 <div class="card-body">
@@ -23,11 +15,9 @@
                                 <h3 class="fs-13 fw-semibold text-truncate-1-line">Что нового:</h3>
                                 <ul>
                                     <li>
-                                        <strong>
-                                            Исправления:
-                                        </strong>
                                         <ul>
-                                          <li>Вновь открыта регистрация внутри системы ID без перехода на страничку магазина.</li>
+                                            <li>Открыт раздел Самиздат: Книги. (Пока можно только создать ассортимент)</li>
+                                            <li>Обновлена панель администратора</li>
                                         </ul>
                                     </li>
                                 </ul>
@@ -38,7 +28,7 @@
             </div>
         </div>
         <!-- [Invoices Awaiting Payment] end -->
-{{--        <hr class="border-top-dashed mt-4 mb-5 mx-3">--}}
+        {{--        <hr class="border-top-dashed mt-4 mb-5 mx-3">--}}
         <!-- [Mini Card] start -->
         <div class="col-xxl-3">
             <div class="card no-border">
@@ -73,7 +63,7 @@
             </div>
         </div>
         <!-- [Mini Card] end -->
-{{--        <hr class="border-top-dashed mt-4 mb-5 mx-3">--}}
+        {{--        <hr class="border-top-dashed mt-4 mb-5 mx-3">--}}
     </div>
 </div>
 <!-- [ Main Content ] end -->

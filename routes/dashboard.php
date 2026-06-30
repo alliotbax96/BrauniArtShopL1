@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Dashboard\Admin\ProductGroupController;
+use App\Http\Controllers\Dashboard\Admin\SellersController;
 use App\Http\Controllers\Dashboard\Books\BookController;
 use App\Http\Controllers\Dashboard\Digital\DigitalProductsController;
 use App\Http\Controllers\Dashboard\Quest\QuestController;
@@ -158,9 +159,45 @@ Route::domain('id.brauniart.shop')->group(function () {
         Route::prefix('admin')->name('admin.')->group(function () {
 
         });
-        Route::prefix('tests')->name('tests.')->group(function () {
 
+        Route::prefix('tests')->name('tests.')->group(function () {
+            Route::get('/Send', function () {
+                $sellerId = 2411;
+                $seller = \App\Models\Seller::findOrFail($sellerId);
+
+                // Получаем связанных пользователей (сразу с email, чтобы не делать N+1 в цикле)
+                $users = $seller->users()->whereNotNull('email')->get();
+                $count = $users->count();
+
+                if ($count === 0) {
+                    return response()->json([
+                        'status'  => 'warning',
+                        'message' => 'У продавца нет связанных пользователей с email',
+                        'seller'  => $seller->name,
+                        'count'   => 0,
+                    ], 200);
+                }
+
+                // Отправляем уведомления
+                $seller->notifyRelatedUsers(
+                    subject: 'Статус продавца изменён',
+                    greeting: 'Здравствуйте, ' . $seller->name . '!',
+                    line: 'Статус вашего продавца был одобрен. Теперь вы можете размещать товары.',
+                    actionUrl: 'https://id.brauniart.shop',
+                    actionText: 'Перейти в кабинет продавца',
+                );
+
+                return response()->json([
+                    'status'      => 'success',
+                    'message'     => 'Уведомления поставлены в очередь',
+                    'seller'      => $seller->name,
+                    'users_count' => $count,
+                    'users'       => $users->pluck('name', 'email')->toArray(), // только имена и email для отладки
+                ], 200);
+            })->name('Send');
         });
+
+
         Route::get('/logout', [LoginController::class, 'logout']);
     });
     Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -179,6 +216,12 @@ Route::domain('id.brauniart.shop')->group(function () {
             Route::get('/{id}', [ProductGroupController::class, 'edit'])->name('edit');
             Route::put('/{id}', [ProductGroupController::class, 'update'])->name('update');
             Route::delete('/{id}', [ProductGroupController::class, 'destroy'])->name('destroy');
+        });
+        Route::prefix('sellers')->name('sellers.')->group(function () {
+            Route::get('/', [SellersController::class, 'index'])->name('index');
+            Route::get('/ajax', [SellersController::class, 'ajax'])->name('ajax');
+            Route::post('/contracts/{contract_id}/status', [SellersController::class, 'updateContractStatus'])
+                ->name('contracts.status.update');
         });
     });
 });

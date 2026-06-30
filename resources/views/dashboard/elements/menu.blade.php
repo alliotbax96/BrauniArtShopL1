@@ -51,7 +51,7 @@
                         Ассортимент
                         @if($currentUser->isAdmin())
                                 <span class="badge bg-soft-success text-success ms-1">ADMIN</span>
-                            @endif
+                        @endif
                     </span>
                         <span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
                     </a>
@@ -162,12 +162,21 @@
         @endif
         @if($currentUser->isAdmin())
             <li class="nxl-item nxl-caption">
-                <label>Администрирование</label>
+                <label>
+                    Администрирование
+                    <span class="badge bg-soft-success text-success ms-1">ADMIN</span>
+                </label>
             </li>
             <li class="nxl-item">
                 <a href="{{route('admin.productGroups.index')}}" class="nxl-link">
                     <span class="nxl-micon"><i class="feather-grid"></i></span>
                     <span class="nxl-mtext">Категории</span>
+                </a>
+            </li>
+            <li class="nxl-item">
+                <a href="{{route('admin.sellers.index')}}" class="nxl-link">
+                    <span class="nxl-micon"><i class="feather-briefcase"></i></span>
+                    <span class="nxl-mtext">Продавцы</span>
                 </a>
             </li>
             <li class="nxl-item">
