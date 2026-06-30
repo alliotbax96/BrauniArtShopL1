@@ -64,7 +64,6 @@ function initSuggestions() {
         onSelect: handleBankSelect
     });
 }
-
 // Обработчики выбора подсказок
 function handleAddressSelect(suggestion) {
     $("input[name='city']").val(suggestion.data.city).addClass('is-valid');
@@ -512,3 +511,5 @@ function showError(message) {
         alert(message);
     }
 }
+
+import './SelfEmployed.js';

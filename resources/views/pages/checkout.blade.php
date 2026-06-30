@@ -43,37 +43,55 @@
                                 </tr>
                                 </thead>
                                 <tbody>
+                                @php
+                                    switch ($CartShopMode->id) {
+                                        case '8':
+                                            $route = 'books.show';
+                                        break;
+                                        default:
+                                            $route = 'products.show';
+                                        break;
+                                    }
+                                @endphp
                                 @foreach($cartItems as $key => $item)
-                                    <tr data-item-id="{{ $item->id }}">
-                                        <input form="checkout" type="hidden" name="selected_items[]"
-                                               value="{{ $item->id }}">
-                                        <td>
-                                            <a href="{{ route('products.show', $item->getProduct()->id) }}">
-                                                <img
-                                                    src="https://s3.ru1.storage.beget.cloud/d5833d93d74c-brauniartfiles/{{ $item->getProduct()->getMainImage() }}"
-                                                    alt="{{ $item->getProduct()->getProductName() }}"
-                                                    style="object-fit: contain; height: 129px; width: 103px;">
-                                            </a>
-                                        </td>
-                                        <td class="product-name">
-                                            <h4>
-                                                <a href="{{ route('products.show', $item->getProduct()->id) }}">
-                                                    {{ $item->getProduct()->getProductName() }}
+                                    @if($item->product_type == $CartShopMode->Model)
+                                        <tr data-item-id="{{ $item->id }}">
+                                            <input form="checkout" type="hidden" name="selected_items[]"
+                                                   value="{{ $item->id }}">
+                                            <td>
+                                                <a href="{{ route($route, $item->getProduct()->id) }}">
+                                                    <img
+                                                        src="{{$item->product_type == 'App\Models\Product' ? 'https://s3.ru1.storage.beget.cloud/d5833d93d74c-brauniartfiles/' : ''}}{{ $item->getProduct()->getMainImage() }}"
+                                                        alt="{{ $item->getProduct()->getProductName() }}"
+                                                        style="object-fit: contain; height: 129px; width: 103px;">
                                                 </a>
-                                            </h4>
-                                        </td>
-                                        <td class="product-price">
+                                            </td>
+                                            <td class="product-name">
+                                                <h4>
+                                                    <a href="{{ route('products.show', $item->getProduct()->id) }}">
+                                                        {{ $item->getProduct()->getProductName() }}
+                                                    </a>
+                                                </h4>
+                                            </td>
+                                            <td class="product-price">
                                           <span id="price{{ $item->id }}">
                                             {{ number_format($item->getProduct()->getProductPrice(), 2, ',', ' ') }}
                                           </span> руб.
-                                        </td>
-                                        <td class="product-quantity">{{ $item->quantity }} шт</td>
-                                        <td class="product-subtotal">
+                                            </td>
+                                            <td class="product-quantity">
+                                                @if($item->product_type == 'App\Models\Product')
+                                                    {{ $item->quantity }} шт
+                                                @else
+                                                    <span>Цифровой товар</span>
+                                                @endif
+                                            </td>
+                                            <td class="product-subtotal">
                                          <span id="sum{{ $item->id }}">
                                            {{ number_format($item->getProduct()->getProductPrice() * $item->quantity, 2, ',', ' ') }}
                                          </span> руб.
-                                        </td>
-                                    </tr>
+                                            </td>
+                                        </tr>
+                                    @endif
                                 @endforeach
                                 </tbody>
                             </table>
@@ -110,7 +128,9 @@
 
                                     <ul class="checkout-summary">
                                         <li><span>Товары</span> {{$subtotal}} руб.</li>
-                                        <li><span>Доставка</span> {{$deliveryCost}} руб.</li>
+                                        @if($CartShopMode->id == 1)
+                                            <li><span>Доставка</span> {{$deliveryCost}} руб.</li>
+                                        @endif
                                         <li class="cart-total-amount">
                                             <span>Итого:</span>
                                             <span class="amount">{{$totalAmount}} руб.</span>
@@ -122,8 +142,10 @@
                                         <div class="bank-transfer">
                                             <div class="form-check">
                                                 <input type="radio" name="pay_type" class="form-check-input"
-                                                       id="customCheck3" value="invoice" required {{$legalDetailCheck ? '' : 'disabled'}}>
-                                                <label class="form-check-label" for="customCheck3">Оплата по счёту</label>
+                                                       id="customCheck3" value="invoice"
+                                                       required {{$legalDetailCheck ? '' : 'disabled'}}>
+                                                <label class="form-check-label" for="customCheck3">Оплата по
+                                                    счёту</label>
                                                 <p class="text-muted small">Доступно только для ИП и Юридических лиц</p>
                                             </div>
                                         </div>
@@ -138,25 +160,26 @@
                                                 <div class="bankcard-selection mt-3">
 
                                                     @if(count($Cards)>0)
-                                                    @foreach($Cards as $k => $card)
-                                                         @if($card['Status'] == 'A')
-                                                        <div class="bankcard-option user-card mb-2">
-                                                            <input type="radio" name="payment-card" id="card-{{$k+1}}"
-                                                                   data-pan="{{strtok($card['Pan'], '*')}}"
-                                                                   value="{{$card['CardId']}}">
-                                                            <label for="card-{{$k+1}}" class="bankcard-label">
-                                                                <div class="bankcard-logo">
-                                                                    <img src="#" alt="">
+                                                        @foreach($Cards as $k => $card)
+                                                            @if($card['Status'] == 'A')
+                                                                <div class="bankcard-option user-card mb-2">
+                                                                    <input type="radio" name="payment-card"
+                                                                           id="card-{{$k+1}}"
+                                                                           data-pan="{{strtok($card['Pan'], '*')}}"
+                                                                           value="{{$card['CardId']}}">
+                                                                    <label for="card-{{$k+1}}" class="bankcard-label">
+                                                                        <div class="bankcard-logo">
+                                                                            <img src="#" alt="">
+                                                                        </div>
+                                                                        <div
+                                                                            class="bankcard-number">{{ substr($card['Pan'], -4) }}</div>
+                                                                    </label>
                                                                 </div>
-                                                                <div
-                                                                    class="bankcard-number">{{ substr($card['Pan'], -4) }}</div>
-                                                            </label>
-                                                        </div>
-                                                        @endif
-                                                    @endforeach
+                                                            @endif
+                                                        @endforeach
                                                     @else
                                                         @php
-                                                         $k=0;
+                                                            $k=0;
                                                         @endphp
                                                     @endif
 

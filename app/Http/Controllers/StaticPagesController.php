@@ -7,24 +7,24 @@ use App\Models\Warehouse;
 
 class StaticPagesController extends BaseController
 {
- public function aboutUs(){
-     $this->shareCommonData(); // вызываем один раз
+ public function aboutUs(Request $request){
+     $this->shareCommonData($request); // вызываем один раз
      return view('index', ['view'=>'pages.static.aboutus', 'title'=>'О нас | BrauniArt маркетплейс']);
  }
 
- public function contacts(){
-     $this->shareCommonData(); // вызываем один раз
+ public function contacts(Request $request){
+     $this->shareCommonData($request); // вызываем один раз
      $wareHouses = Warehouse::where('is_custom', true)->get();
      return view('index', ['view'=>'pages.static.contacts', 'title'=>'Контакты | BrauniArt маркетплейс', 'wareHouses'=>$wareHouses]);
  }
 
- public function PayAndDelivery(){
-   $this->shareCommonData(); // вызываем один раз
+ public function PayAndDelivery(Request $request){
+   $this->shareCommonData($request); // вызываем один раз
    return view('index', ['view'=>'pages.static.PayAndDelivery', 'title'=>'Оплата и доставка | BrauniArt маркетплейс']);
  }
 
- public function refunds(){
-     $this->shareCommonData(); // вызываем один раз
+ public function refunds(Request $request){
+     $this->shareCommonData($request); // вызываем один раз
      return view('index', ['view'=>'pages.static.refunds', 'title'=>'Политика возвратов | BrauniArt маркетплейс']);
  }
 

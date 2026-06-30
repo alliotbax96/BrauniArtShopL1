@@ -36,6 +36,22 @@
                                     <input name="code" class="code" type="text" id="code">
                                     <span id="get_sms" class="fs-11 text-primary"></span>
                                 </div>
+                                <div class="mb-3">
+                                    <div class="form-check form-check-inline mb-2">
+                                        <input class="form-check-input" type="checkbox" name="sand_ads" id="receiveMial">
+                                        <label class="form-check-label fw-light text-muted small" for="receiveMial">
+                                            Согласится на получение информационных сообщений
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" name="termsCondition" id="termsCondition">
+                                        <label class="form-check-label fw-light text-muted small" for="termsCondition">
+                                            Согласится с <a href="https://brauniart.shop/assets/docs/confidential.pdf"
+                                                 target="_blank"
+                                                 class="link-secondary">условиями</a>
+                                        </label>
+                                    </div>
+                                </div>
                                 <div class="form-grp-btn">
                                     <input type="submit" class="btn" value="Зарегистрироваться">
                                     <a href="{{route('auth.index')}}" class="btn">Войти</a>

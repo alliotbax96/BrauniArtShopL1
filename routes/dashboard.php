@@ -1,8 +1,12 @@
 <?php
 
+use App\Http\Controllers\Dashboard\Admin\ProductGroupController;
+use App\Http\Controllers\Dashboard\Books\BookController;
+use App\Http\Controllers\Dashboard\Digital\DigitalProductsController;
 use App\Http\Controllers\Dashboard\Quest\QuestController;
 use App\Http\Controllers\Dashboard\Settings\SettingsController;
 use App\Http\Controllers\Dashboard\Users\UsersController;
+use App\Http\Controllers\Login\SignupController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Dashboard\HomeController;
 use App\Http\Controllers\Login\LoginController;
@@ -16,17 +20,22 @@ use App\Http\Controllers\Dashboard\Support\ChatController;
 use App\Http\Controllers\Dashboard\Support\MessageController;
 use App\Http\Controllers\Dashboard\Products\ProductQuantityController;
 use App\Http\Controllers\Login\SsoController;
+use App\Http\Controllers\Dashboard\Admin\EnvController;
 
 Route::domain('id.brauniart.shop')->group(function () {
     Route::group(['middleware' => ['guest']], function () {
         Route::get('/sso/auth', [SsoController::class, 'handleSsoAuth'])->name('sso.auth');
         Route::get('login', [LoginController::class, 'dashboardLogin'])->name('login');
+        Route::get('signup', [SignupController::class, 'dashboardSignup'])->name('signup');
+        Route::post('signup', [SignupController::class, 'register'])->name('register');
       Route::prefix('auth')->name('auth.')->group(function () {
           Route::post('/code', [LoginController::class, 'sendCode'])->name('code');
           Route::post('/checkCode', [LoginController::class, 'checkCode'])->name('checkCode');
           Route::post('/login', [LoginController::class, 'login'])->name('login');
           Route::get('/yandex', [LoginController::class, 'redirectToYandex'])->name('yandex');
           Route::get('/yandex/callback', [LoginController::class, 'handleYandexCallback'])->name('yandex.callback');
+          Route::get('/vk', [LoginController::class, 'redirectToVK'])->name('vk');
+          Route::get('/vk/callback', [LoginController::class, 'handleVKCallback'])->name('vk.callback');
       });
 
     });
@@ -34,11 +43,12 @@ Route::domain('id.brauniart.shop')->group(function () {
         Route::get('/', [HomeController::class, 'index'])->name('home');
         Route::prefix('profile')->name('profile.')->group(function () {
             Route::get('/', [ProfileController::class, 'index'])->name('index');
-
             Route::post('/', [ProfileController::class, 'update'])->name('update');
             Route::get('/attach/yandex', [ProfileController::class, 'attachYandex'])->name('attach.yandex');
             Route::get('/attach/yandex/callback', [ProfileController::class, 'handleAttachYandexCallback'])->name('attach.yandex.callback');
-            Route::post('/detach/{service}', [ProfileController::class, 'detachYandex'])->name('detach.yandex');
+            Route::get('/attach/vk', [ProfileController::class, 'attachVK'])->name('attach.vk');
+            Route::get('/attach/vk/callback', [ProfileController::class, 'handleAttachVKCallback'])->name('attach.vk.callback');
+            Route::post('/detach/{service}', [ProfileController::class, 'detachService'])->name('detach.service');
 
             Route::prefix('delivery')->name('delivery.')->group(function () {
                 Route::get('/', [ProfileController::class, 'index'])->name('index');
@@ -53,6 +63,14 @@ Route::domain('id.brauniart.shop')->group(function () {
                 Route::delete('/legal/{id}', [ProfileController::class, 'LegalHandleDelete'])->name('DeleteLegal');
                 Route::get('/AddCard', [ProfileController::class, 'AddPaymentCard'])->name('AddCard');
                 Route::delete('/RemoveCard/{id}', [ProfileController::class, 'DeletePaymentCard'])->name('RemoveCard');
+            });
+
+            Route::prefix('legalDetails')->name('legalDetails.')->group(function () {
+               Route::get('/', [ProfileController::class, 'index'])->name('index');
+            });
+
+            Route::prefix('selfEmployed')->name('selfEmployed.')->group(function () {
+                Route::get('/', [ProfileController::class, 'index'])->name('index');
             });
 
         });
@@ -72,6 +90,29 @@ Route::domain('id.brauniart.shop')->group(function () {
               Route::get('/delete/{id}', [ProductsController::class, 'destroy'])->name('delete');
               Route::get('/{id}', [ProductsController::class, 'show'])->name('show');
               Route::post('/{id}', [ProductsController::class, 'update'])->name('update');
+          });
+          Route::prefix('digital')->name('digital.')->group(function () {
+              Route::get('/', [DigitalProductsController::class, 'index'])->name('index');
+          });
+          Route::prefix('quests')->name('quests.')->group(function () {
+                Route::get('/', [QuestController::class, 'index'])->name('index');
+                Route::get('/ajax', [QuestController::class, 'ajax'])->name('ajax');
+                Route::get('/create', [QuestController::class, 'create'])->name('create');
+                Route::post('/create', [QuestController::class, 'store'])->name('store');
+                Route::get('/{id}', [QuestController::class, 'edit'])->name('edit');
+                Route::post('/{id}', [QuestController::class, 'update'])->name('update');
+            });
+          Route::prefix('books')->name('books.')->group(function () {
+           Route::get('/', [BookController::class, 'index'])->name('index');
+           Route::get('/ajax', [BookController::class, 'ajax'])->name('ajax');
+           Route::get('/{id}', [BookController::class, 'show'])->name('show');
+           Route::post('/', [BookController::class, 'store'])->name('store');
+           Route::put('/{id}', [BookController::class, 'update'])->name('update');
+           Route::get('/{bookId}/chapters', [BookController::class, 'show'])->name('chapters');
+           Route::get('/{bookId}/chapters/{chapterId}', [BookController::class, 'chapterShow'])->name('chapter');
+           Route::post('/{bookId}/chapters', [BookController::class, 'storeChapter']);
+           Route::put('/{bookId}/chapters/{chapterId}', [BookController::class, 'updateChapter']);
+           Route::patch('/{id}/moderation', [BookController::class, 'updateModerationStatus']);
           });
           Route::prefix('files')->name('files.')->group(function () {
               Route::post('/tempImageUpload', [ImageUploadController::class, 'upload'])->name('upload');
@@ -113,14 +154,6 @@ Route::domain('id.brauniart.shop')->group(function () {
               Route::post('/{chat}/read', [MessageController::class, 'markAsRead']);
               Route::post('/{chat}/upload', [MessageController::class, 'upload']);
           });
-          Route::prefix('quests')->name('quests.')->group(function () {
-              Route::get('/', [QuestController::class, 'index'])->name('index');
-              Route::get('/ajax', [QuestController::class, 'ajax'])->name('ajax');
-              Route::get('/create', [QuestController::class, 'create'])->name('create');
-              Route::post('/create', [QuestController::class, 'store'])->name('store');
-              Route::get('/{id}', [QuestController::class, 'edit'])->name('edit');
-              Route::post('/{id}', [QuestController::class, 'update'])->name('update');
-          });
         });
         Route::prefix('admin')->name('admin.')->group(function () {
 
@@ -130,6 +163,22 @@ Route::domain('id.brauniart.shop')->group(function () {
         });
         Route::get('/logout', [LoginController::class, 'logout']);
     });
-
-
+    Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+        Route::prefix('env')->name('env.')->group(function () {
+            Route::get('/', [EnvController::class, 'index'])->name('index');
+            Route::put('/', [EnvController::class, 'update'])->name('update');
+            Route::post('/backup', [EnvController::class, 'createBackup'])->name('backup');
+            Route::post('/restore/{filename}', [EnvController::class, 'restoreBackup'])->name('restore');
+            Route::delete('/backup/{filename}', [EnvController::class, 'deleteBackup'])->name('delete-backup');
+        });
+        Route::prefix('productGroups')->name('productGroups.')->group(function () {
+            Route::get('/', [ProductGroupController::class, 'index'])->name('index');
+            Route::get('/ajax', [ProductGroupController::class, 'ajax'])->name('ajax');
+            Route::get('/create', [ProductGroupController::class, 'create'])->name('create');
+            Route::post('/', [ProductGroupController::class, 'store'])->name('store');
+            Route::get('/{id}', [ProductGroupController::class, 'edit'])->name('edit');
+            Route::put('/{id}', [ProductGroupController::class, 'update'])->name('update');
+            Route::delete('/{id}', [ProductGroupController::class, 'destroy'])->name('destroy');
+        });
+    });
 });

@@ -13,15 +13,15 @@ use Response;
 
 class OrdersController extends BaseController
 {
-    public function index() {
-        $this->shareCommonData();
+    public function index(Request $request) {
+        $this->shareCommonData($request);
         $orders = Order::where('user_id', Auth::id())->orderBy('created_at', 'desc')->get();
         return view('index', ['view'=>'pages.orders.index', 'title'=>'Заказы | Брауни Арт — маркетплейс качественных товаров с доставкой по России', 'orders' => $orders
         ]);
     }
 
-    public function show(int $id) {
-        $this->shareCommonData();
+    public function show(int $id, Request $request) {
+        $this->shareCommonData($request);
         $order = Order::where('id', $id)->first();
         return view('index', ['view'=>'pages.orders.show', 'title' => 'Заказ №'.$id.' | Брауни Арт — маркетплейс качественных товаров с доставкой по России', 'order' => $order]);
     }

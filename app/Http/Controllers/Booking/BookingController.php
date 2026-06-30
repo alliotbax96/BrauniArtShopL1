@@ -12,8 +12,8 @@ use App\Http\Controllers\BaseController;
 
 class BookingController extends BaseController
 {
-    public function index(){
-        $this->shareCommonData();
+    public function index(Request $request){
+        $this->shareCommonData($request);
         $phone = Auth::user()?->phone; // Получаем номер телефона авторизованного пользователя
 
         $bookings = Booking::where('user_id', Auth::id())

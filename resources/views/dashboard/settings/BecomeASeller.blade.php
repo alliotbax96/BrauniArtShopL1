@@ -41,7 +41,8 @@
                                     <div class="input-group">
                                         <input type="text" class="form-control" form="BecomeASeller"
                                                name="StoreName" id="StoreName"
-                                               placeholder="Название кабинета(Магазина)" @if(session()->has('data')) value="{{session('data.StoreName')}}" @endif >
+                                               placeholder="Название кабинета(Магазина)"
+                                               @if(session()->has('data')) value="{{session('data.StoreName')}}" @endif >
                                     </div>
                                 </div>
                             </div>
@@ -53,7 +54,8 @@
                                     <div class="input-group">
                                         <input type="text" class="form-control mask-phone" form="BecomeASeller"
                                                name="companyPhone" id="companyPhone"
-                                               placeholder="Номер телефона" @if(session()->has('data')) value="{{session('data.companyPhone')}}" @endif >
+                                               placeholder="Номер телефона"
+                                               @if(session()->has('data')) value="{{session('data.companyPhone')}}" @endif >
                                     </div>
                                 </div>
                             </div>
@@ -63,14 +65,24 @@
                                 </div>
                                 <div class="col-lg-8">
                                     <div class="input-group">
-                                        <select form="BecomeASeller" name="companyEntityDetails" id="companyEntityDetails" class="form-control">
+                                        <select form="BecomeASeller" name="companyEntityDetails"
+                                                id="companyEntityDetails" class="form-control">
                                             @if(!isset($userLegalEnityDetail))
-                                                <option value="0" disabled selected>Реквизиты не найдены, создайте в настройках пользователя!</option>
+                                                <option value="0" disabled selected>Реквизиты не найдены, создайте в
+                                                    настройках пользователя!
+                                                </option>
                                             @else
                                                 <option value="0" disabled selected>--Выберете реквизиты--</option>
                                                 @foreach($userLegalEnityDetail as $userLegalEnityDetailItem)
-                                                    <option value="{{$userLegalEnityDetailItem->id}}" @if(session()->has('data') && session('data.companyEntityDetails')) selected @endif >{{$userLegalEnityDetailItem->legal_name}}</option>
+                                                    <option value="{{$userLegalEnityDetailItem->id}}"
+                                                            @if(session()->has('data') && session('data.companyEntityDetails')) selected @endif >{{$userLegalEnityDetailItem->legal_name}}</option>
                                                 @endforeach
+                                                <option value="selfpub">Самиздат(Без коммерческого статуса)</option>
+                                                @if(isset($selfEmployed))
+                                                    <option value="selfEmployed">
+                                                        Самозанятый({{$selfEmployed->account_holder_name}})
+                                                    </option>
+                                                @endif
                                             @endif
                                         </select>
                                     </div>
@@ -87,5 +99,5 @@
 <!-- [ Main Content ] end -->
 
 @push('scripts')
-{{--    @vite('resources/js/dashboard/Pages/settings.js')--}}
+    {{--    @vite('resources/js/dashboard/Pages/settings.js')--}}
 @endpush

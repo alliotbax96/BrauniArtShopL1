@@ -24,8 +24,8 @@
                             <ul>
                                 <li class="dropdown tooltip-wrapper">
                                     <a href="@if(!$currentUser) /auth @else javascript:void(0) @endif"
-                                       @if($currentUser) data-bs-toggle="dropdown" aria-expanded="false" @endif>
-                                        <i class="flaticon-user"></i>
+                                    @if($currentUser) data-bs-toggle="dropdown" aria-expanded="false" @endif>
+                                        <i data-feather="user"></i>
                                         <span class="tooltip-text">
                                             @if($currentUser)
                                                 Учетная запись
@@ -35,15 +35,15 @@
                                         </span>
                                     </a>
                                     @if($currentUser)
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <a class="dropdown-item" href="{{ route('sso.initiate') }}"
-                                               target="_blank">Учетная запись</a>
-                                        </li>
-                                        <li style="margin-left: 0;">
-                                            <a class="dropdown-item" href="/logout">Выход</a>
-                                        </li>
-                                    </ul>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a class="dropdown-item" href="{{ route('sso.initiate') }}"
+                                                   target="_blank">Учетная запись</a>
+                                            </li>
+                                            <li style="margin-left: 0;">
+                                                <a class="dropdown-item" href="/logout">Выход</a>
+                                            </li>
+                                        </ul>
                                     @endif
                                 </li>
 
@@ -66,6 +66,29 @@
                                         </li>
                                         @break
 
+                                    @case(8)
+                                        <li class="tooltip-wrapper">
+                                            <a href="@if($currentUser) /orders @else /auth @endif">
+                                                <i data-feather="book"></i>
+                                                <span class="tooltip-text">Ваши книги</span>
+                                            </a>
+                                        </li>
+                                        <li class="header-shop-cart tooltip-wrapper">
+                                            <a href="/cart/" class="d-flex align-items-center gap-2 text-decoration-none">
+                                                <div class="position-relative d-inline-flex align-items-center">
+                                                    <i data-feather="shopping-bag" width="22" height="22"></i>
+                                                    <span class="position-absolute translate-middle badge rounded-pill bg-primary p-1"
+                                                          style="top: -2px; right: -12px; min-width: 18px; font-size: 0.65rem;">
+                                                        {{$cartItemsCount}}
+                                                    </span>
+                                                </div>
+                                                <span class="cart-total-price small">{{$cartTotalPrice}}</span>
+                                            </a>
+                                            <span class="tooltip-text">Корзина</span>
+                                            @include('elements.miniCart')
+                                        </li>
+                                    @break
+
                                     @case(4)
                                         <li class="tooltip-wrapper">
                                             <a href="@if($currentUser) /bookings @else /auth @endif">
@@ -84,10 +107,20 @@
                         <div class="navbar-wrap main-menu d-none d-lg-flex">
                             <ul class="navigation">
                                 @switch($CurrentShopMode)
-                                    @case(1)
-                                        <li class="dropdown mobile_m"><a href="#">Каталог</a>
+                                    @case(4)
+                                        <li class="mobile_m">
+                                            <a href="/quests">
+                                                Все квесты
+                                            </a>
+                                        </li>
+                                    @break
+                                    @default
+                                        <li class="dropdown mobile_m">
+                                            <a href="#">
+                                                {{ Cookie::get('ShopMode') == 1 ? 'Каталог' : 'Жанры' }}
+                                            </a>
                                             <ul class="submenu">
-                                                @foreach($ProductGroups as $item)
+                                                @foreach($ProductGroups->where('parent_id', 0)->where('ShopMode', Cookie::get('ShopMode')) as $item)
                                                     @if ($item->children->isNotEmpty())
                                                         <li class="dropdown">
                                                             <a href="/products">
@@ -113,14 +146,7 @@
                                                 @endforeach
                                             </ul>
                                         </li>
-                                        @break
-                                    @case(4)
-                                        <li class="mobile_m">
-                                            <a href="/quests">
-                                                Все квесты
-                                            </a>
-                                        </li>
-                                        @break
+                                    @break
                                 @endswitch
                                 @foreach($ShopModes as $ShopMode)
                                     <li class="@if($CurrentShopMode == $ShopMode['id']) active @endif"><a

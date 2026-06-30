@@ -3,7 +3,7 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'd86f2158b4b09453043961043d141b5de369726c',
+        'reference' => '41bd887f448115ce3b7a77662a2e9c7e895ffc4a',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -463,6 +463,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'james-heinrich/getid3' => array(
+            'pretty_version' => 'v1.9.25',
+            'version' => '1.9.25.0',
+            'reference' => 'fefffe762b02be155dcc32eec57feff8a49bc4b5',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../james-heinrich/getid3',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'kodova/hamcrest-php' => array(
             'dev_requirement' => true,
             'replaced' => array(
@@ -490,7 +499,7 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'd86f2158b4b09453043961043d141b5de369726c',
+            'reference' => '41bd887f448115ce3b7a77662a2e9c7e895ffc4a',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -560,9 +569,9 @@
             'dev_requirement' => true,
         ),
         'laravel/sanctum' => array(
-            'pretty_version' => 'v4.3.1',
-            'version' => '4.3.1.0',
-            'reference' => 'e3b85d6e36ad00e5db2d1dcc27c81ffdf15cbf76',
+            'pretty_version' => 'v4.3.2',
+            'version' => '4.3.2.0',
+            'reference' => '2a9bccc18e9907808e0018dd15fa643937886b1e',
             'type' => 'library',
             'install_path' => __DIR__ . '/../laravel/sanctum',
             'aliases' => array(),

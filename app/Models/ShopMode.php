@@ -10,6 +10,7 @@ class ShopMode extends Model
     protected $fillable = [
         'id',
         'ShopModeName',
+        'Model',
         'status'
     ];
 }

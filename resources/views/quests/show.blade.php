@@ -4,7 +4,7 @@
         <!-- Хлебные крошки -->
         <nav aria-label="breadcrumb breadcrumb-new" class="mb-1 mt-2">
             <ol class="breadcrumb breadcrumb-new-ol">
-                <li class="breadcrumb-item"><a href="/products">Квесты</a></li>
+                <li class="breadcrumb-item"><a href="/quests">Квесты</a></li>
                 <li class="breadcrumb-item active" aria-current="page">{{$quest->getProductName()}}</li>
             </ol>
         </nav>

@@ -1,4 +1,6 @@
 @import './bootstrap.min.css';
+/*@import '../../vendor/dashboard/css/dataTables.bs5.min.css';*/
+@import 'datatables.net-bs5/css/dataTables.bootstrap5.css';
 @import '../../vendor/dashboard/css/vendors.min.css';
 @import '../../vendor/dashboard/css/select2.min.css';
 @import '../../vendor/dashboard/css/select2-theme.min.css';
@@ -9,4 +11,3 @@
 @import './theme.min.css';
 @import './style.css';
 @import '../../vendor/dashboard/MediaElement/mediaelementplayer.css';
-@import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';

@@ -13,7 +13,7 @@ class QuestController extends BaseController
 {
     public function index(Request $request)
     {
-        $this->shareCommonData(); // вызываем один раз
+        $this->shareCommonData($request); // вызываем один раз
         Cookie::queue('ShopMode', 4);
 
         $filters = [
@@ -168,9 +168,9 @@ class QuestController extends BaseController
     }
 
 
-    public function show($id)
+    public function show($id, Request $request)
     {
-        $this->shareCommonData();
+        $this->shareCommonData($request);
         Cookie::queue('ShopMode', 4);
         $shopMode = 4;
         $quest = Quest::find($id);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Book;
 use Illuminate\Http\Request;
 use App\Services\ProductService;
 use Cookie;
@@ -16,7 +17,7 @@ class HomeController extends BaseController
 
     public function index(Request $request)
     {
-        $this->shareCommonData(); // вызываем один раз
+        $this->shareCommonData($request); // вызываем один раз
         $validPerPage = 12;
         $shopMode = $request->cookie('ShopMode') ?? 1;
 
@@ -28,6 +29,10 @@ class HomeController extends BaseController
             case 4:
                 $products = $this->indexQuests($validPerPage);
                 $showUrl = '/quests/';
+            break;
+            case 8:
+                $products = $this->indexBooks($validPerPage);
+                $showUrl = '/books/';
             break;
         }
 
@@ -47,9 +52,13 @@ class HomeController extends BaseController
         return Quest::paginate($perPage);
     }
 
+    private function indexBooks($perPage = 12){
+        return Book::paginate($perPage);
+    }
+
     public function ajax_home(Request $request)
     {
-        $this->shareCommonData(); // вызываем один раз
+        $this->shareCommonData($request); // вызываем один раз
         $perPage = $request->input('perPage', 12);
         $validPerPage = in_array($perPage, [4, 8, 12, 16, 20]) ? $perPage : 12;
         // Используем новый метод с фильтрацией

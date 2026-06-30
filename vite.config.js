@@ -32,7 +32,9 @@ export default defineConfig({
                 'resources/js/dashboard/Pages/QuestCreate.js',
                 'resources/js/dashboard/Pages/QuestEdit.js',
                 'resources/js/dashboard/Pages/Quest.js',
-                'resources/js/Pages/quests.js'
+                'resources/js/Pages/quests.js',
+                'resources/js/dashboard/Pages/books.js',
+                'resources/js/dashboard/Pages/booksShow.js'
             ],
             refresh: true,
         }),

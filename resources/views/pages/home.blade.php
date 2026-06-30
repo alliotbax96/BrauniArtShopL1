@@ -32,6 +32,11 @@
                                         :product="$product"
                                     />
                                 @break
+                                @case(8)
+                                    <x-homeBookCard
+                                        :book="$product"
+                                    />
+                                @break
                             @endswitch
                         @endforeach
                     </div>

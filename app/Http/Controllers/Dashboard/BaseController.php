@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\ShopMode;
 use App\Services\TbankService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,16 +17,17 @@ class BaseController extends Controller
             $tbankService = new TbankService();
             $tbankService->InitCustomer(Auth::id());
         }
-
-
+        $seller = Auth::check() ? Auth::user()->getFirstSeller() : null;
 
         view()->share([
             'currentUser' => Auth::user(),
             'title' => 'Единая система BaID',
-            'verName' => '3.0.1 Beta',
+            'verName' => '3.0.5 Beta',
             'ver' => 1,
             'sellerId' => Auth::user()->getSellerId(),
+            'ShopModes' => ShopMode::where('status', 1)->get(),
             'scripts' => null,
+            'Seller' => $seller,
         ]);
     }
 }

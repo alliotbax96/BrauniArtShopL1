@@ -13,7 +13,10 @@
     <title>BrauniArt ID | Авторизация</title>
     <!--! END:  Apps Title-->
     <!--! BEGIN: Favicon-->
-    <link rel="shortcut icon" type="image/x-icon" href="/assets/dashboard/images/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/dashboard/images/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/dashboard/images/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/dashboard/images/icons/favicon-16x16.png">
+    <link rel="manifest" href="/assets/dashboard/images/icons/site.webmanifest">
     <!--! END: Favicon-->
     @vite('resources/css/dashboard/app.css')
 </head>
@@ -69,6 +72,10 @@
                         <a href="/auth/yandex" class="btn btn-light-brand flex-fill" data-bs-toggle="tooltip"
                            data-bs-trigger="hover" title="Войти через Яндекс">
                             <i class="fa-brands fa-yandex"></i>
+                        </a>
+                        <a href="/auth/vk" class="btn btn-light-brand flex-fill" data-bs-toggle="tooltip"
+                           data-bs-trigger="hover" title="Войти через VK ID">
+                            <i class="fa-brands fa-vk"></i>
                         </a>
                     </div>
                 </div>

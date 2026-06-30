@@ -44,6 +44,14 @@ return [
         'terminalid'=> env('TBANK_TERMINAL_ID'),
         'terminalpassword'=> env('TBANK_TERMINAL_PASSWORD'),
         'token' => env('TBANK_TOKEN'),
+        'api_token' => env('TBANK_TOKEN'),
+        'account_number' => env('TBANK_ACCOUNT_NUMBER'),
+        'company_inn' => env('TBANK_COMPANY_INN'),
+        'company_kpp' => env('TBANK_COMPANY_KPP'),
+        'company_name' => env('TBANK_COMPANY_NAME'),
+        'cert_path' => env('TBANK_CERT_PATH', '/path/to/cert.pem'),
+        'key_path' => env('TBANK_KEY_PATH', '/path/to/key.key'),
+        'cert_password' => env('TBANK_CERT_PASSWORD', null),
     ],
 
     'yandex' => [
@@ -54,6 +62,13 @@ return [
             'token' => env('YANDEX_DELIVERY_TOKEN'),
         ]
     ],
+    'vkontakte' => [
+        'client_id' => env('VK_CLIENT_ID'),
+        'client_secret' => env('VK_CLIENT_SECRET'),
+        'redirect' => env('VK_REDIRECT_URI'),
+        'scope' => explode(' ', env('VK_SCOPE', '')),
+    ],
+
 
 
 

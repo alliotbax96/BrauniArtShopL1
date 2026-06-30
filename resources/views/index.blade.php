@@ -28,7 +28,6 @@
     <!-- Внешние скрипты (оставляем как есть, но исправляем протокол) -->
     <script src="https://api-maps.yandex.ru/2.1/?apikey=ddf6f3c5-7470-4e2c-b2a9-359a8c35e699&lang=ru_RU"></script>
     <script async src="https://ndd-widget.landpro.site/widget.js"></script>
-    <script src="https://unpkg.com/feather-icons"></script>
 </head>
 
 @php
@@ -238,9 +237,6 @@
 <!-- Внешние скрипты (оставляем как есть) -->
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@cdek-it/widget@3" charset="utf-8"></script>
 
-<script>
-    feather.replace();
-</script>
 @stack('scripts')
 @if(session('error'))
     <div class="notification"

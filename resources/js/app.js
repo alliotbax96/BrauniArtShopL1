@@ -24,16 +24,18 @@ if (typeof $.fn !== 'undefined') {
 import imagesLoaded from 'imagesloaded';
 window.imagesLoaded = imagesLoaded;
 
-import magnificPopup from 'magnific-popup';
-$.fn.magnificPopup = magnificPopup;
+// import magnificPopup from 'magnific-popup';
+// $.fn.magnificPopup = magnificPopup;
+import 'magnific-popup';
 import './owl.carousel.min.js';
 import odometer from 'odometer';
 window.odometer = odometer;
 import './jquery.countdown.min.js';
 import './jquery.appear.js';
 
-import Slick from 'slick-carousel';
-window.Slick = Slick;
+// import Slick from 'slick-carousel';
+// window.Slick = Slick;
+import 'slick-carousel/slick/slick.js';
 
 // WOW.js — оставляем импорт, инициализируем после DOM
 import WOW from 'wow.js';
@@ -48,6 +50,12 @@ window.AOS = AOS;
 import textfill from 'textfill';
 window.textfill = textfill;
 import '../vendor/table.check-vox.plugin.js'; // зависит от jQuery
+
+import feather from 'feather-icons';
+window.feather = feather;
+document.addEventListener('DOMContentLoaded', () => {
+    feather.replace();
+});
 
 // Остальные файлы проекта
 import './plugins.js';

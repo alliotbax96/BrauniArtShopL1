@@ -5,7 +5,7 @@
 <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 mb-4">
     <div class="quest-card card-item shadow-sm">
         <div class="quest-card-thumb">
-            <a href="/product/{{ $product->getProductId()}}">
+            <a href="/products/{{ $product->getProductId()}}">
                 <img
                     src="https://s3.ru1.storage.beget.cloud/d5833d93d74c-brauniartfiles/{{ $product->getMainImage() }}"
                     alt="{{ $product->getProductName() }}"

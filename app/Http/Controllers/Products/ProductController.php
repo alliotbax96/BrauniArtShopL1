@@ -22,9 +22,9 @@ class ProductController extends BaseController
     /**
      * Отображение конкретного продукта
      */
-    public function show(int $id)
+    public function show(int $id, Request $request)
     {
-        $this->shareCommonData(); // вызываем один раз
+        $this->shareCommonData($request); // вызываем один раз
         Cookie::queue('ShopMode', 1);
 
         // Сначала ищем товар, проверяем существование
@@ -71,7 +71,7 @@ class ProductController extends BaseController
      */
     public function index(Request $request)
     {
-        $this->shareCommonData(); // вызываем один раз
+        $this->shareCommonData($request); // вызываем один раз
         Cookie::queue('ShopMode', 1);
 
         $filters = [

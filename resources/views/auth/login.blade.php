@@ -14,7 +14,7 @@
                             <p>Пожалуйста войдите в вашу <span>Учетную запись</span></p>
                               <div class="direct-login">
                                   <a href="{{route('auth.login.yandex', ['store'=>true])}}"><i class="fab fa-yandex"></i>Войти с Яндекс</a>
-{{--                                  <a href="#" class="xing"><i class="fab fa-vk"></i>Войти с VK</a>--}}
+                                  <a href="{{route('auth.login.vk', ['store'=>true])}}" class="xing"><i class="fab fa-vk"></i>Войти с VK</a>
                               </div>
                               <span class="or">- ИЛИ -</span>
                             <div id="alert">

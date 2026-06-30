@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard\Profile;
 
 use App\Http\Controllers\Dashboard\BaseController;
+use App\Models\SelfEmployedRecord;
 use App\Models\UserCard;
 use App\Models\UserPvz;
 use App\Services\TbankService;
@@ -27,7 +28,8 @@ class ProfileController extends BaseController
         );
         $userLegalEnityDetail = LegalEntityDetail::where('user_id', Auth::id())->get();
         $SocialAccounts = SocialAccount::getAllGroupedByProvider(Auth::id());
-        return view('dashboard.index', ['View' => 'dashboard.profile.profile', 'title' => 'Учетная запись | Единая система BaID', 'PageName' => 'Профиль', 'userPvzs' => $userPvzs, 'Cards' => $TBankResult, 'SocialAccounts' => $SocialAccounts, 'userLegalEnityDetail' => $userLegalEnityDetail]);
+        $selfEmployed = SelfEmployedRecord::where('user_id', Auth::id())->first();
+        return view('dashboard.index', ['View' => 'dashboard.profile.profile', 'title' => 'Учетная запись | Единая система BaID', 'PageName' => 'Профиль', 'userPvzs' => $userPvzs, 'Cards' => $TBankResult, 'SocialAccounts' => $SocialAccounts, 'userLegalEnityDetail' => $userLegalEnityDetail, 'selfEmployed' => $selfEmployed]);
     }
 
     public function update(Request $request)
@@ -157,11 +159,11 @@ class ProfileController extends BaseController
         }
     }
 
-    public function detachYandex(string $service)
+    public function detachService(string $service)
     {
         try {
             // Проверяем, что сервис разрешён для отвязки
-            $allowedServices = ['yandex']; // можно расширить список
+            $allowedServices = [$service]; // можно расширить список
             if (!in_array($service, $allowedServices)) {
                 return response()->json([
                     'result' => false,
@@ -217,6 +219,86 @@ class ProfileController extends BaseController
                 'result' => false,
                 'message' => 'Произошла непредвиденная ошибка при отвязке профиля ' . $service
             ]);
+        }
+    }
+
+    public function attachVK()
+    {
+        $driver = Socialite::driver('vkontakte');
+        // Добавляем redirect как параметр запроса
+        $redirectUrl = route('profile.attach.vk.callback');
+        return $driver->with([
+            'redirect_uri' => $redirectUrl,
+        ])->redirect();
+    }
+
+    public function handleAttachVKCallback()
+    {
+        try {
+            // Получаем данные от VK
+            $vkUser = Socialite::driver('vkontakte')->user();
+            print_r($vkUser);
+            $userId = Auth::id();
+
+            if (!$userId) {
+                return redirect('/login')->with('error', 'Необходимо войти в систему');
+            }
+
+            // Логируем полученные данные
+            \Log::info('VK ID callback received:', [
+                'user_id' => $userId,
+                'vk_id' => $vkUser->getId(),
+                'email' => $vkUser->getEmail(),
+            ]);
+
+            // Проверяем, не привязан ли уже этот аккаунт Яндекс
+            $existing = SocialAccount::where('provider', 'vkontakte')
+                ->where('provider_id', $vkUser->getId())
+                ->first();
+
+            if ($existing) {
+                if ($existing->user_id == $userId) {
+                    // Аккаунт уже привязан к этому пользователю
+                    return redirect('/profile')->with('success', 'Этот аккаунт VK ID уже привязан к вашему профилю');
+                } else {
+                    // Аккаунт привязан к другому пользователю
+                    return redirect('/profile')->with('error', 'Этот аккаунт VK ID уже привязан к другому пользователю');
+                }
+            }
+
+            // Проверяем, не привязан ли другой аккаунт Яндекс к этому пользователю (ограничение — один аккаунт на провайдера)
+            $hasOthervk = SocialAccount::where('user_id', $userId)
+                ->where('provider', 'vkontakte')
+                ->exists();
+
+            if ($hasOthervk) {
+                return redirect('/profile')->with('error', 'У вас уже привязан аккаунт VK ID. Сначала отвяжите его');
+            }
+
+            // Подготавливаем данные для записи
+            $userData = [
+                'user_id' => $userId,
+                'provider' => 'vkontakte',
+                'provider_id' => $vkUser->getId(),
+                'token' => $vkUser->token ?? null,
+                'refresh_token' => $vkUser->refreshToken ?? null,
+                'expires_in' => $vkUser->expiresIn ?? null,
+                'avatar' => $vkUser->getAvatar() ?? null,
+            ];
+
+            // Дополнительная проверка: убеждаемся, что provider_id не пустой
+            if (empty($userData['provider_id'])) {
+                \Log::error('Empty provider_id in VK ID callback');
+                return redirect('/profile')->with('error', 'Не удалось получить идентификатор аккаунта VK ID');
+            }
+
+            // Создаём новую привязку
+            SocialAccount::create($userData);
+
+            return redirect('/profile')->with('success', 'Аккаунт VK ID успешно привязан');
+
+        } catch (\Exception $e) {
+//            return redirect('/profile')->with('error', 'Ошибка при привязке VK ID аккаунта. Код ошибки: ' . $e->getCode());
         }
     }
 

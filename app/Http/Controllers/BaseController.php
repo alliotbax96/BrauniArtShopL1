@@ -24,16 +24,26 @@ class BaseController extends Controller
         }
         return $this->cartService;
     }
-    protected function shareCommonData()
+    protected function shareCommonData(Request $request)
     {
-        // Получаем данные о корзине
-        $cartData = $this->getCartData();
 
         //TBankCustomerInit
         if(Auth::check()) {
             $tbankService = new TbankService();
             $tbankService->InitCustomer(Auth::id());
         }
+
+        if (isset($shopMode)) {
+            $CurrentShopMode = $shopMode;
+        } elseif ($request->cookie('ShopMode') !== null) {
+            $CurrentShopMode = $request->cookie('ShopMode');
+        } else {
+            $CurrentShopMode = 1;
+        }
+
+        $ShopMode = ShopMode::find($CurrentShopMode);
+        // Получаем данные о корзине
+        $cartData = $this->getCartData($ShopMode->Model);
 
         view()->share([
             'currentUser' => Auth::user(),
@@ -43,8 +53,9 @@ class BaseController extends Controller
             'ProductGroups' => $this->getProductGroups(),
             'title' => 'Брауни Арт — маркетплейс качественных товаров с доставкой по России',
             'ShopModes' => ShopMode::where('status', 1)->get(),
+            'CartShopMode' => $ShopMode,
 //            'ShopModes' => ShopMode::all(),
-            'verName' => '3.0.1 Beta',
+            'verName' => '3.0.5 Beta',
             'ver' => 1,
             'scripts' => null,
             'meta_description' => 'Маркетплейс Брауни Арт — широкий ассортимент товаров высокого качества от проверенных продавцов. Надёжный поставщик с многолетним опытом: гарантия сервиса, доступные цены и удобная доставка по России. Покупайте с комфортом!'
@@ -63,7 +74,7 @@ class BaseController extends Controller
         ]);
     }
 
-    private function getCartData(): array
+    private function getCartData($Model = 'App\Models\Product'): array
     {
         // Возвращаем закэшированные данные, если они есть
         if (!empty($this->cartData)) {
@@ -72,8 +83,8 @@ class BaseController extends Controller
 
         try {
             $cart = $this->getCartService()->getCart();
-            $itemsCount = $cart->items->sum('quantity');
-            $totalPrice = $cart->items->reduce(function ($sum, $item) {
+            $itemsCount = $cart->items->where('product_type', $Model)->sum('quantity');
+            $totalPrice = $cart->items->where('product_type', $Model)->reduce(function ($sum, $item) {
                 return $sum + ($item->getProduct()->getProductPrice() * $item->quantity);
             }, 0);
 
@@ -96,7 +107,7 @@ class BaseController extends Controller
         }
     }
 
-    private function GetProductGroups($ShopMode = 1)
+    private function GetProductGroups()
     {
         return ProductGroup::rootGroups()
             ->with('children')

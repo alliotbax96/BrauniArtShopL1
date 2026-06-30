@@ -4273,6 +4273,11 @@ text-align: left;
     margin-right: 72px;
 }
 
+.book-details-img-wrap {
+    /*margin-left: 115px;*/
+    margin-right: 50px;
+}
+
 .shop-details-nav-wrap .shop-nav-item {
     margin-bottom: 13px;
     cursor: pointer;

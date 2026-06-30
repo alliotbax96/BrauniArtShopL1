@@ -14,6 +14,8 @@ use App\Http\Controllers\Orders\OrdersController;
 use App\Http\Controllers\Quests\QuestController;
 use App\Http\Controllers\Booking\BookingController;
 use App\Http\Controllers\Login\SsoController;
+use App\Http\Controllers\Api\BookReaderController;
+use App\Http\Controllers\Books\BookController;
 
 require __DIR__ . '/dashboard.php';
 
@@ -36,6 +38,11 @@ Route::domain('brauniart.shop')->group(function () {
         Route::get('/{id}', [QuestController::class, 'show'])->name('show');
     });
 
+    Route::prefix('books')->name('books.')->group(function () {
+        Route::get('/', [BookController::class, 'index'])->name('index');
+        Route::get('/{id}', [BookController::class, 'show'])->name('show');
+    });
+
     Route::middleware(['auth'])->group(function () {
         Route::get('/sso/initiate', [SsoController::class, 'initiateSso'])->name('sso.initiate');
 
@@ -54,7 +61,6 @@ Route::domain('brauniart.shop')->group(function () {
         // Удаление отзыва
         Route::delete('/reviews/{review}', [ReviewController::class, 'destroy']);
 
-
         Route::prefix('orders')->name('orders.')->group(function () {
             Route::get('/', [OrdersController::class, 'index'])->name('index');
             Route::get('/sharing/{id}', [OrdersController::class, 'sharing'])->name('sharing');
@@ -63,6 +69,8 @@ Route::domain('brauniart.shop')->group(function () {
         Route::prefix('bookings')->name('bookings.')->group(function () {
             Route::get('/', [BookingController::class, 'index'])->name('index');
         });
+
+        Route::get('/reader/{bookId}', [BookReaderController::class, 'index'])->name('reader');
     });
 
     Route::group(['middleware' => ['guest']], function () {
@@ -73,6 +81,8 @@ Route::domain('brauniart.shop')->group(function () {
             Route::post('/login', [LoginController::class, 'login'])->name('login');
             Route::get('/login/yandex', [LoginController::class, 'redirectToYandex'])->name('login.yandex');
             Route::get('/login/yandex/callback', [LoginController::class, 'handleYandexCallback'])->name('login.yandex.callback');
+            Route::get('/login/vk', [LoginController::class, 'redirectToVk'])->name('login.vk');
+            Route::get('/login/vk/callback', [LoginController::class, 'handleVkCallback'])->name('login.vk.callback');
         });
         Route::prefix('signup')->name('signup.')->group(function () {
             Route::get('/', [SignupController::class, 'signupForm'])->name('index');
@@ -101,5 +111,4 @@ Route::domain('brauniart.shop')->group(function () {
     Route::get('/contacts', [StaticPagesController::class, 'contacts'])->name('contacts');
     Route::get('/PayAndDelivery', [StaticPagesController::class, 'PayAndDelivery'])->name('PayAndDelivery');
     Route::get('/refunds', [StaticPagesController::class, 'refunds'])->name('refunds');
-
 });

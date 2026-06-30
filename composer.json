@@ -12,9 +12,10 @@
         "php": "^8.2",
         "intervention/image": "^3.0",
         "intervention/image-laravel": "^1.5",
+        "james-heinrich/getid3": "^1.9",
         "laravel/framework": "^12.0",
         "laravel/reverb": "^1.10",
-        "laravel/sanctum": "^4.0",
+        "laravel/sanctum": "^4.3",
         "laravel/socialite": "^5.25",
         "laravel/tinker": "^2.10.1",
         "league/flysystem-aws-s3-v3": "^3.0",
@@ -22,7 +23,7 @@
         "sammyjo20/saloon-laravel": "^3.9",
         "socialiteproviders/manager": "^4.9",
         "socialiteproviders/vkid": "^5.1",
-        "socialiteproviders/vkontakte": "^5.0",
+        "socialiteproviders/vkontakte": "^5.1",
         "socialiteproviders/yandex": "^4.1"
     },
     "require-dev": {
@@ -41,7 +42,10 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "files": [
+            "app/Helpers/pluralize.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

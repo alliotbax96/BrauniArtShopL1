@@ -887,7 +887,7 @@
     position: absolute;
     top: 10px;
     right: 10px;
-    z-index: 2;
+    z-index: 1;
 }
 
 .badge {
@@ -1838,4 +1838,149 @@
 .tooltip-wrapper:hover .tooltip-text {
     visibility: visible;
     opacity: 1;
+}
+
+
+
+
+/* product.css */
+
+/* --- Общие настройки --- */
+.product-page {
+    background-color: #f8f9fa;
+}
+
+/* --- Хлебные крошки --- */
+.breadcrumb-item a {
+    color: #0d6efd;
+    transition: color 0.2s;
+}
+.breadcrumb-item a:hover {
+    color: #0b5ed7;
+    text-decoration: underline;
+}
+.breadcrumb-item.active {
+    color: #6c757d;
+}
+
+/* --- Карточка обложки --- */
+.book-cover-card {
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.book-cover-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+.book-placeholder {
+    background: linear-gradient(135deg, #dee2e6 0%, #adb5bd 100%);
+    min-height: 420px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    color: rgba(255, 255, 255, 0.8);
+}
+.book-placeholder i {
+    font-size: 5rem;
+    margin-bottom: 1.5rem;
+}
+
+/* --- Бейджи (Badges) --- */
+.status-badge {
+    padding: 0.6em 1em;
+    border-radius: 50px; /* Более округлые, чем pill */
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+.bg-success-soft { background-color: rgba(21, 101, 71, 0.1); color: #15654f; }
+.bg-warning-soft { background-color: rgba(179, 90, 0, 0.1); color: #b35a00; }
+.bg-primary-soft { background-color: rgba(13, 110, 253, 0.1); color: #0d6efd; }
+.bg-danger-soft { background-color: rgba(161, 22, 27, 0.1); color: #a1161b; }
+
+/* --- Рейтинг (Stars) --- */
+.rating i {
+    margin: 0 1px;
+    opacity: 0.9;
+}
+.rating .fa-star { color: #ffc107; }
+.rating .fa-star-half-alt { color: #ffc107; }
+.rating .fa-star.text-muted { color: #dee2e6; opacity: 0.5; }
+
+/* --- Табы (Custom Tabs) --- */
+.custom-tabs .nav-link {
+    color: #6c757d;
+    font-weight: 600;
+    padding: 1rem 0;
+    margin-right: 1.5rem;
+    border-bottom: 3px solid transparent;
+    border-radius: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.custom-tabs .nav-link:hover {
+    color: #0d6efd;
+}
+.custom-tabs .nav-link.active {
+    color: #0d6efd;
+    border-bottom-color: #0d6efd;
+}
+.tab-content {
+    animation: fadeIn 0.4s ease-in-out;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Характеристики --- */
+.spec-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.spec-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #868e96;
+}
+.spec-value {
+    font-weight: 700;
+    color: #212529;
+    font-size: 1rem;
+}
+
+/* --- Цена и кнопки --- */
+.price-block {
+    align-items: baseline;
+}
+.current-price {
+    font-size: 2.5rem;
+    line-height: 1.1;
+    color: #0d6efd;
+    font-weight: 800;
+}
+.old-price {
+    text-decoration: line-through;
+    color: #adb5bd;
+    margin-left: 10px;
+    font-size: 1.2rem;
+}
+
+/* --- Адаптивность для мобильных --- */
+@media (max-width: 768px) {
+    .col-lg-4, .col-lg-8 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    .custom-tabs .nav-link {
+        padding: 0.75rem 0.5rem;
+        font-size: 0.9rem;
+        margin-right: 0.5rem;
+    }
+    .current-price {
+        font-size: 2rem;
+    }
 }

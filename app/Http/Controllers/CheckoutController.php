@@ -8,6 +8,7 @@ use App\Models\CartItem;
 use App\Models\LegalEntityDetail;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\ShopMode;
 use App\Models\UserCard;
 use App\Models\UserPvz;
 use App\Services\DeliveryCalculatorService;
@@ -19,12 +20,12 @@ use App\Models\OrderSellerStatus;
 
 class CheckoutController extends BaseController
 {
-    public function showCheckout(Request $request)
-    {
-        $this->shareCommonData(); // вызываем один раз
+    public function showCheckout(Request $request) {
+
+        $this->shareCommonData($request); // вызываем один раз
+        $shopMode = $this->ShopModeGet($request);
         $userId = Auth::id();
         $selectedCartItemIds = $request->input('cart_items', []);
-
         $legalDetailCheck = LegalEntityDetail::isUserLegalEntity($userId);
 
         // Проверяем, что переданы ID позиций
@@ -57,10 +58,14 @@ class CheckoutController extends BaseController
         });
 
         // Расчёт стоимости доставки
-        $deliveryCalculator = new DeliveryCalculatorService();
-        $deliveryData = $deliveryCalculator->calculate($cartItems);
-//        $deliveryData = DeliveryCalculator::calculate($cartItems->toArray());
-        $totalAmount = $subtotal + $deliveryData['total'];
+        if($shopMode->Model == 'App\Models\Products') {
+            $deliveryCalculator = new DeliveryCalculatorService();
+            $deliveryData = $deliveryCalculator->calculate($cartItems);
+            $totalAmount = $subtotal + $deliveryData['total'];
+        } else {
+            $deliveryData = 0;
+            $totalAmount = $subtotal;
+        }
 
         $tbankService = new TbankService();
         $TBankresult = $tbankService->GetCards(
@@ -71,8 +76,8 @@ class CheckoutController extends BaseController
             'view'=> 'pages.checkout',
             'cartItems' => $cartItems,
             'subtotal' => $subtotal,
-            'deliveryCost' => $deliveryData['total'],
-            'deliveryBreakdown' => $deliveryData['breakdown'],
+            'deliveryCost' => isset($deliveryData['total']) ? $deliveryData['total'] : '',
+            'deliveryBreakdown' => isset($deliveryData['breakdown']) ? $deliveryData['breakdown'] : '',
             'totalAmount' => $totalAmount,
             'selectedCartItemIds' => $selectedCartItemIds,
             'Cards' => $TBankresult,
@@ -81,9 +86,23 @@ class CheckoutController extends BaseController
         ]);
     }
 
+    private function ShopModeGet(Request $request){
+
+        if (isset($shopMode)) {
+            $CurrentShopMode = $shopMode;
+        } elseif ($request->cookie('ShopMode') !== null) {
+            $CurrentShopMode = $request->cookie('ShopMode');
+        } else {
+            $CurrentShopMode = 1;
+        }
+
+        return ShopMode::find($CurrentShopMode);
+    }
+
     public function processOrder(Request $request)
     {
         $userId = Auth::id();
+        $shopMode = $this->ShopModeGet($request);
         $paymentMethod = $request->input('pay_type');
         $selectedItems = $request->input('selected_items', []);
         $SelectedCard = $request->input('payment-card');
@@ -92,7 +111,7 @@ class CheckoutController extends BaseController
             $orderId = null;
             $paymentUrl = null;
 
-            DB::transaction(function () use ($userId, $paymentMethod, $selectedItems, $SelectedCard, &$orderId, &$paymentUrl) {
+            DB::transaction(function () use ($userId, $paymentMethod, $selectedItems, $SelectedCard, &$orderId, &$paymentUrl, $shopMode) {
                 // Этап 1: создание заказа
                 $cart = Cart::where('user_id', $userId)->firstOrFail();
 
@@ -111,10 +130,15 @@ class CheckoutController extends BaseController
                     return $item->quantity * ($product->getProductPrice() ?? 0);
                 });
 
-                // Расчёт доставки
-                $deliveryCalculator = new DeliveryCalculatorService();
-                $deliveryData = $deliveryCalculator->calculate($cartItems);
-                $finalOrderAmount = $orderAmount + $deliveryData['total'];
+                // Расчёт стоимости доставки
+                if($shopMode->Model == 'App\Models\Products') {
+                    $deliveryCalculator = new DeliveryCalculatorService();
+                    $deliveryData = $deliveryCalculator->calculate($cartItems);
+                    $finalOrderAmount = $orderAmount + $deliveryData['total'];
+                } else {
+                    $deliveryData = 0;
+                    $finalOrderAmount = $orderAmount;
+                }
 
                 // Создаём заказ в статусе 'pending'
                 $order = Order::create([

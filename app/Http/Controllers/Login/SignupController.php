@@ -12,10 +12,14 @@ use App\Services\UserGroupService;
 
 class SignupController extends BaseController
 {
-    public function signupForm()
+    public function signupForm(Request $request)
     {
-        $this->shareCommonData();
+        $this->shareCommonData($request);
         return view('index', ['view' => 'auth.signup', 'title'=> 'Регистрация | Брауни Арт — маркетплейс качественных товаров с доставкой по России',]);
+    }
+
+    public function dashboardSignup(){
+        return view('dashboard.auth.signup');
     }
 
     /**
@@ -23,27 +27,21 @@ class SignupController extends BaseController
      */
     public function register(Request $request)
     {
-        $checkCode = LoginController::checkCode($request, false);
-        if(!$checkCode){
-            return response()->json([
-                "result" => false,
-                "error" => "Введен неверный код подтверждения!"
-            ]);
-        }
-
         // Валидация входящих данных
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email|max:255',
-            'phone' => 'required|string|max:20|unique:users,phone',
+            'phone' => 'required|string|max:20|unique_phone',
             'code' => 'nullable|string|size:4',
+            'termsCondition'=> 'required'
         ], [
             'name.required' => 'Имя обязательно для заполнения',
             'email.required' => 'Email обязателен для заполнения',
             'email.email' => 'Введите корректный email',
             'email.unique' => 'Пользователь с таким email уже существует',
             'phone.required' => 'Номер телефона обязателен для заполнения',
-            'phone.unique' => 'Пользователь с таким номером телефона уже существует',
+            'phone.unique_phone' => 'Пользователь с таким номером телефона уже существует',
+            'termsCondition.required' => 'Необходимо согласится с условиями'
         ]);
 
         if ($validator->fails()) {
@@ -63,6 +61,14 @@ class SignupController extends BaseController
             ]);
         }
 
+        $loginController = new LoginController();
+        if(!$loginController->checkCode($request, false)){
+            return response()->json([
+                "result" => false,
+                "errors" => ['0'=>['field'=>'code', 'message'=>"Введен неверный код подтверждения!"]]
+            ]);
+        }
+
         try {
             // Создаём нового пользователя
             $user = User::create([
@@ -71,7 +77,8 @@ class SignupController extends BaseController
                 'phone' => preg_replace('![^0-9]+!', '', $request->phone),
                 'password' => Hash::make($request->phone),
             ]);
-            app(UserGroupService::class)->assignGroup($user, 'buyer');
+
+            $token = $user->createToken('API Token')->plainTextToken;
 
             // Автоматически авторизуем пользователя после регистрации
             Auth::login($user);
@@ -80,6 +87,7 @@ class SignupController extends BaseController
                 'result' => true,
                 'message' => 'Регистрация прошла успешно! Добро пожаловать!',
                 'redirect' => '/',
+                'token' => $token
             ]);
 
         } catch (\Exception $e) {

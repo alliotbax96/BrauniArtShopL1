@@ -1,9 +1,11 @@
 <?php
 
 namespace App\Services;
+
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\ProductQuantity;
+use http\Env\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -77,16 +79,6 @@ class CartService
             $currentCart = $this->cart;
             $userCart = Cart::where('user_id', $userId)->first();
 
-            // Логирование для отладки — фиксируем все ключевые параметры
-            \Log::info('Cart merge process', [
-                'user_id' => $userId,
-                'current_cart_id' => $currentCart->id,
-                'current_cart_user_id' => $currentCart->user_id,
-                'current_cart_session_id' => $currentCart->session_id,
-                'user_cart_exists' => $userCart ? 'yes' : 'no',
-                'is_current_guest' => is_null($currentCart->user_id) ? 'yes' : 'no'
-            ]);
-
             // Случай 1: текущая корзина — гостевая (не привязана к пользователю)
             if (is_null($currentCart->user_id)) {
                 if ($userCart) {
@@ -131,7 +123,6 @@ class CartService
             }
         });
     }
-
 
 
     /**
@@ -182,20 +173,6 @@ class CartService
         $available = $this->getAvailableStock($productId, $productType);
         return min($requestedQuantity, $available);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     public function addItem($productId, $productType, $sellerId, $quantity = 1, array $options = [])
     {
@@ -274,16 +251,16 @@ class CartService
         return $this->cart->items()->delete();
     }
 
-    public function getTotalItems(): int
+    public function getTotalItems($Model = 'App\Models\Product'): int
     {
-        return $this->cart->items->sum('quantity');
+        return $this->cart->items->where('product_type', $Model)->sum('quantity');
     }
 
-    public function getTotalPrice(): float
+    public function getTotalPrice($Model = 'App\Models\Product'): float
     {
         $total = 0;
 
-        foreach ($this->cart->items as $item) {
+        foreach ($this->cart->items->where('product_type', $Model) as $item) {
             $product = $item->getProduct();
             if ($product) {
                 $price = $product->getProductPrice();
@@ -294,9 +271,9 @@ class CartService
         return round($total, 2);
     }
 
-    public function getItemsWithDetails()
+    public function getItemsWithDetails($Model = 'App\Models\Product')
     {
-        return $this->cart->items->map(function ($item) {
+        return $this->cart->items->where('product_type', $Model)->map(function ($item) {
             $product = $item->getProduct();
 
             return [
@@ -313,9 +290,9 @@ class CartService
         });
     }
 
-    public function isEmpty(): bool
+    public function isEmpty($Model = 'App\Models\Product'): bool
     {
-        return $this->cart->items->isEmpty();
+        return $this->cart->items->where('product_type', $Model)->isEmpty();
     }
 
     /**

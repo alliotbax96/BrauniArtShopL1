@@ -18,8 +18,8 @@ use App\Models\SocialAccount;
 
 class LoginController extends BaseController
 {
-    public function authForm(){
-        $this->shareCommonData();
+    public function authForm(Request $request){
+        $this->shareCommonData($request);
         return view('index', ['view' => 'auth.login', 'title'=> 'Авторизация | Брауни Арт — маркетплейс качественных товаров с доставкой по России',]);
     }
 
@@ -57,6 +57,7 @@ class LoginController extends BaseController
                 return redirect('/login')->with('error', 'Аккаунт не найден. Для входа через Яндекс требуется предварительная регистрация.');
             }
             Auth::login($user);
+            $token = $user->createToken('API Token')->plainTextToken;
 
             // Перегенерируем сессию после авторизации
             request()->session()->regenerate();
@@ -71,6 +72,47 @@ class LoginController extends BaseController
                 return redirect('/auth')->with('error', 'Ошибка авторизации через Яндекс');
             }
             return redirect('/login')->with('error', 'Ошибка авторизации через Яндекс');
+        }
+    }
+
+    public function redirectToVK(Request $request){
+        if($request->route()->getName() == 'auth.login.vk') {
+            $driver = Socialite::driver('vkontakte');
+            // Добавляем redirect как параметр запроса
+            $redirectUrl = route('auth.login.vk.callback');
+            return $driver->with([
+                'redirect_uri' => $redirectUrl,
+            ])->redirect();
+        }
+        return Socialite::driver('vkontakte')->redirect();
+    }
+
+    public function handleVKCallback(Request $request)
+    {
+        try {
+            $vkUser = Socialite::driver('vkontakte')->user();
+            $user = $this->findOrCreateUser($vkUser, 'vkontakte');
+
+            if (!$user) {
+                \Log::warning('User not found for VKID: ' . $vkUser->getId());
+                return redirect('/login')->with('error', 'Аккаунт не найден. Для входа через VKID требуется предварительная регистрация.');
+            }
+            Auth::login($user);
+            $token = $user->createToken('API Token')->plainTextToken;
+
+            // Перегенерируем сессию после авторизации
+            request()->session()->regenerate();
+
+            // Обработка корзины
+            $this->handleCartAfterSocialLogin($user);
+
+            return redirect('/');
+        } catch (\Exception $e) {
+            \Log::error('VKID auth error: ' . $e->getMessage());
+            if($request->route()->getName() == 'auth.login.vk.callback') {
+                return redirect('/auth')->with('error', 'Ошибка авторизации через VKID');
+            }
+            return redirect('/login')->with('error', 'Ошибка авторизации через VKID');
         }
     }
 
@@ -206,8 +248,10 @@ class LoginController extends BaseController
             // Выполняем слияние
             $cartService->mergeWithUserCart(Auth::user()->id);
 
+            $token = Auth::user()->createToken('API Token')->plainTextToken;
             return response()->json([
                 "result" => true,
+                'token' => $token
             ]);
         }
 

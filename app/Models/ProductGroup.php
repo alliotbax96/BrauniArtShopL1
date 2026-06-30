@@ -8,15 +8,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ProductGroup extends Model
 {
-    protected $table = 'productGroups'; // Убедитесь, что имя таблицы верно
+    protected $table = 'productGroups';
 
-    // Массово заполняемые поля (при необходимости)
     protected $fillable = [
-        'id',
         'name',
         'image',
         'parent_id',
-        // другие поля...
+        'ShopMode'
     ];
 
     /**
@@ -25,6 +23,10 @@ class ProductGroup extends Model
     public function parent(): BelongsTo
     {
         return $this->belongsTo(ProductGroup::class, 'parent_id');
+    }
+
+    public function ShopModeInfo(): BelongsTo {
+        return $this->belongsTo(ShopMode::class, 'ShopMode');
     }
 
     /**
@@ -36,53 +38,34 @@ class ProductGroup extends Model
     }
 
     /**
-     * Фильтр по parent_id
-     *
-     * @param int|null $parentId ID родительской группы или null для корневых групп
-     * @return \Illuminate\Database\Eloquent\Builder
+     * Рекурсивная связь для получения всех дочерних групп
      */
-    public static function byParentId($parentId = null)
+    public function childrenRecursive()
     {
-        return static::query()->where('parent_id', $parentId);
+        return $this->children()->with('childrenRecursive');
+    }
+
+    /**
+     * Связь с продуктами
+     */
+    public function products(): HasMany
+    {
+        return $this->hasMany(Product::class, 'productGroupId', 'id');
     }
 
     /**
      * Получение корневых групп (без родителя)
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
      */
     public static function rootGroups()
     {
-        return static::byParentId(null);
-    }
-
-    public static function NoRootGroups()
-    {
-//        return static::byParentId(null);
-        return static::whereNotNull('parent_id');
-    }
-
-    public function childrenRecursive()
-    {
-        return $this->hasMany(self::class, 'parent_id')->with('childrenRecursive');
+        return static::whereNull('parent_id');
     }
 
     /**
-     * Получение дочерних групп для указанного родителя
-     *
-     * @param int $parentId ID родительской группы
-     * @return \Illuminate\Database\Eloquent\Builder
+     * Проверка, является ли группа корневой
      */
-    public static function childGroups(int $parentId)
+    public function isRoot(): bool
     {
-        return static::byParentId($parentId);
-    }
-
-    public function getName(){
-        return $this->name;
-    }
-
-    public function comission(){
-        return $this->belongsTo(Comission::class, 'id', 'product_group_id');
+        return is_null($this->parent_id);
     }
 }

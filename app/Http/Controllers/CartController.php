@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ShopMode;
 use App\Models\UserPvz;
 use App\Services\CartService;
 use Illuminate\Http\Request;
@@ -16,43 +17,67 @@ class CartController extends BaseController
         $this->cartService = $cartService;
     }
 
-    public function index()
+    public function index(request $request)
     {
-        $this->shareCommonData(); // вызываем один раз
-
-        $cartItems = $this->cartService->getItemsWithDetails();
-        $totalItems = $this->cartService->getTotalItems();
-        $totalPrice = $this->cartService->getTotalPrice();
+        $this->shareCommonData($request); // вызываем один раз
+        $shopMode = $this->ShopModeGet($request);
+        $cartItems = $this->cartService->getItemsWithDetails($shopMode->Model);
+        $totalItems = $this->cartService->getTotalItems($shopMode->Model);
+        $totalPrice = $this->cartService->getTotalPrice($shopMode->Model);
         $userPvzs = UserPvz::where('user_id', Auth::id())->get();
-        $scripts[] = "/assets/scripts/pages/cart.js";
-        return view('index', ['view' => 'pages.cart', 'scripts' => $scripts, 'userPvzs'=>$userPvzs, 'title'=> 'Корзина | Брауни Арт — маркетплейс качественных товаров с доставкой по России', compact('cartItems', 'totalItems', 'totalPrice')]);
+
+        return view('index', ['view' => 'pages.cart', 'userPvzs'=>$userPvzs, 'title'=> 'Корзина | Брауни Арт — маркетплейс качественных товаров с доставкой по России', compact('cartItems', 'totalItems', 'totalPrice')]);
     }
 
-    public function getMiniCart()
+    private function ShopModeGet(Request $request){
+
+        if (isset($shopMode)) {
+            $CurrentShopMode = $shopMode;
+        } elseif ($request->cookie('ShopMode') !== null) {
+            $CurrentShopMode = $request->cookie('ShopMode');
+        } else {
+            $CurrentShopMode = 1;
+        }
+
+        return ShopMode::find($CurrentShopMode);
+    }
+
+    public function getMiniCart(Request $request)
     {
         $cart = $this->cartService->getCart();
         $items = [];
-
+        $shopMode = $this->ShopModeGet($request);
         if ($cart && $cart->items->isNotEmpty()) {
             foreach ($cart->items as $item) {
-                $product = $item->getProduct();
-                $items[] = [
-                    'id' => $item->id,
-                    'name' => $product->getProductName(),
-                    'quantity' => $item->quantity,
-                    'price_per_unit' => number_format($product->getProductPrice(), 2, ',', ' '),
-                    'total_price' => number_format($product->getProductPrice() * $item->quantity, 2, ',', ' '),
-                    'image_url' => 'https://s3.ru1.storage.beget.cloud/d5833d93d74c-brauniartfiles/' . $product->getMainImage(),
-                    'product_url' => route('products.show', $product->id),
-                    'remove_url' => route('cart.remove', $item->id)
-                ];
+                if($item->product_type == $shopMode->Model) {
+                    $product = $item->getProduct();
+                    switch ($shopMode->id) {
+                        case '8':
+                            $route = 'books.show';
+                        break;
+                        default:
+                            $route = 'products.show';
+                        break;
+                    }
+                    $items[] = [
+                        'id' => $item->id,
+                        'name' => $product->getProductName(),
+                        'quantity' => $item->quantity,
+                        'price_per_unit' => number_format($product->getProductPrice(), 2, ',', ' '),
+                        'total_price' => number_format($product->getProductPrice() * $item->quantity, 2, ',', ' '),
+                        'image_url' => $item->product_type == 'App\Models\Product' ? 'https://s3.ru1.storage.beget.cloud/d5833d93d74c-brauniartfiles/' : '' . $product->getMainImage(),
+                        'product_url' => route($route, $product->id),
+                        'remove_url' => route('cart.remove', $item->id)
+                    ];
+                }
             }
         }
 
         return response()->json([
+            'shopModeModel' => $shopMode->Model,
             'items' => $items,
-            'total_items' => $cart ? $this->cartService->getTotalItems() : 0,
-            'total_price' => $cart ? number_format($this->cartService->getTotalPrice(), 2, ',', ' ') . ' ' : '0'
+            'total_items' => $cart ? $this->cartService->getTotalItems($shopMode->Model) : 0,
+            'total_price' => $cart ? number_format($this->cartService->getTotalPrice($shopMode->Model), 2, ',', ' ') . ' ' : '0'
         ]);
     }
 

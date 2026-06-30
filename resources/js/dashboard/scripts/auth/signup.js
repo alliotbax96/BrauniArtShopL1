@@ -13,7 +13,7 @@ function timer(num) {
         clearInterval(timerId);
         $("#get_sms").parent().html('<a href="#" id="get_sms" class="fs-11 text-primary">Получить код повторно</a>');
         $("#get_sms").click(function () {
-            $.post('/sensmskode', { phone: $(".mask-phone").val() }, function (data) {
+            $.post('/SendSmsCode', { phone: $(".mask-phone").val() }, function (data) {
                 if (data == true) {
                     alert('Вам отправлено СМС с кодом!');
                     $("#get_sms").parent().html('<span id="get_sms" class="fs-11 text-primary">Получить код повторно через <span class="seconds">120</span> сек</span>');
@@ -30,12 +30,11 @@ function timer(num) {
 
 $(".mask-phone").mask("+7 (999) 999-99-99", {
     onComplete: function () {
-        $.post('/signup', { phone: $(this).val(), type: 'authcode' }, function (data) {
-            // console.log(data);
-            var result = jQuery.parseJSON(data);
+        $.post('/auth/code', $("#signup").serialize(), function (result) {
             if (result.result === true) {
+                $("input[name=\"phone\"]").removeClass('is-invalid');
                 $("input[name=\"phone\"]").addClass('is-valid');
-                $("#kode").removeClass('hidden');
+                $("input[name=\"code\"]").parent().removeClass('hidden');
                 $("#alert").html('<div class="alert alert-warning" role="alert">Сейчас вам позвонит наш робот, введите последние четыре цифры номер с которого поступил звонок!</div');
                 $("#get_sms").html('Получить код повторно через <span class="seconds">60</span> сек</a>');
                 timer(60);
@@ -43,52 +42,97 @@ $(".mask-phone").mask("+7 (999) 999-99-99", {
         });
     }
 });
-
-$("input[name=\"firstname\"]").on('change', function(){
-    $("input[name=\"firstname\"]").removeClass('is-invalid');
-    $("input[name=\"firstname\"]").addClass('is-valid');
-});
-$("input[name=\"lastname\"]").on('change', function(){
-    $("input[name=\"lastname\"]").removeClass('is-invalid');
-    $("input[name=\"lastname\"]").addClass('is-valid');
-});
-$("input[name=\"email\"]").on('change', function(){
-    $("input[name=\"email\"]").removeClass('is-invalid');
-    $("input[name=\"email\"]").addClass('is-valid');
-});
-
-$(".kode").mask("9999", {
+$(".code").mask("9999", {
     onComplete: function () {
-        $.post('/signup', { code: $(this).val(), phone: $('.mask-phone').val(), type: 'checkcode' }, function (data) {
-            var result = jQuery.parseJSON(data);
+
+        $.post('/auth/checkCode', $("#signup").serialize(), function (result) {
             if (result.result === true) {
+                $("input[name=\"code\"]").addClass('is-valid');
+                $("input[name=\"code\"]").removeClass('is-invalid');
                 $("#get_sms").html('');
-                $(".kode").addClass('is-valid');
-                $(".kode").removeClass('is-invalid');
                 $("#alert").html('');
             } else {
+                $("input[name=\"code\"]").removeClass('is-valid');
+                $("input[name=\"code\"]").addClass('is-invalid');
                 $("#alert").html('<div class="alert alert-danger" role="alert">'+result.error+'</div>');
-                $("input[name=\""+result.input+"\"]").addClass('is-invalid');
             }
         });
     }
 });
 
-$("#auth_signup").on('submit', function(){
- var check_input = $('.is-valid').length;
- if(check_input >= 5 && $("input[name=\"termsCondition\"]").is(':checked')){
-    $.post('/signup/submit', $(this).serialize(), function(data){
+$('#signup').on('submit', function(event) {
+    event.preventDefault(); // Предотвращаем стандартную отправку формы
 
-        var result = jQuery.parseJSON(data);
-        if (result.result === true) {
-            window.location.href = "/";
-        } else {
-            $("#alert").html('<div class="alert alert-danger" role="alert">'+result.error+'</div>');
-            $('input[name="'+result.input+'"]').addClass('is-invalid');
-            $('input[name="'+result.input+'"]').removeClass('is-valid');
+    const $form = $(this);
+    const $alertContainer = $('#alert');
+
+    // Очищаем предыдущие состояния валидации
+    function clearValidation() {
+        $('input').removeClass('is-invalid');
+        $('.invalid-feedback').remove();
+        $alertContainer.html('');
+    }
+
+    clearValidation();
+
+    $.post('/signup', $form.serialize())
+        .done(function(data) {
+            console.log(data);
+
+            if (data.result) {
+                // Успешная регистрация
+                showAlert('success', 'Регистрация прошла успешно!');
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 1500); // Задержка перед редиректом — пользователь успеет увидеть сообщение
+            } else {
+                handleError(data);
+            }
+        })
+        .fail(function(jqXHR, textStatus, errorThrown) {
+            // Обработка ошибок AJAX-запроса
+            console.error('AJAX error:', textStatus, errorThrown);
+            showAlert('danger', 'Ошибка соединения. Проверьте интернет или попробуйте позже.');
+        });
+});
+
+// Функция отображения алерта
+function showAlert(type, message) {
+    const alertClass = `alert-${type}`;
+    const alertHtml = `<div class="alert ${alertClass}" role="alert">${message}</div>`;
+    $('#alert').html(alertHtml);
+}
+
+// Функция обработки ошибок от сервера
+function handleError(data) {
+    if (data.error) {
+        showAlert('danger', data.error);
+    } else if (data.errors && data.errors.length > 0) {
+        showAlert('danger', 'Проверьте правильность заполнения полей!');
+        applyFieldErrors(data.errors);
+    } else {
+        showAlert('danger', 'Неизвестная ошибка! Обратитесь к администрации или попробуйте позже!');
+    }
+}
+
+// Применение ошибок к конкретным полям
+function applyFieldErrors(errors) {
+    errors.forEach(function(error) {
+        const $input = $(`input[name="${error.field}"]`);
+        if ($input.length) {
+            $input.addClass('is-invalid');
+            const $parent = $input.parent();
+            const feedbackId = `validationServer${error.field}Feedback`;
+
+            // Проверяем, нет ли уже такого элемента
+            if (!$parent.find(`#${feedbackId}`).length) {
+                $parent.append(`
+                    <div id="${feedbackId}" class="invalid-feedback">
+                        ${error.message}
+                    </div>
+                `);
+            }
         }
     });
- } else {
-    $("#alert").html('<div class="alert alert-danger" role="alert">Проверьте правильность заполнения полей!</div>');
- }
-});
+}
+

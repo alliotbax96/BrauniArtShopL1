@@ -128,7 +128,7 @@ class ProductsController extends BaseController
                     <a href="/seller/products/' . $product->id . '" class="text-truncate-2-line">' .
                         htmlspecialchars($product->getProductName() ?? 'Не указано') . '</a>' .
                         $warningHtml . '
-            <div class="project-list-action fs-12 d-flex align-items-center gap-3 mt-2">
+                        <div class="project-list-action fs-12 d-flex align-items-center gap-3 mt-2">
                 <a href="/seller/products/' . $product->id . '">Изменить</a>
                 <span class="vr text-muted"></span>
                 <a href="javascript:void(0);" class="text-danger delete_product" data-id="' . $product->id . '">Удалить</a>

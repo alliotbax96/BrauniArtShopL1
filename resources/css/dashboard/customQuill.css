@@ -1,0 +1,77 @@
+/* Стили для редактора */
+.ql-editor {
+    min-height: 400px;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.ql-toolbar.ql-snow {
+    border-radius: 0.25rem 0.25rem 0 0;
+    border-color: #dee2e6;
+}
+
+.ql-container.ql-snow {
+    border-radius: 0 0 0.25rem 0.25rem;
+    border-color: #dee2e6;
+}
+
+/* Стили для счетчика символов */
+.character-counter {
+    font-size: 0.9rem;
+    color: #6c757d;
+    white-space: nowrap;
+    transition: color 0.3s ease;
+}
+
+.character-count {
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.character-limit {
+    font-size: 0.9rem;
+}
+
+/* Цвета для предупреждений */
+.character-counter.text-warning {
+    color: #ffc107 !important;
+}
+
+.character-counter.text-danger {
+    color: #dc3545 !important;
+    animation: pulse 2s infinite;
+}
+
+/* Анимация пульсации при превышении лимита */
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.6;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Стили для кнопки типографирования */
+#typographBtn {
+    transition: all 0.3s ease;
+}
+
+#typographBtn:hover {
+    background-color: #6c757d;
+    color: white;
+}
+
+/* Адаптация для мобильных устройств */
+@media (max-width: 576px) {
+    .character-counter {
+        font-size: 0.8rem;
+    }
+
+    .character-count {
+        font-size: 1rem;
+    }
+}

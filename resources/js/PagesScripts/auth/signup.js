@@ -61,21 +61,78 @@ $(".code").mask("9999", {
     }
 });
 
-$("#signup").on("submit", function (){
-    $.post('/signup', $(this).serialize(), function (result){
-        if(result.result === true){
-            window.location.href = "/";
-        } else {
-            var errors = '';
-            $.each(result.errors, function (index, value){
-                $("input[name=\""+value.field+"\"]").removeClass('is-valid');
-                $("input[name=\""+value.field+"\"]").addClass('is-invalid');
-                errors = errors+value.message+"<br>";
-            });
-            if(result.error){
-               errors = result.error
+$('#signup').on('submit', function(event) {
+    event.preventDefault(); // Предотвращаем стандартную отправку формы
+
+    const $form = $(this);
+    const $alertContainer = $('#alert');
+
+    // Очищаем предыдущие состояния валидации
+    function clearValidation() {
+        $('input').removeClass('is-invalid');
+        $('.invalid-feedback').remove();
+        $alertContainer.html('');
+    }
+
+    clearValidation();
+
+    $.post('/signup', $form.serialize())
+        .done(function(data) {
+            console.log(data);
+
+            if (data.result) {
+                // Успешная регистрация
+                showAlert('success', 'Регистрация прошла успешно!');
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 1500); // Задержка перед редиректом — пользователь успеет увидеть сообщение
+            } else {
+                handleError(data);
             }
-            $("#alert").html('<div class="alert alert-danger" role="alert">'+errors+'</div>');
+        })
+        .fail(function(jqXHR, textStatus, errorThrown) {
+            // Обработка ошибок AJAX-запроса
+            console.error('AJAX error:', textStatus, errorThrown);
+            showAlert('danger', 'Ошибка соединения. Проверьте интернет или попробуйте позже.');
+        });
+});
+
+// Функция отображения алерта
+function showAlert(type, message) {
+    const alertClass = `alert-${type}`;
+    const alertHtml = `<div class="alert ${alertClass}" role="alert">${message}</div>`;
+    $('#alert').html(alertHtml);
+}
+
+// Функция обработки ошибок от сервера
+function handleError(data) {
+    if (data.error) {
+        showAlert('danger', data.error);
+    } else if (data.errors && data.errors.length > 0) {
+        showAlert('danger', 'Проверьте правильность заполнения полей!');
+        applyFieldErrors(data.errors);
+    } else {
+        showAlert('danger', 'Неизвестная ошибка! Обратитесь к администрации или попробуйте позже!');
+    }
+}
+
+// Применение ошибок к конкретным полям
+function applyFieldErrors(errors) {
+    errors.forEach(function(error) {
+        const $input = $(`input[name="${error.field}"]`);
+        if ($input.length) {
+            $input.addClass('is-invalid');
+            const $parent = $input.parent();
+            const feedbackId = `validationServer${error.field}Feedback`;
+
+            // Проверяем, нет ли уже такого элемента
+            if (!$parent.find(`#${feedbackId}`).length) {
+                $parent.append(`
+                    <div id="${feedbackId}" class="invalid-feedback">
+                        ${error.message}
+                    </div>
+                `);
+            }
         }
     });
-});
+}

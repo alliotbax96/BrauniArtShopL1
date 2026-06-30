@@ -20,6 +20,14 @@
                             <a href="javascript:void(0);" class="nav-link @if(Route::currentRouteName() == 'profile.pay.index') active @endif "
                                data-bs-toggle="tab" data-bs-target="#subscriptionTab" role="tab">Оплата</a>
                         </li>
+                        <li class="nav-item flex-fill border-top" role="presentation">
+                            <a href="javascript:void(0);" class="nav-link {{Route::currentRouteName() == 'profile.legalDetails.index' ? 'active show':''}}"
+                               data-bs-toggle="tab" data-bs-target="#legalDetailTab" role="tab">Реквизиты</a>
+                        </li>
+                        <li class="nav-item flex-fill border-top" role="presentation">
+                            <a href="javascript:void(0);" class="nav-link {{Route::currentRouteName() == 'profile.selfEmployed.index' ? 'active':''}}"
+                               data-bs-toggle="tab" data-bs-target="#selfEmployedTab" role="tab">Самозанятый</a>
+                        </li>
                     </ul>
                 </div>
 
@@ -121,6 +129,34 @@
                             @if(!isset($SocialAccounts['yandex'][0]))
                             </a>
                             @endif
+                            @if(!isset($SocialAccounts['vkontakte'][0]))
+                                <a style="text-decoration: none;" href="{{route('profile.attach.vk')}}">
+                                    @endif
+                                    <div
+                                        class="hstack justify-content-between p-4 mb-3 border border-dashed border-gray-3 rounded-1">
+                                        <div class="hstack me-4">
+                                            <div class="avatar-text">
+                                                <i class="fa-brands fa-vk"></i>
+                                            </div>
+                                            <div class="ms-4">
+                                            <span class="fw-bold mb-1 text-truncate-1-line">
+                                                VK ID
+                                            </span>
+                                                <div class="fs-12 text-muted text-truncate-1-line">
+                                                    Авторизация в один клик с аккаунтом VK ID.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-check form-switch form-switch-sm">
+                                            <label class="form-check-label fw-500 text-dark c-pointer"
+                                                   for="formSwitch2FA"></label>
+                                            <input class="form-check-input c-pointer @if(isset($SocialAccounts['vkontakte'][0])) openid_off @endif" data-service="vkontakte" type="checkbox"
+                                                   id="formSwitch2FA" @if(isset($SocialAccounts['vkontakte'][0])) checked @endif @if(!isset($SocialAccounts['vkontakte'][0])) disabled @endif>
+                                        </div>
+                                    </div>
+                                    @if(!isset($SocialAccounts['vkontakte'][0]))
+                                     </a>
+                                   @endif
 
                         </div>
                     </div>
@@ -246,6 +282,9 @@
                             </div>
                         </div>
                         {{--                <hr class="my-0">--}}
+                    </div>
+                    <div class="tab-pane fade {{Route::currentRouteName() == 'profile.legalDetails.index' ? 'active show':''}}" id="legalDetailTab"
+                         role="tabpanel">
                         <div class="card-body pass-info">
                             <div class="mb-4 d-flex align-items-center justify-content-between">
                                 <h5 class="fw-bold mb-0 me-4">
@@ -420,6 +459,110 @@
                                         </div>
                                     </div>
                                 @endforeach
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade {{Route::currentRouteName() == 'profile.selfEmployed.index' ? 'active show':''}}" id="selfEmployedTab"
+                         role="tabpanel">
+                        <div class="card-body pass-info">
+                            <div class="mb-4 d-flex align-items-center justify-content-between">
+                                <h5 class="fw-bold mb-0 me-4">
+                                    <span class="d-block mb-2">Самозанятый:</span>
+                                    <span class="fs-12 fw-normal text-muted text-truncate-2-line">
+                                        Если вы планируете сотрудничать с площадкой как самозанятый, проведите подключение здесь.
+                                        Важно: самозанятые могут продавать только товары собственного производства либо оказывать услуги лично — перепродажа товаров запрещена.
+                                    </span>
+                                </h5>
+                                <form id="selfEmployed" onsubmit="return false;">
+                                    @csrf
+                                    <input type="hidden" name="user_id" value="{{$currentUser->id}}">
+                                    <input type="hidden" name="id" value="{{isset($selfEmployed) ? $selfEmployed->id : ''}}">
+                                </form>
+                                <button form="selfEmployed" type="submit" class="btn btn-sm btn-light-brand" {{isset($selfEmployed) && $selfEmployed->verification_status == 'verified' ? '' : 'disabled'}}>Сохранить</button>
+                            </div>
+                            <div id="selfEmployedAlert" class="mb-4 d-flex align-items-center"></div>
+                            <div class="row mb-4 align-items-center">
+                                <div class="col-lg-4">
+                                    <label for="selfEmployedINN" class="fw-semibold">ИНН: </label>
+                                </div>
+                                <div class="col-lg-8 d-flex gap-2">
+                                    <input form="selfEmployed" class="form-control" id="selfEmployedINN" name="selfEmployedINN"
+                                           placeholder="ИНН" value="{{isset($selfEmployed) ? $selfEmployed->inn : ''}}" {{isset($selfEmployed) && $selfEmployed->verification_status == 'notVerifiable' ? 'disabled' : ''}}>
+                                    <button type="button" class="btn btn-primary" id="checkINNBtn" {{isset($selfEmployed) && $selfEmployed->verification_status != 'failedVerification' ? 'disabled' : ''}}>{{isset($selfEmployed) && $selfEmployed->verification_status == 'failedVerification' ? 'Повторная проверка' : 'Проверить'}}</button>
+                                </div>
+                            </div>
+                            @if(isset($selfEmployed) && $selfEmployed->verification_status == 'notVerifiable')
+                            <div class="row mb-4 alert-block">
+                                <div class="col-lg-4"></div>
+                                <div class="col-lg-8">
+                                    <div class="alert alert-info">
+                                        ИНН сохранён. Проверка статуса займет некоторое время.
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
+                            @if(isset($selfEmployed) && $selfEmployed->verification_status == 'failedVerification')
+                                <div class="row mb-4 alert-block">
+                                    <div class="col-lg-4"></div>
+                                    <div class="col-lg-8">
+                                        <div class="alert alert-danger">
+                                            ИНН не прошел проверку! Убедитесь, что статус самозанятого получен в сервисе "Мой Налог".
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+                            <div class="{{isset($selfEmployed) && $selfEmployed->verification_status == 'verified' ? '' : 'hidden'}}" id="PaymentDetails">
+                                <div class="mb-4 d-flex align-items-center justify-content-between">
+                                    <h5 class="fw-bold mb-0 me-4">
+                                        <span class="d-block mb-2">Банковские реквизиты:</span>
+                                    </h5>
+                                </div>
+                                <div class="row mb-4 align-items-center">
+                                    <div class="col-lg-4">
+                                        <label for="account_holder_name" class="fw-semibold">ФИО получателя: </label>
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <input form="selfEmployed" class="form-control" id="account_holder_name" name="account_holder_name"
+                                               placeholder="ФИО получателя" maxlength="40" value="{{isset($selfEmployed) ? $selfEmployed->account_holder_name : ''}}" {{isset($selfEmployed) && $selfEmployed->verification_status == 'verified' ? '' : 'disabled'}}>
+                                    </div>
+                                </div>
+                                <div class="row mb-4 align-items-center">
+                                    <div class="col-lg-4">
+                                        <label for="bank_account_number" class="fw-semibold">Расчетный счет: </label>
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <input form="selfEmployed" class="form-control" id="bank_account_number" name="bank_account_number"
+                                               placeholder="Расчетный счет" maxlength="20" value="{{isset($selfEmployed) ? $selfEmployed->bank_account_number : ''}}" {{isset($selfEmployed) && $selfEmployed->verification_status == 'verified' ? '' : 'disabled'}}>
+                                    </div>
+                                </div>
+                                <div class="row mb-4 align-items-center">
+                                    <div class="col-lg-4">
+                                        <label for="bank_nameSelf" class="fw-semibold">Введите БИК или название
+                                            банка: </label>
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <input form="selfEmployed" class="form-control" id="bank_nameSelf" name="bank_name"
+                                               placeholder="Введите БИК или название банка" value="{{isset($selfEmployed) ? $selfEmployed->bank_name : ''}}" {{isset($selfEmployed) && $selfEmployed->verification_status == 'verified' ? '' : 'disabled'}}>
+                                    </div>
+                                </div>
+                                <div class="row mb-4 align-items-center">
+                                    <div class="col-lg-4">
+                                        <label for="bic" class="fw-semibold">БИК: </label>
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <input form="selfEmployed" class="form-control" id="bic" name="bic" placeholder="БИК"
+                                               maxlength="9" value="{{isset($selfEmployed) ? $selfEmployed->bic : ''}}" {{isset($selfEmployed) && $selfEmployed->verification_status == 'verified' ? '' : 'disabled'}}>
+                                    </div>
+                                </div>
+                                <div class="row mb-4 align-items-center">
+                                    <div class="col-lg-4">
+                                        <label for="correspondent_account" class="fw-semibold">Корр. счет: </label>
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <input form="selfEmployed" class="form-control" id="correspondent_account" name="correspondent_account"
+                                               placeholder="Корр. счет" maxlength="20" value="{{isset($selfEmployed) ? $selfEmployed->correspondent_account : ''}}" {{isset($selfEmployed) && $selfEmployed->verification_status == 'verified' ? '' : 'disabled'}}>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

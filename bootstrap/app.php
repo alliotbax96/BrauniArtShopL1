@@ -15,8 +15,12 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
             'check.permissions' => \App\Http\Middleware\CheckUserPermissions::class,
+            'admin' => \App\Http\Middleware\AdminMiddleware::class,
             // другие middleware...
         ]);
+
+        // Добавляем middleware для работы Sanctum с сессиями
+        $middleware->statefulApi();
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

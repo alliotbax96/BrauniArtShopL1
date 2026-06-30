@@ -53,64 +53,80 @@
                                 </tr>
                                 </thead>
                                 <tbody>
+                                @php
+                                    switch ($CartShopMode->id) {
+                                        case '8':
+                                            $route = 'books.show';
+                                        break;
+                                        default:
+                                            $route = 'products.show';
+                                        break;
+                                    }
+                                @endphp
                                 @foreach($cart->items as $key => $item)
-                                    <tr data-item-id="{{ $item->id }}">
-                                        <td>
-                                            <input form="CartForm" type="checkbox" name="cart_items[]"
-                                                   value="{{ $item->id }}" checked>
-                                        </td>
-                                        <td>
-                                            <a href="{{ route('products.show', $item->getProduct()->id) }}">
-                                                <img
-                                                    src="https://s3.ru1.storage.beget.cloud/d5833d93d74c-brauniartfiles/{{ $item->getProduct()->getMainImage() }}"
-                                                    alt="{{ $item->getProduct()->getProductName() }}"
-                                                    style="object-fit: contain; height: 129px; width: 103px;">
-                                            </a>
-                                        </td>
-                                        <td class="product-name">
-                                            <h4>
-                                                <a href="{{ route('products.show', $item->getProduct()->id) }}">{{ $item->getProduct()->getProductName() }}</a>
-                                            </h4>
-                                            <p></p>
-                                        </td>
-                                        <td class="product-price">
+                                    @if($item->product_type == $CartShopMode->Model)
+                                        <tr data-item-id="{{ $item->id }}">
+                                            <td>
+                                                <input form="CartForm" type="checkbox" name="cart_items[]"
+                                                       value="{{ $item->id }}" checked>
+                                            </td>
+                                            <td>
+                                                <a href="{{ route($route, $item->getProduct()->id) }}">
+                                                    <img
+                                                        src="{{$item->product_type == 'App\Models\Product' ? 'https://s3.ru1.storage.beget.cloud/d5833d93d74c-brauniartfiles/' : ''}}{{ $item->getProduct()->getMainImage() }}"
+                                                        alt="{{$item->getProduct()->getProductName()}}"
+                                                        style="object-fit: contain; height: 129px; width: 103px;">
+                                                </a>
+                                            </td>
+                                            <td class="product-name">
+                                                <h4>
+                                                    <a href="{{ route($route, $item->getProduct()->id) }}">{{ $item->getProduct()->getProductName() }}</a>
+                                                </h4>
+                                                <p></p>
+                                            </td>
+                                            <td class="product-price">
                                             <span
                                                 id="price{{ $item->id }}">{{ number_format($item->getProduct()->getProductPrice(), 2, ',', ' ') }}</span>
-                                            руб.
-                                        </td>
-                                        <td class="product-quantity">
-                                            <div class="cart-plus">
-                                                <div class="cart-plus-minus">
-                                                    <input type="number"
-                                                           form="CartForm"
-                                                           class="item_count"
-                                                           data-id="{{ $item->id }}"
-                                                           name="quantities[{{ $item->id }}]"
-                                                           value="{{ $item->quantity }}"
-                                                           min="1"
-                                                           max="{{ $item->getProduct()->stock }}"
-                                                           onchange="updateCartItem({{ $item->id }}, this.value)">
-                                                </div>
-                                                {{--                                                    @endif--}}
-                                            </div>
-                                        </td>
-                                        <td class="product-subtotal">
+                                                руб.
+                                            </td>
+                                            <td class="product-quantity">
+                                                @if($item->product_type == 'App\Models\Product')
+                                                    <div class="cart-plus">
+                                                        <div class="cart-plus-minus">
+                                                            <input type="number"
+                                                                   form="CartForm"
+                                                                   class="item_count"
+                                                                   data-id="{{ $item->id }}"
+                                                                   name="quantities[{{ $item->id }}]"
+                                                                   value="{{ $item->quantity }}"
+                                                                   min="1"
+                                                                   max="{{ $item->getProduct()->stock }}"
+                                                                   onchange="updateCartItem({{ $item->id }}, this.value)">
+                                                        </div>
+                                                    @else
+                                                        <span>Цифровой товар</span>
+                                                    @endif
+                                                    </div>
+                                            </td>
+                                            <td class="product-subtotal">
                                             <span
                                                 id="sum{{ $item->id }}">{{ number_format($item->getProduct()->getProductPrice() * $item->quantity, 2, ',', ' ') }}</span>
-                                            руб.
-                                        </td>
-                                        <td class="product-thumbnail">
-                                            <form action="{{ route('cart.remove', $item->id) }}" method="POST"
-                                                  style="display: inline;">
-                                                @csrf
-                                                <input type="hidden" name="_method" value="DELETE">
-                                                <button class="wishlist-remove cart_item_del skip-ajax" type="submit"
-                                                        style="background: none; border: none; cursor: pointer;">
-                                                    <i class="far fa-trash-alt"></i>
-                                                </button>
-                                            </form>
-                                        </td>
-                                    </tr>
+                                                руб.
+                                            </td>
+                                            <td class="product-thumbnail">
+                                                <form action="{{ route('cart.remove', $item->id) }}" method="POST"
+                                                      style="display: inline;">
+                                                    @csrf
+                                                    <input type="hidden" name="_method" value="DELETE">
+                                                    <button class="wishlist-remove cart_item_del skip-ajax"
+                                                            type="submit"
+                                                            style="background: none; border: none; cursor: pointer;">
+                                                        <i class="far fa-trash-alt"></i>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endif
                                 @endforeach
                                 </tbody>
                             </table>
@@ -153,25 +169,32 @@
                                         </li>
 
                                         @auth
-                                            <li>
-                                                <select form="CartForm" name="pvz" id="pvz" class="form-control point-select">
-                                                    <option disabled>Выберите пункт выдачи</option>
-                                                    @foreach($userPvzs as $pvz)
-                                                        <option value="{{$pvz['pvz']}}"
-                                                                @if($pvz['last']) selected @endif>{{$pvz['pvz_name']}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </li>
-                                            <li><a style="font-size: 12px;" href="javascript:$('.collapse').show();">Добавить
-                                                    новый пункт выдачи</a></li>
-                                            <li>
-                                                <span>Доставка:</span>
-                                                <div class="shop-check-wrap">
-                                                    <div class="custom-control">
-                                                        <span>Стоимость доставки будет рассчитана на следующем этапе.</span>
+                                            @if($item->product_type == 'App\Models\Product')
+                                                <li>
+                                                    <select form="CartForm" name="pvz" id="pvz"
+                                                            class="form-control point-select">
+                                                        <option disabled>Выберите пункт выдачи</option>
+                                                        @foreach($userPvzs as $pvz)
+                                                            <option value="{{$pvz['pvz']}}"
+                                                                    @if($pvz['last']) selected @endif>{{$pvz['pvz_name']}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </li>
+                                                <li>
+                                                    <a style="font-size: 12px;"
+                                                       href="javascript:$('.collapse').show();">
+                                                        Добавить новый пункт выдачи
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <span>Доставка:</span>
+                                                    <div class="shop-check-wrap">
+                                                        <div class="custom-control">
+                                                            <span>Стоимость доставки будет рассчитана на следующем этапе</span>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </li>
+                                                </li>
+                                            @endif
                                         @else
                                             <li class="cart-total-amount">Для оформления заказа нужно авторизоваться!
                                             </li>
@@ -180,8 +203,8 @@
                                     <br>
                                     <div id="checkout_buttons">
                                         @auth
-                                            <button form="CartForm" type="submit" id="checkout_button" class="btn">К
-                                                оформлению
+                                            <button form="CartForm" type="submit" id="checkout_button" class="btn">
+                                                К оформлению
                                             </button>
                                         @else
                                             <a href="/auth" class="btn">Авторизоваться</a>

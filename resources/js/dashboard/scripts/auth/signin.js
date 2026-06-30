@@ -13,7 +13,7 @@ function timer(num) {
         clearInterval(timerId);
         $("#get_sms").parent().html('<a href="#" id="get_sms" class="fs-11 text-primary">Получить код повторно</a>');
         $("#get_sms").click(function () {
-            $.post('/sensmskode', { phone: $("input[name=\"phone\"]").val() }, function (data) {
+            $.post('/SendSmsCode', { phone: $("input[name=\"phone\"]").val() }, function (data) {
                 if (data == true) {
                     alert('Вам отправлено СМС с кодом!');
                     $("#get_sms").parent().html('<span id="get_sms" class="fs-11 text-primary">Получить код повторно через <span class="seconds">120</span> сек</span>');
@@ -42,7 +42,6 @@ $(".mask_phone").mask("+7 (999) 999-99-99", {
         });
     }
 });
-
 $(".code").mask("9999", {
     onComplete: function () {
 
