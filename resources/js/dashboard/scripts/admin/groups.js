@@ -177,7 +177,7 @@ $(document).ready(function() {
         if (confirm(`Вы уверены, что хотите удалить группу "${groupName}"?`)) {
             $.ajax({
                 type: 'DELETE',
-                url: `/admin/product-groups/${groupId}`,
+                url: `/admin/productGroups/${groupId}`,
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },

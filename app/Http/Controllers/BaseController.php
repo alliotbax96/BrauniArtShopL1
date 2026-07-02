@@ -55,8 +55,8 @@ class BaseController extends Controller
             'ShopModes' => ShopMode::where('status', 1)->get(),
             'CartShopMode' => $ShopMode,
 //            'ShopModes' => ShopMode::all(),
-            'verName' => '3.0.5 Beta',
-            'ver' => 1,
+            'verName' => '3.1.2 Beta',
+            'ver' => 3,
             'scripts' => null,
             'meta_description' => 'Маркетплейс Брауни Арт — широкий ассортимент товаров высокого качества от проверенных продавцов. Надёжный поставщик с многолетним опытом: гарантия сервиса, доступные цены и удобная доставка по России. Покупайте с комфортом!'
         ]);

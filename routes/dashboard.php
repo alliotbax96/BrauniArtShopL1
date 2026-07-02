@@ -156,10 +156,6 @@ Route::domain('id.brauniart.shop')->group(function () {
               Route::post('/{chat}/upload', [MessageController::class, 'upload']);
           });
         });
-        Route::prefix('admin')->name('admin.')->group(function () {
-
-        });
-
         Route::prefix('tests')->name('tests.')->group(function () {
             Route::get('/Send', function () {
                 $sellerId = 2411;
@@ -196,8 +192,6 @@ Route::domain('id.brauniart.shop')->group(function () {
                 ], 200);
             })->name('Send');
         });
-
-
         Route::get('/logout', [LoginController::class, 'logout']);
     });
     Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
