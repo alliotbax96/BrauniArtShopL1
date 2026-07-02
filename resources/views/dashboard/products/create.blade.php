@@ -49,7 +49,7 @@
                                         <label for="ProductDescription" class="form-label">Описание <span
                                                 class="text-danger">*</span></label>
                                         <div id="ProductDescription" class="form-control"></div>
-                                        <textarea class="hidden" name="ProductDescription"
+                                        <textarea class="hidden" name="productDescription"
                                                   id="ProductDescriptionTextArea" cols="30" rows="10"></textarea>
                                     </div>
 

@@ -158,6 +158,16 @@ $(document).ready(function () {
         quill.clipboard.dangerouslyPasteHTML(0, QuillText);
     }
 
+    var syncTimeout = null;
+    quill.on('text-change', function() {
+        clearTimeout(syncTimeout);
+        syncTimeout = setTimeout(function() {
+            // Синхронизируем содержимое с textarea
+            $textarea.val(quill.root.innerHTML);
+            // $textarea.html(quill.root.innerHTML);
+        }, 500); // Задержка 500 мс для оптимизации
+    });
+
 
     // Поле «Вес» — только цифры и точка
     $('#ProductWeight').on('input', function() {
