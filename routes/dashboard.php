@@ -22,6 +22,8 @@ use App\Http\Controllers\Dashboard\Support\MessageController;
 use App\Http\Controllers\Dashboard\Products\ProductQuantityController;
 use App\Http\Controllers\Login\SsoController;
 use App\Http\Controllers\Dashboard\Admin\EnvController;
+use App\Http\Controllers\Dashboard\Orders\BookOrdersController;
+use App\Http\Controllers\Dashboard\Admin\BudgetController;
 
 Route::domain('id.brauniart.shop')->group(function () {
     Route::group(['middleware' => ['guest']], function () {
@@ -135,6 +137,10 @@ Route::domain('id.brauniart.shop')->group(function () {
               Route::get('/getDeliveryLabeles/{id}', [OrdersController::class, 'getDeliveryLabeles'])->name('getDeliveryLabeles');
               Route::get('/Sharing/{id}', [OrdersController::class, 'Sharing'])->name('Sharing');
           });
+          Route::prefix('bookOrders')->name('bookOrders.')->group(function () {
+              Route::get('/', [BookOrdersController::class, 'index'])->name('index');
+              Route::post('/ajax', [BookOrdersController::class, 'ajax'])->name('ajax');
+          });
           Route::prefix('users')->name('users.')->group(function () {
               Route::get('/', [UsersController::class, 'index'])->name('index');
               Route::get('/ajax', [UsersController::class, 'ajax'])->name('ajax');
@@ -216,6 +222,14 @@ Route::domain('id.brauniart.shop')->group(function () {
             Route::get('/ajax', [SellersController::class, 'ajax'])->name('ajax');
             Route::post('/contracts/{contract_id}/status', [SellersController::class, 'updateContractStatus'])
                 ->name('contracts.status.update');
+        });
+        Route::prefix('budget')->name('budget.')->group(function () {
+                Route::get('/', [BudgetController::class, 'index'])->name('index');
+                Route::get('/transactions', [BudgetController::class, 'getTransactions'])->name('transactions');
+                Route::post('/income', [BudgetController::class, 'addIncome'])->name('income');
+                Route::post('/expense', [BudgetController::class, 'addExpense'])->name('expense');
+                Route::post('/manager-balance', [BudgetController::class, 'updateManagerBalance'])->name('manager-balance');
+                Route::delete('/transaction/{id}', [BudgetController::class, 'deleteTransaction'])->name('delete');
         });
     });
 });

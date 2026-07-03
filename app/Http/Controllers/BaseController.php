@@ -52,11 +52,11 @@ class BaseController extends Controller
             'cart' => $cartData['cart'],
             'ProductGroups' => $this->getProductGroups(),
             'title' => 'Брауни Арт — маркетплейс качественных товаров с доставкой по России',
-            'ShopModes' => ShopMode::where('status', 1)->get(),
+//            'ShopModes' => ShopMode::where('status', 1)->get(),
             'CartShopMode' => $ShopMode,
-//            'ShopModes' => ShopMode::all(),
-            'verName' => '3.1.2 Beta',
-            'ver' => 3,
+            'ShopModes' => ShopMode::all(),
+            'verName' => '3.1.5 Beta',
+            'ver' => 4,
             'scripts' => null,
             'meta_description' => 'Маркетплейс Брауни Арт — широкий ассортимент товаров высокого качества от проверенных продавцов. Надёжный поставщик с многолетним опытом: гарантия сервиса, доступные цены и удобная доставка по России. Покупайте с комфортом!'
         ]);

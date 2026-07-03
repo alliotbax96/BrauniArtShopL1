@@ -68,9 +68,9 @@
 
                                     @case(8)
                                         <li class="tooltip-wrapper">
-                                            <a href="@if($currentUser) /orders @else /auth @endif">
+                                            <a href="@if($currentUser) /bookOrders @else /auth @endif">
                                                 <i data-feather="book"></i>
-                                                <span class="tooltip-text">Ваши книги</span>
+                                                <span class="tooltip-text">Мои книги</span>
                                             </a>
                                         </li>
                                         <li class="header-shop-cart tooltip-wrapper">

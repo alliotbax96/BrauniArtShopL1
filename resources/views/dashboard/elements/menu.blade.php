@@ -67,7 +67,7 @@
                             <li class="nxl-item"><a class="nxl-link" href="{{route('seller.products.quantity.index')}}">Остатки</a>
                             </li>
                         @endif
-                        <li class="nxl-item"><a class="nxl-link" href="{{route('seller.books.index')}}">Книги</a></li>
+                        <li class="nxl-item"><a class="nxl-link" href="{{route('seller.books.index')}}">Книги(Самиздат)</a></li>
                         {{--                    <li class="nxl-item"><a class="nxl-link"  href="#">Услуги</a></li>--}}
                     </ul>
                 </li>
@@ -92,6 +92,7 @@
                             {{--                    <li class="nxl-item"><a class="nxl-link"  href="#">Бронирование</a></li>--}}
                             {{--                    <li class="nxl-item"><a class="nxl-link"  href="#">Квесты</a></li>--}}
                         @endif
+                            <li class="nxl-item"><a class="nxl-link" href="{{route('seller.bookOrders.index')}}">Книги(Самиздат)</a></li>
                             {{--                    <li class="nxl-item"><a class="nxl-link"  href="#">Услуги</a></li>--}}
                     </ul>
                 </li>
@@ -183,6 +184,12 @@
                 <a href="{{route('admin.env.index')}}" class="nxl-link">
                     <span class="nxl-micon"><i class="feather-settings"></i></span>
                     <span class="nxl-mtext">Настройки системы</span>
+                </a>
+            </li>
+            <li class="nxl-item">
+                <a href="{{route('admin.budget.index')}}" class="nxl-link">
+                    <span class="nxl-micon"><i class="feather-dollar-sign"></i></span>
+                    <span class="nxl-mtext">Бюджет проекта</span>
                 </a>
             </li>
         @endif

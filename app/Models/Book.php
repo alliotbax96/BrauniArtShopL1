@@ -178,14 +178,14 @@ class Book extends Model
         return $this->name;
     }
 
-    public function getProductPrice(): string
+    public function getProductPrice($cart = true): string
     {
-        if ($this->price) {
+        if (($this->price && $this->price > 0) || ($this->price && $cart)) {
             return number_format($this->price, 0, '', ' ');
         }
 
         // Если книга бесплатная или цена не указана
-        if ($this->isComplete() && $this->publishedChapters()->count() > 0) {
+        if ($this->publishedChapters()->count() > 0) {
             return 'Бесплатно';
         }
 
@@ -450,4 +450,38 @@ class Book extends Model
 
         return $info;
     }
+
+    /**
+     * Проверить, куплена ли книга текущим пользователем
+     *
+     * @param int|null $userId ID пользователя. Если null — берёт из Auth::id()
+     * @return bool
+     */
+    public function isPurchasedBy(int $userId = null): bool
+    {
+        if (!$userId) {
+            // Если ID не передан, пытаемся получить из сессии (работает только в запросе)
+            if (!\Auth::check()) {
+                return false;
+            }
+            $userId = \Auth::id();
+        }
+
+        return \App\Models\BookOrder::where('user_id', $userId)
+            ->where('book_id', $this->id)
+            ->whereIn('status', ['paid', 'refunded']) // Считаем купленными и оплаченные, и возвращённые (если нужно)
+            ->exists();
+    }
+
+    /**
+     * Удобная обертка для текущего авторизованного пользователя
+     * Используется прямо в Blade: @if($book->isPurchased())
+     *
+     * @return bool
+     */
+    public function isPurchased(): bool
+    {
+        return $this->isPurchasedBy();
+    }
+
 }

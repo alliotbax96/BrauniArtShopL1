@@ -119,8 +119,6 @@ class ProductController extends BaseController
         ]);
     }
 
-
-
     /**
      * Список всех продуктов
      */
@@ -229,8 +227,6 @@ class ProductController extends BaseController
             'meta_description'  => $description,
         ]);
     }
-
-
 
     /**
      * Генерирует микроразметку Schema.org для товара (JSON-LD)

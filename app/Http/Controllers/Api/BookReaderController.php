@@ -13,9 +13,12 @@ use Illuminate\Support\Facades\Auth;
 class BookReaderController extends BaseController
 {
 
-    public function index($id){
-        $this->shareCommonData();
+    public function index($id, Request $request) {
+        $this->shareCommonData($request);
         $book = Book::findOrFail($id);
+        if(!$book->isPurchased()){
+            return abort(403);
+        }
         return view('books.reader.index', compact('book'));
     }
     /**

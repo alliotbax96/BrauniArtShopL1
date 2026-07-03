@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Orders;
 
 use App\Http\Controllers\BaseController;
-use App\Services\TbankService;
-use Illuminate\Http\Request;
 use App\Models\UserCard;
 use App\Models\Order;
+use App\Models\BookOrder;
+use Illuminate\Http\Request;
+use App\Services\TbankService;
 
 class PayHook extends BaseController
 {
@@ -23,7 +24,6 @@ class PayHook extends BaseController
 
             $data = $request->json()->all();
 
-            // Логируем входящий запрос для отладки
             \Log::info('Payment hook received', ['data' => $data]);
 
             // Валидация обязательных полей
@@ -40,7 +40,7 @@ class PayHook extends BaseController
                 return response('Missing required fields', 422);
             }
 
-            // Проверяем ErrorCode — если не 0, платёж не успешен
+            // Проверка ErrorCode
             if (isset($data['ErrorCode']) && $data['ErrorCode'] !== '0') {
                 \Log::warning('Payment failed with error code', [
                     'error_code' => $data['ErrorCode'],
@@ -50,7 +50,7 @@ class PayHook extends BaseController
                 return response('Payment failed', 402);
             }
 
-            // Обработка RebillId, если присутствует
+            // Обработка RebillId
             if (isset($data['RebillId']) && !empty($data['RebillId'])) {
                 try {
                     UserCard::create([
@@ -67,15 +67,14 @@ class PayHook extends BaseController
                         'data' => $data,
                         'trace' => $e->getTraceAsString()
                     ]);
-                    // Продолжаем выполнение, так как это не критичная операция
+                    // Не прерываем обработку, это не критично
                 }
             }
 
             $check = explode('##', $data['OrderId']);
 
-            // Безопасная проверка OrderId
+            // Логика для binding-операций
             if (count($check) >= 2 && $check[0] === 'binding') {
-                // Обрабатываем отмену платежа для операций привязки
                 if (!isset($data['PaymentId']) || empty($data['PaymentId'])) {
                     \Log::error('PaymentId is required for binding operations', [
                         'order_id' => $data['OrderId'],
@@ -88,7 +87,6 @@ class PayHook extends BaseController
                     $tbankService = new TbankService();
                     $result = $tbankService->CancelPayment($data['PaymentId']);
 
-                    // Проверяем результат операции отмены платежа
                     if (is_array($result) && isset($result['Success']) && !$result['Success']) {
                         \Log::error('Failed to cancel payment', [
                             'payment_id' => $data['PaymentId'],
@@ -118,42 +116,52 @@ class PayHook extends BaseController
                     ]);
                     return response('Internal server error', 500);
                 }
-            } else {
-                // Обновляем статус заказа для обычных платежей
-                if (!isset($data['PaymentId']) || empty($data['PaymentId'])) {
-                    \Log::error('PaymentId is required for order status update', [
-                        'order_id' => $data['OrderId'],
-                        'received_data' => $data
-                    ]);
-                    return response('PaymentId is required', 422);
-                }
 
-                try {
-                    $updated = Order::where('paymentId', $data['PaymentId'])->update(['status' => 'paid']);
-                    if (!$updated) {
-                        \Log::warning('Order not found or not updated', [
-                            'order_id' => $data['OrderId'],
-                            'payment_id' => $data['PaymentId']
-                        ]);
-                        return response('Order not found', 404);
-                    }
-
-                    \Log::info('Order status updated to paid', [
-                        'order_id' => $data['OrderId'],
-                        'payment_id' => $data['PaymentId']
-                    ]);
-                } catch (\Exception $e) {
-                    \Log::error('Database error while updating order status', [
-                        'exception' => $e->getMessage(),
-                        'order_id' => $data['OrderId'],
-                        'payment_id' => $data['PaymentId'],
-                        'trace' => $e->getTraceAsString()
-                    ]);
-                    return response('Internal server error', 500);
-                }
+                return response('OK', 200);
             }
 
-            return response('OK', 200);
+            // Обычная логика: обновление статуса по paymentId в Order ИЛИ BookOrder
+            if (!isset($data['PaymentId']) || empty($data['PaymentId'])) {
+                \Log::error('PaymentId is required for order status update', [
+                    'order_id' => $data['OrderId'],
+                    'received_data' => $data
+                ]);
+                return response('PaymentId is required', 422);
+            }
+
+            $paymentId = $data['PaymentId'];
+
+            // Сначала пробуем обновить обычный заказ
+            $updated = Order::where('payment_id', $paymentId)->update(['status' => 'paid']);
+            if ($updated) {
+                \Log::info('Order status updated to paid (Order)', [
+                    'order_id' => $data['OrderId'],
+                    'payment_id' => $paymentId
+                ]);
+                return response('OK', 200);
+            }
+
+            // Если не нашли в Order — пробуем BookOrder
+            $bookOrderUpdated = BookOrder::where('payment_id', $paymentId)
+                ->update([
+                    'status' => 'paid',
+                    'paid_at' => now()
+                ]);
+
+            if ($bookOrderUpdated) {
+                \Log::info('BookOrder status updated to paid (BookOrder)', [
+                    'order_id' => $data['OrderId'],
+                    'payment_id' => $paymentId
+                ]);
+                return response('OK', 200);
+            }
+
+            \Log::warning('Order not found or not updated', [
+                'order_id' => $data['OrderId'],
+                'payment_id' => $paymentId
+            ]);
+
+            return response('Order not found', 404);
         } catch (\Exception $e) {
             \Log::critical('Unexpected error in index method', [
                 'exception' => $e->getMessage(),

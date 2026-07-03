@@ -36,7 +36,10 @@ export default defineConfig({
                 'resources/js/dashboard/Pages/books.js',
                 'resources/js/dashboard/Pages/booksShow.js',
                 'resources/js/dashboard/scripts/admin/groups.js',
-                'resources/js/dashboard/scripts/admin/sellers.js'
+                'resources/js/dashboard/scripts/admin/sellers.js',
+                'resources/js/dashboard/Pages/bookOrders.js',
+                'resources/js/dashboard/scripts/admin/budget.js',
+
             ],
             refresh: true,
         }),

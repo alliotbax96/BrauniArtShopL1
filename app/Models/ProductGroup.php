@@ -53,6 +53,11 @@ class ProductGroup extends Model
         return $this->hasMany(Product::class, 'productGroupId', 'id');
     }
 
+    public function books(): HasMany
+    {
+        return $this->hasMany(Book::class, 'genre_id', 'id');
+    }
+
     /**
      * Получение корневых групп (без родителя)
      */

@@ -7,6 +7,17 @@
     <title>Читалка - {{ $book->name }}</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    <!-- Фавиконы (оставляем как есть) -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/icons/favicon-16x16.png">
+    <link rel="manifest" href="/assets/img/icons/site.webmanifest">
+    <link rel="mask-icon" href="/assets/img/icons/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="/assets/img/icons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-config" content="/assets/img/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+
     <style>
         :root {
             --bg-color: #faf9f6;
@@ -261,7 +272,7 @@
 
 <div class="reader-container">
     <!-- Sidebar -->
-    <aside class="sidebar hidden" id="sidebar">
+    <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <h2>{{ $book->name }}</h2>
             <div class="author">{{ $book->author }}</div>
@@ -356,6 +367,34 @@
             } catch (error) {
                 console.error('Error loading book data:', error);
             }
+        }
+
+        // Добавьте эти методы в класс BookReader
+
+        get prevChapterId() {
+            if (!this.currentChapter || !this.bookData?.chapters) return null;
+
+            const currentIndex = this.bookData.chapters.findIndex(
+                chapter => chapter.id === this.currentChapter.id
+            );
+
+            if (currentIndex > 0) {
+                return this.bookData.chapters[currentIndex - 1].id;
+            }
+            return null;
+        }
+
+        get nextChapterId() {
+            if (!this.currentChapter || !this.bookData?.chapters) return null;
+
+            const currentIndex = this.bookData.chapters.findIndex(
+                chapter => chapter.id === this.currentChapter.id
+            );
+
+            if (currentIndex < this.bookData.chapters.length - 1) {
+                return this.bookData.chapters[currentIndex + 1].id;
+            }
+            return null;
         }
 
 

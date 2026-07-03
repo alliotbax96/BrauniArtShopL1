@@ -16,7 +16,7 @@
         <ul class="category-menu" style="display: none;">
             @foreach($ProductGroups->where('parent_id', 0)->where('ShopMode', $shopMode) as $item)
                 <li class="has-dropdown">
-                    <a href="/products?category={{ $item->id }}">
+                    <a href="{{ $shopMode == 1 ? '/products' : '/books'}}?category={{ $item->id }}">
                         <div class="cat-menu-img">
                             <img style="width: 38px; height: 38px;"
                                  src="https://id.brauniart.shop/{{ $item->image }}"
@@ -32,7 +32,7 @@
                                     <li class="dropdown-title">{{ $item->name }}</li>
                                     @foreach($item->children->where('parent_id', $item->id) as $childItem)
                                         <li>
-                                            <a href="/products?category={{ $childItem->id }}">{{ $childItem->name }}</a>
+                                            <a href="{{ $shopMode == 1 ? '/products' : '/books'}}?category={{ $childItem->id }}">{{ $childItem->name }}</a>
                                         </li>
                                     @endforeach
                                 </ul>

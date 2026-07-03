@@ -104,7 +104,13 @@
                         </div>
 
                         <div class="shop-details-price">
-                            <h2>{{ $book->getProductPrice() }}</h2>
+                            <h2>
+                                @if (is_numeric($book->getProductPrice(false)))
+                                    {{ number_format($book->getProductPrice(false), 2, ',', ' ') }} руб.
+                                @else
+                                    {{$book->getProductPrice(false)}}
+                                @endif
+                            </h2>
                             @if($book->isAudiobook() && $book->total_duration)
                                 <small class="text-muted d-block">
                                     <i class="far fa-clock me-1"></i> {{ $book->formatted_duration }}
@@ -214,7 +220,6 @@
                                 @endif
                             </div>
                         </div>
-
 {{--                        @if($book->annotation)--}}
 {{--                            <div class="book-annotation mt-3 mb-3">--}}
 {{--                                <small class="text-muted d-block mb-1">Аннотация</small>--}}
@@ -223,7 +228,7 @@
 {{--                        @endif--}}
                         <div class="row">
                             <div class="col-12">
-                                <div class="product-desc-wrap mb-100">
+                                <div class="product-desc-wrap ">
                                     <ul class="nav nav-tabs mb-25" id="myTab" role="tablist">
                                         <li class="nav-item" role="presentation">
                                             <button class="nav-link active" id="details-tab" data-bs-toggle="tab"
@@ -247,13 +252,11 @@
                                             </button>
                                         </li>
                                     </ul>
-
                                     <div class="tab-content" id="myTabContent">
                                         <!-- Вкладка "Описание" -->
                                         <div class="tab-pane fade show active" id="details" role="tabpanel"
                                              aria-labelledby="details-tab">
                                             <div class="product-desc-content">
-                                                <h4 class="title">Описание книги</h4>
                                                 <div class="book-full-description">
                                                     @if($book->annotation)
                                                         <p>{{ $book->annotation }}</p>
@@ -268,7 +271,6 @@
                                         <div class="tab-pane fade" id="chapters" role="tabpanel"
                                              aria-labelledby="chapters-tab">
                                             <div class="product-desc-content">
-                                                <h4 class="title">Содержание книги</h4>
                                                 @if($book->getChapterCount() > 0)
                                                     <div class="chapters-list">
                                                         <div class="list-group">
@@ -309,7 +311,6 @@
                                              aria-labelledby="reviews-tab">
                                             <div class="product-reviews-wrap">
                                                 <div class="reviews-count-title">
-                                                    <h5 class="title">Отзывы о книге</h5>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-lg-6">
@@ -386,7 +387,11 @@
                             <i class="fas fa-store me-1"></i> Продавец:
                             <a href="/sellers/{{ $book->getSeller()->id ?? 0 }}">{{ $book->getSeller()->name ?? 'Не указан' }}</a>
                         </p>
-
+                        @if ($book->isPurchased())
+                            @if($book->isEbook())
+                                <a href="/reader/{{$book->id}}" class="btn btn-success btn-sm">Читать</a>
+                            @endif
+                        @else
                         <div class="perched-info">
                             <div class="cart-plus">
                                 <form id="adtocart"></form>
@@ -402,6 +407,7 @@
                                 :options="[]"
                             />
                         </div>
+                        @endif
                     </div>
                 </div>
             </div>

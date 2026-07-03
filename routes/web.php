@@ -16,6 +16,7 @@ use App\Http\Controllers\Booking\BookingController;
 use App\Http\Controllers\Login\SsoController;
 use App\Http\Controllers\Api\BookReaderController;
 use App\Http\Controllers\Books\BookController;
+use App\Http\Controllers\Orders\BookOrdersController;
 
 require __DIR__ . '/dashboard.php';
 
@@ -66,6 +67,11 @@ Route::domain('brauniart.shop')->group(function () {
             Route::get('/sharing/{id}', [OrdersController::class, 'sharing'])->name('sharing');
             Route::get('/{id}', [OrdersController::class, 'show'])->name('show');
         });
+
+        Route::prefix('bookOrders')->name('bookOrders.')->group(function () {
+            Route::get('/', [BookOrdersController::class, 'index'])->name('index');
+        });
+
         Route::prefix('bookings')->name('bookings.')->group(function () {
             Route::get('/', [BookingController::class, 'index'])->name('index');
         });

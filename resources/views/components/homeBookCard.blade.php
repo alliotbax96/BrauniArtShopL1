@@ -53,7 +53,11 @@
             <div class="d-flex justify-content-between align-items-center">
                 <div class="price">
                     <span class="h6 text-primary mb-0">
-                        {{ $book->getProductPrice() }}
+                        @if (is_numeric($book->getProductPrice(false)))
+                            {{ number_format($book->getProductPrice(false), 2, ',', ' ') }} руб.
+                        @else
+                            {{$book->getProductPrice(false)}}
+                        @endif
                     </span>
                 </div>
                 <div class="rating small">
