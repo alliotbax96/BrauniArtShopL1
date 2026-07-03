@@ -22,7 +22,7 @@ class BaseController extends Controller
         view()->share([
             'currentUser' => Auth::user(),
             'title' => 'Единая система BaID',
-            'verName' => '3.1.5 Beta',
+            'verName' => '3.1.6 Beta',
             'ver' => 4,
             'sellerId' => Auth::user()->getSellerId(),
             'ShopModes' => ShopMode::where('status', 1)->get(),
