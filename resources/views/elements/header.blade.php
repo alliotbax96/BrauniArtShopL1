@@ -46,7 +46,6 @@
                                         </ul>
                                     @endif
                                 </li>
-
                                 @switch($CurrentShopMode)
                                     @case(1)
                                         <li class="tooltip-wrapper">
@@ -64,7 +63,7 @@
                                             <span class="cart-total-price">{{$cartTotalPrice}}</span>
                                             @include('elements.miniCart')
                                         </li>
-                                        @break
+                                    @break
 
                                     @case(8)
                                         <li class="tooltip-wrapper">
@@ -96,7 +95,7 @@
                                                 <span class="tooltip-text">Ваши бронирования</span>
                                             </a>
                                         </li>
-                                        @break
+                                    @break
                                 @endswitch
                             </ul>
                         </div>
@@ -149,7 +148,7 @@
                                     @break
                                 @endswitch
                                 @foreach($ShopModes as $ShopMode)
-                                    <li class="@if($CurrentShopMode == $ShopMode['id']) active @endif"><a
+                                <li class="@if($CurrentShopMode == $ShopMode['id']) active @endif"><a
                                             href="/shopMode/{{$ShopMode['id']}}">{{$ShopMode['ShopModeName']}}</a></li>
                                 @endforeach
                                 <li class="@if(Route::currentRouteName() == 'aboutUs') active @endif">
@@ -176,7 +175,30 @@
                         </div>
                         <div class="header-action">
                             <ul>
-
+                                <li class="dropdown tooltip-wrapper">
+                                    <a href="@if(!$currentUser) /auth @else javascript:void(0) @endif"
+                                       @if($currentUser) data-bs-toggle="dropdown" aria-expanded="false" @endif>
+                                        <i data-feather="user"></i>
+                                        <span class="tooltip-text">
+                                            @if($currentUser)
+                                                Учетная запись
+                                            @else
+                                                Авторизация
+                                            @endif
+                                        </span>
+                                    </a>
+                                    @if($currentUser)
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a class="dropdown-item" href="{{ route('sso.initiate') }}"
+                                                   target="_blank">Учетная запись</a>
+                                            </li>
+                                            <li style="margin-left: 0;">
+                                                <a class="dropdown-item" href="/logout">Выход</a>
+                                            </li>
+                                        </ul>
+                                    @endif
+                                </li>
                                 @switch($CurrentShopMode)
                                     @case(1)
                                         <li>
@@ -196,7 +218,29 @@
                                             </a>
                                             <span class="cart-total-price">0</span>
                                         </li>
-                                        @break
+                                    @break
+                                    @case(8)
+                                        <li class="tooltip-wrapper">
+                                            <a href="@if($currentUser) /bookOrders @else /auth @endif">
+                                                <i data-feather="book"></i>
+                                                <span class="tooltip-text">Мои книги</span>
+                                            </a>
+                                        </li>
+                                        <li class="header-shop-cart tooltip-wrapper">
+                                            <a href="/cart/" class="d-flex align-items-center gap-2 text-decoration-none">
+                                                <div class="position-relative d-inline-flex align-items-center">
+                                                    <i data-feather="shopping-bag" width="22" height="22"></i>
+                                                    <span class="position-absolute translate-middle badge rounded-pill bg-primary p-1"
+                                                          style="top: -2px; right: -12px; min-width: 18px; font-size: 0.65rem;">
+                                                        {{$cartItemsCount}}
+                                                    </span>
+                                                </div>
+                                                <span class="cart-total-price small">{{$cartTotalPrice}}</span>
+                                            </a>
+                                            <span class="tooltip-text">Корзина</span>
+                                            @include('elements.miniCart')
+                                        </li>
+                                    @break
                                     @case(4)
                                         <li>
                                             <a href="/bookings">

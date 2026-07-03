@@ -474,7 +474,6 @@ class BookController extends BaseController
         }
     }
 
-
     public function chapterShow($bookId, $chapterId)
     {
         if (!Auth::user()->groupInfo()->hasPermission('create_products')) {
@@ -489,7 +488,7 @@ class BookController extends BaseController
             ->firstOrFail();
 
         return view('dashboard.index', [
-            'View' => 'dashboard.books.chapter.show',
+            'View' => 'dashboard.books.chapterShow',
             'title' => "Глава: {$chapter->title} | {$book->name}",
             'PageName' => 'Ассортимент',
             'InPageName' => $book->name,
@@ -497,6 +496,175 @@ class BookController extends BaseController
             'chapter' => $chapter,
         ]);
     }
+
+    public function chapterCreate($bookId)
+    {
+        if (!Auth::user()->groupInfo()->hasPermission('create_products')) {
+            abort(403, 'У вас нет прав для просмотра данного раздела!');
+        }
+
+        $this->shareCommonData();
+
+        $book = Book::findOrFail($bookId);
+
+        $chapter = BookChapter::where('book_id', $bookId)
+            ->orderByDesc('order')
+            ->first();
+
+        $order = $chapter ? $chapter->order + 1 : 1;
+
+        return view('dashboard.index', [
+            'View' => 'dashboard.books.chapterShow',
+            'title' => "Новая глава | {$book->name}",
+            'order' => $order,
+            'PageName' => 'Ассортимент',
+            'InPageName' => $book->name,
+            'book' => $book,
+        ]);
+    }
+
+    /**
+     * Управление главами
+     */
+    public function storeChapter(Request $request, $bookId)
+    {
+        $book = Book::findOrFail($bookId);
+
+        $request->validate([
+            'title' => 'string|max:255',
+            'order' => 'integer',
+            'description' => 'nullable|string',
+            'content' => 'string',
+            'audio_file' => 'nullable|file|mimes:mp3|max:512000',
+            'status' => 'in:draft,published',
+            'is_free_preview' => 'boolean',
+        ]);
+
+        DB::transaction(function () use ($request, $book) {
+            $chapterData = [
+                'book_id' => $book->id,
+                'title' => $request->title,
+                'order' => $request->order,
+                'description' => $request->description,
+                'status' => $request->status ?? 'draft',
+                'is_free_preview' => $request->is_free_preview ?? false,
+            ];
+
+            if ($book->isEbook()) {
+                $chapterData['content'] = $request->input('content');
+                $chapterData['duration'] = mb_strlen($chapterData['content'], 'UTF-8');
+            }
+
+            if ($book->isAudiobook() && $request->hasFile('audio_file')) {
+                $file = $request->file('audio_file');
+                $path = Storage::disk('s3')->putFileAs(
+                    "books/{$book->id}/audio",
+                    $file,
+                    "chapter_{$request->order}_" . time() . '.mp3'
+                );
+
+                $chapterData['audio_file_path'] = $path;
+                $chapterData['file_size'] = $file->getSize();
+
+                // Определяем длительность аудио (можно использовать getID3 или ffprobe)
+                $chapterData['duration'] = $this->getAudioDuration($file);
+            }
+
+            $chapter = BookChapter::create($chapterData);
+
+            // Обновляем общую длительность аудиокниги
+            if ($book->isAudiobook()) {
+                $book->updateTotalDuration();
+            }
+        });
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Глава успешно добавлена',
+        ]);
+    }
+
+    /**
+     * Обновление главы
+     */
+    public function updateChapter(Request $request, $bookId, $chapterId)
+    {
+        $chapter = BookChapter::where('book_id', $bookId)
+            ->findOrFail($chapterId);
+
+        $request->validate([
+            'title' => 'string|max:255',
+            'order' => 'integer',
+            'description' => 'nullable|string',
+            'content' => 'string',
+            'audio_file' => 'nullable|file|mimes:mp3|max:512000',
+            'status' => 'in:draft,published',
+            'is_free_preview' => 'boolean',
+        ]);
+
+        $chapterData = $request->except('audio_file');
+
+        if ($request->hasFile('audio_file')) {
+            // Удаляем старый файл
+            if ($chapter->audio_file_path) {
+                Storage::disk('s3')->delete($chapter->audio_file_path);
+            }
+
+            $file = $request->file('audio_file');
+            $path = Storage::disk('s3')->putFileAs(
+                "books/{$bookId}/audio",
+                $file,
+                "chapter_{$request->order}_{$chapter->id}_" . time() . '.mp3'
+            );
+
+            $chapterData['audio_file_path'] = $path;
+            $chapterData['file_size'] = $file->getSize();
+            $chapterData['duration'] = $this->getAudioDuration($file);
+        }
+
+        $chapter->update($chapterData);
+
+        // Обновляем общую длительность
+        if ($chapter->book->isAudiobook()) {
+            $chapter->book->updateTotalDuration();
+        }
+
+        return response()->json([
+            'success' => true,
+            'chapter' => $chapter->fresh(),
+        ]);
+    }
+
+    /**
+     * Изменение статуса модерации
+     */
+    public function updateModerationStatus(Request $request, $id)
+    {
+        $request->validate([
+            'moderation_status' => 'required|in:pending,approved,rejected',
+        ]);
+
+        $book = Book::findOrFail($id);
+        $book->update(['moderation_status' => $request->moderation_status]);
+
+        return response()->json([
+            'success' => true,
+            'book' => $book,
+        ]);
+    }
+
+    private function getAudioDuration($file): int
+    {
+        // Здесь нужно реализовать получение длительности аудио
+        // Можно использовать пакет getID3 или вызов ffprobe
+        // Пример с getID3:
+        // $getID3 = new \getID3();
+        // $fileInfo = $getID3->analyze($file->getPathname());
+        // return (int)($fileInfo['playtime_seconds'] ?? 0);
+
+        return 0; // Временная заглушка
+    }
+
     /**
      * Удаление книги (с удалением папки в S3 и всех связанных записей)
      */

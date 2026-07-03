@@ -12,11 +12,13 @@
                                class="nav-link {{Route::currentRouteName() == 'seller.books.show' ? 'active':''}}"
                                data-bs-toggle="tab" data-bs-target="#bookDataTab" role="tab">Основная информация</a>
                         </li>
-                        <li class="nav-item flex-fill border-top" role="presentation">
-                            <a href="javascript:void(0);"
-                               class="nav-link {{Route::currentRouteName() == 'seller.books.chapters' ? 'active':''}}"
-                               data-bs-toggle="tab" data-bs-target="#bookTextTab" role="tab">Текст</a>
-                        </li>
+                        @if(isset($book))
+                         <li class="nav-item flex-fill border-top" role="presentation">
+                             <a href="javascript:void(0);"
+                                class="nav-link {{Route::currentRouteName() == 'seller.books.chapters' ? 'active':''}}"
+                                data-bs-toggle="tab" data-bs-target="#bookTextTab" role="tab">Текст</a>
+                         </li>
+                        @endif
                     </ul>
                 </div>
 
@@ -445,8 +447,8 @@
                         </div>
 
                     </div>
-                    <div
-                        class="tab-pane fade {{Route::currentRouteName() == 'seller.books.chapters' ? 'show active':''}}"
+                    @if(isset($book))
+                     <div class="tab-pane fade {{Route::currentRouteName() == 'seller.books.chapters' ? 'show active':''}}"
                         id="bookTextTab" role="tabpanel">
                         <div class="card-body personal-info">
                             <div class="mb-4 d-flex align-items-center justify-content-between">
@@ -497,6 +499,7 @@
                         </div>
 
                     </div>
+                    @endif
                 </div>
             </div>
         </div>

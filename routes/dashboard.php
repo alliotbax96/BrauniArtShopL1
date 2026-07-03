@@ -112,6 +112,7 @@ Route::domain('id.brauniart.shop')->group(function () {
            Route::post('/', [BookController::class, 'store'])->name('store');
            Route::put('/{id}', [BookController::class, 'update'])->name('update');
            Route::get('/{bookId}/chapters', [BookController::class, 'show'])->name('chapters');
+              Route::get('/{bookId}/chapters/create', [BookController::class, 'chapterCreate'])->name('chapterCreate');
            Route::get('/{bookId}/chapters/{chapterId}', [BookController::class, 'chapterShow'])->name('chapter');
            Route::post('/{bookId}/chapters', [BookController::class, 'storeChapter']);
            Route::put('/{bookId}/chapters/{chapterId}', [BookController::class, 'updateChapter']);
