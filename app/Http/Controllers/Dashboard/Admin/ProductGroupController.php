@@ -168,6 +168,7 @@ class ProductGroupController extends BaseController
         $rules = [
             'name' => 'required|string|max:255|unique:productGroups,name',
             'parent_id' => 'nullable|exists:productGroups,id',
+            'ShopMode'=> 'required|integer',
         ];
 
         // Для корневых категорий (без родителя) изображение обязательно
@@ -190,6 +191,7 @@ class ProductGroupController extends BaseController
             $data = [
                 'name' => $request->name,
                 'parent_id' => $request->parent_id ?: null,
+                'ShopMode'=> $request->ShopMode,
             ];
 
             // Обработка изображения
@@ -261,6 +263,7 @@ class ProductGroupController extends BaseController
                     }
                 },
             ],
+            'ShopMode'=> 'required|integer',
             'remove_image' => 'nullable|boolean',
         ];
 
@@ -287,6 +290,7 @@ class ProductGroupController extends BaseController
             $data = [
                 'name' => $request->name,
                 'parent_id' => $request->parent_id ?: null,
+                'ShopMode'=> $request->ShopMode,
             ];
 
             // Удаление изображения

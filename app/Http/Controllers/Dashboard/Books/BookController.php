@@ -299,7 +299,7 @@ class BookController extends BaseController
 
         $sellerId = Auth::user()->getFirstSeller()->id;
 
-        DB::transaction(function () use ($validated, $sellerId) {
+        DB::transaction(function () use ($validated, $sellerId, $request) {
             $book = Book::create([
                 'seller_id' => $sellerId,
                 'type' => $validated['type'],
@@ -321,9 +321,10 @@ class BookController extends BaseController
             if ($request->hasFile('image')) {
                 $this->saveBookImage($book, $request->file('image'));
             }
+
+            session('book_id', $book->id);
         });
 
-        session('book_id', $book->id);
 
         return response()->json([
             'success' => true,
@@ -671,7 +672,7 @@ class BookController extends BaseController
     public function destroy($id)
     {
         $book = Book::findOrFail($id);
-
+        \Log::info($book);
         // Проверка прав
         if (!Auth::user()->getFirstSeller()->id === $book->seller_id) {
             // Либо проверка прав через groupInfo, если у вас другая логика
