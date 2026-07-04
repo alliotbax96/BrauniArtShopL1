@@ -39,6 +39,7 @@ export default defineConfig({
                 'resources/js/dashboard/scripts/admin/sellers.js',
                 'resources/js/dashboard/Pages/bookOrders.js',
                 'resources/js/dashboard/scripts/admin/budget.js',
+                'resources/js/dashboard/Pages/chapterShow.js'
 
             ],
             refresh: true,
