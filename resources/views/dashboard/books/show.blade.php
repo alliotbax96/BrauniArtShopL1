@@ -49,6 +49,32 @@
                                 @endif
                             </div>
 
+{{--                            <!-- Продавец -->--}}
+{{--                            @if($currentUser->isAdmin())--}}
+{{--                                <div class="row mb-4 align-items-center">--}}
+{{--                                    <div class="col-lg-4">--}}
+{{--                                        <label for="productSeller" class="fw-semibold">Продавец: <span--}}
+{{--                                                class="text-danger">*</span></label>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="col-lg-8">--}}
+{{--                                        <div class="input-group">--}}
+{{--                                            <div class="input-group-text"><i class="feather-user"></i></div>--}}
+{{--                                            <select id="productSeller" class="form-select" name="seller_id" required>--}}
+{{--                                                @foreach($sellers as $item)--}}
+{{--                                                    @if(isset($book))--}}
+{{--                                                        <option value="{{$item->id}}" {{$book->seller_id == $item->id ? 'selected' : ''}}>{{$item->name}}</option>--}}
+{{--                                                    @else--}}
+{{--                                                        <option value="{{$item->id}}" {{$currentUser->getSellerId() == $item->id ? 'selected' : ''}}>{{$item->name}}</option>--}}
+{{--                                                    @endif--}}
+{{--                                                @endforeach--}}
+{{--                                            </select>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            @else--}}
+{{--                                <input type="hidden" name="productSeller" value="{{$currentUser->getSellerId()}}">--}}
+{{--                            @endif--}}
+
                             <!-- Тип книги -->
                             <div class="row mb-4 align-items-center">
                                 <div class="col-lg-4">

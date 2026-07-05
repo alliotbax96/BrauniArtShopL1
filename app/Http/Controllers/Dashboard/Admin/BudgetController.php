@@ -5,12 +5,13 @@ namespace App\Http\Controllers\Dashboard\Admin;
 
 use App\Models\Budget;
 use App\Models\BudgetTransaction;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Dashboard\BaseController;
 
 class BudgetController extends BaseController
 {
-    public function index()
+    public function index(Request $request)
     {
         $this->shareCommonData();
         $budget = Budget::getBudget();
@@ -224,4 +225,98 @@ class BudgetController extends BaseController
 
         return back()->with('success', 'Транзакция удалена');
     }
+
+    public function invoice(Request $request)
+    {
+        // 1. Валидация входных данных
+        $validated = $request->validate([
+            'amount' => ['required', 'numeric', 'min:0.01'],
+        ]);
+
+        $amount = $validated['amount'];
+
+        try {
+            // 2. Инициализация коннектора и запроса
+            $connector = new \App\Http\Integrations\FNS\AuthConnector();
+            $apiRequest = new \App\Http\Integrations\FNS\Requests\AddInvoiceRequest($amount);
+
+            // 3. Отправка запроса через Saloon
+            $response = $connector->send($apiRequest);
+
+            // 4. Проверяем статус
+            $status = $response->status();
+            $body = $response->body();
+
+            // Пробуем распарсить JSON
+            $data = json_decode($body, true);
+
+            // Проверяем успешность запроса (200-299 статусы)
+            if ($status < 200 || $status >= 300) {
+
+                // Проверяем, может быть ответ содержит URL даже при ошибке
+                if ($data && isset($data['transitionPageURL'])) {
+                    return redirect($data['transitionPageURL']);
+                }
+
+                return back()->withErrors([
+                    'fns' => 'API ФНС вернул ошибку. Статус: ' . $status,
+                ])->withInput();
+            }
+
+            // 5. Если статус успешный, ищем URL для редиректа
+            if ($data) {
+                // Пробуем разные возможные ключи
+                $redirectUrl = $data['transitionPageURL']
+                    ?? $data['url']
+                    ?? $data['link']
+                    ?? $data['redirectUrl']
+                    ?? $data['paymentUrl']
+                    ?? $data['invoiceUrl']
+                    ?? null;
+
+                if ($redirectUrl) {
+                    return redirect($redirectUrl);
+                }
+
+                // Если URL не найден в корне, ищем во вложенных данных
+                if (isset($data['data']) && is_array($data['data'])) {
+                    $nestedUrl = $data['data']['transitionPageURL']
+                        ?? $data['data']['url']
+                        ?? $data['data']['link']
+                        ?? null;
+
+                    if ($nestedUrl) {
+                        return redirect($nestedUrl);
+                    }
+                }
+
+                // Если URL не найден
+
+                return back()->withErrors([
+                    'fns' => 'Счёт создан, но URL для оплаты не найден в ответе API.',
+                ])->withInput();
+            }
+
+            // 6. Если ответ не JSON
+            return back()->withErrors([
+                'fns' => 'Получен некорректный ответ от API ФНС.',
+            ])->withInput();
+
+        } catch (ConnectionException $e) {
+
+            return back()->withErrors([
+                'fns' => 'Не удалось соединиться с сервисом ФНС: ' . $e->getMessage(),
+            ])->withInput();
+        } catch (\Saloon\Exceptions\Request\RequestException $e) {
+            return back()->withErrors([
+                'fns' => 'Ошибка запроса к ФНС: ' . $e->getMessage(),
+            ])->withInput();
+        } catch (\Exception $e) {
+
+            return back()->withErrors([
+                'fns' => 'Произошла непредвиденная ошибка. Обратитесь к администратору.',
+            ])->withInput();
+        }
+    }
+
 }

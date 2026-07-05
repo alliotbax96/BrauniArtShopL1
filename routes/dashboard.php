@@ -112,10 +112,11 @@ Route::domain('id.brauniart.shop')->group(function () {
            Route::post('/', [BookController::class, 'store'])->name('store');
            Route::put('/{id}', [BookController::class, 'update'])->name('update');
            Route::get('/{bookId}/chapters', [BookController::class, 'show'])->name('chapters');
-              Route::get('/{bookId}/chapters/create', [BookController::class, 'chapterCreate'])->name('chapterCreate');
+           Route::get('/{bookId}/chapters/create', [BookController::class, 'chapterCreate'])->name('chapterCreate');
            Route::get('/{bookId}/chapters/{chapterId}', [BookController::class, 'chapterShow'])->name('chapter');
            Route::post('/{bookId}/chapters', [BookController::class, 'storeChapter']);
            Route::put('/{bookId}/chapters/{chapterId}', [BookController::class, 'updateChapter']);
+           Route::delete('/delete/{id}', [BookController::class, 'destroy'])->name('destroy');
            Route::patch('/{id}/moderation', [BookController::class, 'updateModerationStatus']);
           });
           Route::prefix('files')->name('files.')->group(function () {
@@ -164,40 +165,6 @@ Route::domain('id.brauniart.shop')->group(function () {
           });
         });
         Route::prefix('tests')->name('tests.')->group(function () {
-            Route::get('/Send', function () {
-                $sellerId = 2411;
-                $seller = \App\Models\Seller::findOrFail($sellerId);
-
-                // Получаем связанных пользователей (сразу с email, чтобы не делать N+1 в цикле)
-                $users = $seller->users()->whereNotNull('email')->get();
-                $count = $users->count();
-
-                if ($count === 0) {
-                    return response()->json([
-                        'status'  => 'warning',
-                        'message' => 'У продавца нет связанных пользователей с email',
-                        'seller'  => $seller->name,
-                        'count'   => 0,
-                    ], 200);
-                }
-
-                // Отправляем уведомления
-                $seller->notifyRelatedUsers(
-                    subject: 'Статус продавца изменён',
-                    greeting: 'Здравствуйте, ' . $seller->name . '!',
-                    line: 'Статус вашего продавца был одобрен. Теперь вы можете размещать товары.',
-                    actionUrl: 'https://id.brauniart.shop',
-                    actionText: 'Перейти в кабинет продавца',
-                );
-
-                return response()->json([
-                    'status'      => 'success',
-                    'message'     => 'Уведомления поставлены в очередь',
-                    'seller'      => $seller->name,
-                    'users_count' => $count,
-                    'users'       => $users->pluck('name', 'email')->toArray(), // только имена и email для отладки
-                ], 200);
-            })->name('Send');
         });
         Route::get('/logout', [LoginController::class, 'logout']);
     });
@@ -226,6 +193,7 @@ Route::domain('id.brauniart.shop')->group(function () {
         });
         Route::prefix('budget')->name('budget.')->group(function () {
                 Route::get('/', [BudgetController::class, 'index'])->name('index');
+                Route::post('/invoice', [BudgetController::class, 'invoice'])->name('invoice');
                 Route::get('/transactions', [BudgetController::class, 'getTransactions'])->name('transactions');
                 Route::post('/income', [BudgetController::class, 'addIncome'])->name('income');
                 Route::post('/expense', [BudgetController::class, 'addExpense'])->name('expense');

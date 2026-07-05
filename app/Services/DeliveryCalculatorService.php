@@ -72,8 +72,6 @@ class DeliveryCalculatorService
     ): float {
         $request = new PricingCalculatorRequest($pvz, $userPvz, $weight);
         $result = $connector->send($request)->json();
-        \Log::info($weight);
-        \Log::info($result);
         if (!isset($result['pricing_total'])) {
             throw new RuntimeException('Ответ API не содержит поля pricing_total');
         }

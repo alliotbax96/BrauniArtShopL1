@@ -6,6 +6,7 @@ use App\Http\Controllers\Dashboard\BaseController;
 use App\Models\Book;
 use App\Models\BookChapter;
 use App\Models\ProductGroup;
+use App\Models\Seller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -257,6 +258,10 @@ class BookController extends BaseController
         $this->shareCommonData();
         $genres = ProductGroup::where('ShopMode', 8)->get();
 
+        if(Auth::user()->isAdmin()) {
+            $sellers = Seller::all();
+        }
+
         if ($id != 'create') {
             $book = Book::findOrFail($id);
             return view('dashboard.index', [
@@ -265,6 +270,7 @@ class BookController extends BaseController
                 'PageName' => 'Ассортимент',
                 'InPageName' => $book->name,
                 'genres' => $genres,
+                'sellers' => isset($sellers) ? $sellers : '',
                 'book' => $book,
             ]);
         }
@@ -275,6 +281,7 @@ class BookController extends BaseController
             'PageName' => 'Ассортимент',
             'InPageName' => 'Создание книги',
             'genres' => $genres,
+            'sellers' => isset($sellers) ? $sellers : '',
         ]);
     }
     /**
@@ -297,7 +304,7 @@ class BookController extends BaseController
             'price' => 'nullable|numeric',
         ]);
 
-        $sellerId = Auth::user()->getFirstSeller()->id;
+        $sellerId = Auth::user()->getSellerId();
 
         DB::transaction(function () use ($validated, $sellerId, $request) {
             $book = Book::create([
@@ -672,7 +679,6 @@ class BookController extends BaseController
     public function destroy($id)
     {
         $book = Book::findOrFail($id);
-        \Log::info($book);
         // Проверка прав
         if (!Auth::user()->getFirstSeller()->id === $book->seller_id) {
             // Либо проверка прав через groupInfo, если у вас другая логика

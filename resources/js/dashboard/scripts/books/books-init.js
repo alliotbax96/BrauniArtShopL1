@@ -122,19 +122,29 @@ $(document).ready(function () {
 
     $(document).on('click', '.delete_book', function () {
         var bookId = $(this).data('id');
+        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
         if (confirm('Вы уверены, что хотите удалить эту книгу?')) {
             $.ajax({
-                type: 'GET', // Лучше использовать DELETE, но оставим как у тебя
+                type: 'DELETE',
                 url: '/seller/books/delete/' + bookId,
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                },
                 dataType: 'json',
                 success: function (response) {
-                    if (response.success) location.reload();
-                    else alert(response.error);
+                    if (response.success) {
+                        location.reload();
+                    } else {
+                        alert(response.error || 'Произошла ошибка');
+                    }
                 },
                 error: function (xhr) {
                     console.error('AJAX error:', xhr.responseText);
+                    alert('Ошибка при удалении книги');
                 }
             });
         }
     });
+
 });

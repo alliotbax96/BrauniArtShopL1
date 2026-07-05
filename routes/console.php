@@ -42,3 +42,5 @@ Schedule::command('payments:calculate')
     ->dailyAt('03:00')
     ->withoutOverlapping()
     ->evenInMaintenanceMode();
+
+Schedule::command('fns:refresh-token')->everyThirtyMinutes();

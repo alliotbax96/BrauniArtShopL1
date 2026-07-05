@@ -68,6 +68,10 @@ return [
         'redirect' => env('VK_REDIRECT_URI'),
         'scope' => explode(' ', env('VK_SCOPE', '')),
     ],
+    'fns' => [
+        'source_device_id' => env('FN_SOURCE_DEVICE_ID'),
+        'refresh_token' => env('FN_REFRESH_TOKEN'),
+    ]
 
 
 

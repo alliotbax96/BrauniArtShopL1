@@ -28,7 +28,8 @@
             </div>
         </div>
         <!-- [Invoices Awaiting Payment] end -->
-        {{--        <hr class="border-top-dashed mt-4 mb-5 mx-3">--}}
+        <hr class="border-top-dashed mt-4 mb-5 mx-3">
+        <!-- [Mini Card] start -->
         <!-- [Mini Card] start -->
         <div class="col-xxl-3">
             <div class="card no-border">
@@ -63,7 +64,9 @@
             </div>
         </div>
         <!-- [Mini Card] end -->
-        {{--        <hr class="border-top-dashed mt-4 mb-5 mx-3">--}}
     </div>
 </div>
 <!-- [ Main Content ] end -->
+@push('scripts')
+   @vite('resources/js/dashboard/scripts/home.js')
+@endpush
