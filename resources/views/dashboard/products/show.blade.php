@@ -19,7 +19,7 @@
                                                     class="text-danger">*</span></label>
                                             <select id="productSeller" class="form-select" name="productSeller" required>
                                                 @foreach($sellers as $item)
-                                                    <option value="{{$item->id}}" {{$item->id == $product->seller_id ? 'selected' : ''}}>{{$item->name}}</option>
+                                                    <option value="{{$item->id}}" {{$item->id == $product->productSeller ? 'selected' : ''}}>{{$item->name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>

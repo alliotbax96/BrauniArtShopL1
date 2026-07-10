@@ -70,7 +70,7 @@
                 <script>document.write(new Date().getFullYear());</script>
             </p>
             <div class="d-flex align-items-center gap-4">
-                <a href="https://t.me/BrauniArtSellers" target="_blank" class="fs-11 fw-semibold text-uppercase">Поддержка</a>
+                <a href="/seller/chat" target="_blank" class="fs-11 fw-semibold text-uppercase">Поддержка</a>
             </div>
         </footer>
         <!-- [ Footer ] end -->
@@ -129,31 +129,70 @@
     $('.mask-phone').mask('+7 (999) 999-99-99');
 </script>
 @stack('scripts')
-<script type="module">
+@vite(['resources/js/dashboard/scripts/notifications.js'])
+<script>
     document.addEventListener('DOMContentLoaded', function() {
         window.pusherAppKey = '{{ env('VITE_PUSHER_APP_KEY') }}';
         window.pusherCluster = '{{ env('VITE_PUSHER_APP_CLUSTER') }}';
-
-        if (typeof Pusher === 'undefined') {
-            console.error('❌ Pusher не загружен');
+        // NotificationsApp доступен глобально через window
+        if (typeof NotificationsApp === 'undefined') {
+            console.error('NotificationsApp не загружен');
             return;
         }
 
-        window.currentUserId = {{auth()->id()}};
-        if (!window.currentUserId) {
-            console.warn('⚠️ ID пользователя не найден — уведомления не будут работать');
-            return;
-        }
+        const isAdmin = {{ auth()->check() && auth()->user()->isAdmin() ? 'true' : 'false' }};
+        const userId = {{ auth()->id() }};
 
-        window.notificationsApp = new NotificationsApp(window.currentUserId);
+        const notificationsApp = new NotificationsApp(userId, isAdmin);
+
+        if (isAdmin) {
+            notificationsApp.onNewChat(function(chat) {
+                const chatList = document.querySelector('.content-sidebar-items');
+                if (!chatList) return;
+
+                const chatName = chat.client_name || 'Покупатель';
+                const time = new Date(chat.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                const chatHTML = `
+                    <div class="p-4 d-flex position-relative border-bottom c-pointer single-item buyer-chat buyer-waiting"
+                         data-chat-id="${chat.id}"
+                         data-chat-type="${chat.type}"
+                         data-chat-status="${chat.status || 'waiting'}"
+                         onclick="window.location.href='/seller/chat/${chat.id}'"
+                         style="background-color: #f0f4ff; transition: background-color 1s ease;">
+                        <div class="avatar-image position-relative">
+                            <img src="/assets/dashboard/images/avatar/buyer.png" class="img-fluid" alt="${chatName}">
+                            <span class="position-absolute top-0 start-100 translate-middle p-1 bg-warning rounded-circle">
+                                <span class="visually-hidden">Новый</span>
+                            </span>
+                        </div>
+                        <div class="ms-3 item-desc flex-grow-1">
+                            <div class="w-100 d-flex align-items-center justify-content-between">
+                                <div class="hstack gap-2 me-2">
+                                    <span class="fw-medium">${chatName}</span>
+                                    <span class="badge bg-warning fs-10">Ожидает</span>
+                                </div>
+                                <span class="fs-10 fw-medium text-muted text-uppercase">${time}</span>
+                            </div>
+                            <p class="fs-12 fw-semibold text-dark mt-2 mb-0 text-truncate-2-line">
+                                Новое обращение
+                            </p>
+                            ${chat.current_page ? `<div class="mt-1"><small class="text-muted">🌐 ${chat.current_page}</small></div>` : ''}
+                        </div>
+                    </div>
+                `;
+
+                chatList.insertAdjacentHTML('afterbegin', chatHTML);
+
+                const newChatElement = chatList.firstElementChild;
+                if (newChatElement) {
+                    setTimeout(() => {
+                        newChatElement.style.backgroundColor = '';
+                    }, 3000);
+                }
+            });
+        }
     });
-
-    // Глобальная функция для подписки на новый чат (если нужно вызвать извне)
-    window.subscribeToNewChat = function(chatId) {
-        if (window.notificationsApp) {
-            window.notificationsApp.subscribeToNewChat(chatId);
-        }
-    };
 </script>
 </body>
 </html>

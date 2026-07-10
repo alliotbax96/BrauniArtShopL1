@@ -48,4 +48,5 @@ return array(
     'a1cfe24d14977df6878b9bf804af2d1c' => $vendorDir . '/nunomaduro/collision/src/Adapters/Phpunit/Autoload.php',
     'ec07570ca5a812141189b1fa81503674' => $vendorDir . '/phpunit/phpunit/src/Framework/Assert/Functions.php',
     '703ce4eefc8daa5549a7de0dba97d9b2' => $baseDir . '/app/Helpers/pluralize.php',
+    '9d960e1ccd59f530ed7a26f9b7b37d1a' => $baseDir . '/app/Helpers/ChatHelper.php',
 );

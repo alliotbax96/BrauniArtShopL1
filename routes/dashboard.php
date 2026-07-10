@@ -153,6 +153,9 @@ Route::domain('id.brauniart.shop')->group(function () {
               Route::get('/payments/ajaxPayments', [PaymentsController::class, 'ajaxPayments'])->name('ajaxPayments');
           });
           Route::prefix('chat')->name('chat.')->group(function () {
+              Route::get('/admins-list', [ChatController::class, 'getAdminsForTransfer'])
+                  ->name('admins.list')
+                  ->middleware('admin');
               Route::get('/', [ChatController::class, 'index'])->name('index');
               Route::get('/ajax', [ChatController::class, 'ajax'])->name('ajax');
               Route::get('/store', [ChatController::class, 'store'])->name('store');
@@ -160,8 +163,24 @@ Route::domain('id.brauniart.shop')->group(function () {
 //              Route::get('/delete/{chatId}', [ChatController::class, 'delete'])->name('delete');
               Route::get('/{chat}', [ChatController::class, 'show'])->name('show');
               Route::post('/{chat}/message', [MessageController::class, 'store']);
+              // Редактирование сообщения
+              Route::put('/message/{message}', [MessageController::class, 'update'])->name('message.update');
+              // Удаление сообщения
+              Route::delete('/message/{message}', [MessageController::class, 'destroy'])->name('message.destroy');
               Route::post('/{chat}/read', [MessageController::class, 'markAsRead']);
               Route::post('/{chat}/upload', [MessageController::class, 'upload']);
+              // Скачивание/просмотр файлов чата
+              Route::get('/file/{message}', [MessageController::class, 'downloadFile'])
+                  ->name('file.download')
+                  ->where('message', '[0-9]+');
+              // Просмотр изображений
+              Route::get('/image/{message}', [MessageController::class, 'showImage'])
+                  ->name('image.show')
+                  ->where('message', '[0-9]+');
+              // Маршруты для админов
+              Route::post('/{chat}/transfer', [ChatController::class, 'transferChat'])
+                  ->name('transfer')
+                  ->middleware('admin');
           });
         });
         Route::prefix('tests')->name('tests.')->group(function () {

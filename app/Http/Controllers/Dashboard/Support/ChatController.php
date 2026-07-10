@@ -2,38 +2,78 @@
 
 namespace App\Http\Controllers\Dashboard\Support;
 
+use App\Events\NewChatCreated;
 use App\Models\Chat;
+use App\Models\Message;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Dashboard\BaseController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Storage;
 
 class ChatController extends BaseController
 {
     public function index()
     {
-        $this->shareCommonData(); // вызываем один раз
+        $this->shareCommonData();
 
-        if (Auth::user()->isAdmin()) {
-            // Для администратора: свои чаты + все чаты с type = 'support'
-            $chats = Chat::whereHas('users', function ($query) {
-                $query->where('user_id', auth()->id());
+        $user = Auth::user();
+        $hasStatusColumn = Schema::hasColumn('chats', 'status');
+
+        if ($user->isAdmin()) {
+            // Админ видит: свои чаты + неназначенные чаты покупателей + чаты продавцов
+            $query = Chat::where(function($query) use ($user) {
+                // Чаты, где админ является участником (назначенные ему)
+                $query->whereHas('users', function($q) use ($user) {
+                    $q->where('user_id', $user->id);
+                });
             })
-                ->orWhere('type', 'support')
-                ->with(['users', 'messages' => function ($query) {
+                ->orWhere(function($query) {
+                    // Неназначенные чаты покупателей
+                    $query->where('type', 'buyer_support')
+                        ->where(function($q) {
+                            $q->whereNull('assigned_admin_id')
+                                ->orWhere('assigned_admin_id', 0);
+                        });
+                })
+                ->orWhere('type', 'support') // Все чаты продавцов
+                ->with(['users', 'messages' => function($query) {
                     $query->latest()->first();
-                }])
-                ->get();
+                }, 'assignedAdmin', 'client'])
+                ->withCount(['messages as unread_count' => function($query) use ($user) {
+                    $query->where('is_read', false)
+                        ->where('user_id', '!=', $user->id);
+                }]);
+
+            if ($hasStatusColumn) {
+                $chats = $query->orderByRaw("
+                    CASE
+                        WHEN type = 'buyer_support' AND status = 'waiting' THEN 1
+                        WHEN type = 'buyer_support' AND status = 'active' THEN 2
+                        WHEN type = 'support' THEN 3
+                        ELSE 4
+                    END
+                ")
+                    ->orderBy('updated_at', 'desc')
+                    ->get();
+            } else {
+                $chats = $query->orderBy('updated_at', 'desc')->get();
+            }
         } else {
-            // Для обычных пользователей: только свои чаты
-            $chats = Chat::whereHas('users', function ($query) {
-                $query->where('user_id', auth()->id());
+            $chats = Chat::whereHas('users', function($query) use ($user) {
+                $query->where('user_id', $user->id);
             })
-                ->with(['users', 'messages' => function ($query) {
+                ->with(['users', 'messages' => function($query) {
                     $query->latest()->first();
                 }])
+                ->withCount(['messages as unread_count' => function($query) use ($user) {
+                    $query->where('is_read', false)
+                        ->where('user_id', '!=', $user->id);
+                }])
+                ->orderBy('updated_at', 'desc')
                 ->get();
         }
 
@@ -43,43 +83,76 @@ class ChatController extends BaseController
 
     public function ajax(Request $request)
     {
-        $user = Auth::user();
+        try {
+            $user = Auth::user();
+            $chats = $this->getUserChatsForAjax($user);
 
-        // Получаем чаты пользователя через связь users (таблица chat_user)
-        $chats = Chat::whereHas('users', function ($query) use ($user) {
-            $query->where('users.id', $user->id);
-        })->select('id', 'name', 'created_at')
-            ->get();
+            if ($request->has('check_new')) {
+                $lastCheck = $request->session()->get('last_chat_check', now()->subMinutes(30));
+                $newChats = $this->getNewChatsForAjax($user, $lastCheck);
+                $request->session()->put('last_chat_check', now());
+                return response()->json($newChats);
+            }
 
-        // Если запрос на проверку новых чатов
-        if ($request->has('check_new')) {
-            $lastCheck = $request->session()->get('last_chat_check', now()->subMinutes(30));
-
-            $newChats = Chat::whereHas('users', function ($query) use ($user) {
-                $query->where('users.id', $user->id);
-            })
-                ->where('created_at', '>', $lastCheck)
-                ->select('id', 'name', 'created_at')
-                ->get();
-
-            // Обновляем время последней проверки
-            $request->session()->put('last_chat_check', now());
-
-            return response()->json($newChats);
+            return response()->json($chats);
+        } catch (\Exception $e) {
+            Log::error('Error in ajax chat method', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return response()->json(['error' => 'Internal server error'], 500);
         }
-
-        return response()->json($chats);
     }
 
     public function show(Chat $chat)
     {
-        $this->shareCommonData(); // вызываем один раз
-        $chats = Chat::whereHas('users', function($query) {
-            $query->where('user_id', auth()->id());
-        })->with(['users', 'messages' => function($query) {
-            $query->latest()->first();
-        }])->get();
-        $chat->load(['users', 'messages.user']);
+        $this->shareCommonData();
+
+        $user = Auth::user();
+
+        if (!$this->canAccessChat($user, $chat)) {
+            abort(403, 'У вас нет доступа к этому чату');
+        }
+
+        // Автоматически подключаем админа к чату покупателя
+        if ($chat->type === 'buyer_support' && $user->isAdmin()) {
+            $needUpdate = false;
+
+            if (!$chat->assigned_admin_id) {
+                $chat->assigned_admin_id = $user->id;
+                $needUpdate = true;
+            }
+
+            if ($chat->status === 'waiting') {
+                $chat->status = 'active';
+                $needUpdate = true;
+            }
+
+            if ($needUpdate) {
+                $chat->save();
+            }
+
+            if (!$chat->hasUser($user)) {
+                $chat->addUser($user);
+            }
+        }
+
+        $chats = $this->getChatsList($user);
+
+        $chat->load([
+            'users',
+            'messages' => function($query) {
+                $query->orderBy('created_at', 'asc');
+            },
+            'assignedAdmin',
+            'client'
+        ]);
+
+        Message::where('chat_id', $chat->id)
+            ->where('is_read', false)
+            ->where('user_id', '!=', $user->id)
+            ->update(['is_read' => true]);
+
         $mainView = 'dashboard.support.show';
         return view('dashboard.index', compact('chat', 'chats', 'mainView'));
     }
@@ -87,39 +160,29 @@ class ChatController extends BaseController
     public function store()
     {
         try {
-            // Начинаем транзакцию для атомарности операций
             DB::transaction(function () {
-                // Создаём чат
                 $chat = Chat::create([
                     'name' => 'Запрос в поддержку',
-                    'type' => 'support', // Используем тип 'support' вместо 'private'
+                    'type' => 'support',
                 ]);
 
-                // Добавляем текущего пользователя в чат
                 if (!$chat->addUser(Auth::user())) {
                     throw new \Exception('Не удалось добавить пользователя в чат');
                 }
 
-                // Обновляем название чата, добавляя ID
                 $chat->update([
                     'name' => "Запрос в поддержку №{$chat->id}"
                 ]);
-                session('chatId', $chat->id);
+
+                session(['chatId' => $chat->id]);
             });
-            return redirect(route('dashboard.seller.chat.show', session('chatId')));
 
-        } catch (\Illuminate\Database\QueryException $e) {
-            Log::error('Ошибка БД при создании чата поддержки: ' . $e->getMessage());
-
-            return redirect()->back()->withErrors([
-                'error' => 'Произошла ошибка при работе с базой данных. Попробуйте ещё раз.'
-            ]);
+            return redirect(route('seller.chat.show', session('chatId')));
 
         } catch (\Exception $e) {
             Log::error('Ошибка при создании чата поддержки: ' . $e->getMessage());
-
             return redirect()->back()->withErrors([
-                'error' => 'Не удалось создать чат поддержки. Пожалуйста, попробуйте ещё раз.'
+                'error' => 'Не удалось создать чат поддержки.'
             ]);
         }
     }
@@ -127,121 +190,257 @@ class ChatController extends BaseController
     public function delete(int $chatId)
     {
         try {
-            // Проверяем существование чата
             $chat = Chat::find($chatId);
 
             if (!$chat) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Чат не найден'
-                ], 404);
+                return response()->json(['success' => false, 'message' => 'Чат не найден'], 404);
             }
 
-            // Проверяем права доступа: пользователь должен быть участником чата
-            $isParticipant = $chat->users()
-                ->where('user_id', auth()->id())
-                ->exists();
+            $user = Auth::user();
 
-            if (!$isParticipant) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'У вас нет прав для удаления этого чата'
-                ], 403);
+            if ($user->isAdmin() && in_array($chat->type, ['support', 'buyer_support'])) {
+                $canDelete = true;
+            } else {
+                $canDelete = $chat->users()->where('user_id', $user->id)->exists();
             }
 
-            // Выполняем удаление в транзакции для целостности данных
+            if (!$canDelete) {
+                return response()->json(['success' => false, 'message' => 'У вас нет прав'], 403);
+            }
+
             DB::transaction(function () use ($chat) {
-                // Сначала удаляем все сообщения чата (если есть каскадное удаление — можно пропустить)
+                foreach ($chat->messages as $message) {
+                    if ($message->file_path && Storage::exists($message->file_path)) {
+                        Storage::delete($message->file_path);
+                    }
+                }
                 $chat->messages()->delete();
-
-                // Затем удаляем связи пользователей с чатом
                 $chat->users()->detach();
-
-                // И только потом удаляем сам чат
                 $chat->delete();
             });
 
-            Log::info('Чат удалён успешно', [
-                'chat_id' => $chatId,
-                'user_id' => auth()->id(),
-                'timestamp' => now()
-            ]);
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Чат успешно удалён'
-            ], 200);
-
-        } catch (\Illuminate\Database\QueryException $e) {
-            Log::error('Ошибка БД при удалении чата: ' . $e->getMessage(), [
-                'chat_id' => $chatId,
-                'user_id' => auth()->id()
-            ]);
-
-            return response()->json([
-                'success' => false,
-                'message' => 'Произошла ошибка при работе с базой данных'
-            ], 500);
+            return response()->json(['success' => true, 'message' => 'Чат удалён']);
 
         } catch (\Exception $e) {
-            Log::error('Неожиданная ошибка при удалении чата: ' . $e->getMessage(), [
-                'chat_id' => $chatId,
-                'user_id' => auth()->id()
-            ]);
-
-            return response()->json([
-                'success' => false,
-                'message' => 'Не удалось удалить чат. Попробуйте ещё раз.'
-            ], 500);
+            Log::error('Ошибка при удалении чата: ' . $e->getMessage());
+            return response()->json(['success' => false, 'message' => 'Ошибка удаления'], 500);
         }
     }
 
-    public function checkUserStatus(Request $request, $userId)
+    public function transferChat(Request $request, Chat $chat)
     {
-        $chatId = $request->input('chat_id');
+        if (!Auth::user()->isAdmin()) {
+            return response()->json(['success' => false, 'message' => 'Доступ запрещен'], 403);
+        }
 
-        try {
-            $pusher = app('pusher');
+        $request->validate(['admin_id' => 'required|exists:users,id']);
 
-            // Получаем информацию о канале
-            $channelName = "presence-chat.{$chatId}";
-            $result = $pusher->getChannelInfo($channelName);
+        $newAdmin = User::findOrFail($request->admin_id);
 
-            if ($result['status'] === 200) {
-                $channelData = json_decode($result['body'], true);
+        if (!$newAdmin->isAdmin()) {
+            return response()->json(['success' => false, 'message' => 'Пользователь не администратор'], 400);
+        }
 
-                // Проверяем, есть ли пользователь в списке подключённых
-                $isOnline = isset($channelData['users']) &&
-                    collect($channelData['users'])->contains('id', $userId);
+        $oldAdminId = $chat->assigned_admin_id;
 
-                return response()->json([
-                    'user_id' => $userId,
-                    'chat_id' => $chatId,
-                    'is_online' => $isOnline,
-                    'timestamp' => now()->toDateTimeString()
-                ]);
+        $chat->update(['assigned_admin_id' => $newAdmin->id]);
+        $chat->addUser($newAdmin);
+
+        Log::info('Чат передан', [
+            'chat_id' => $chat->id,
+            'from_admin' => $oldAdminId,
+            'to_admin' => $newAdmin->id
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Чат передан сотруднику ' . $newAdmin->name
+        ]);
+    }
+
+    public function getAdminsForTransfer()
+    {
+        if (!Auth::user()->isAdmin()) {
+            return response()->json(['success' => false], 403);
+        }
+
+        $admins = User::whereHas('groups', function($query) {
+            $query->where('type', 'admin');
+        })
+            ->where('id', '!=', Auth::id())
+            ->select('id', 'name', 'email')
+            ->get();
+
+        return response()->json(['success' => true, 'admins' => $admins]);
+    }
+
+    private function getUserChatsForAjax($user)
+    {
+        if ($user->isAdmin()) {
+            return Chat::where(function($query) use ($user) {
+                $query->whereHas('users', function($q) use ($user) {
+                    $q->where('user_id', $user->id);
+                });
+            })
+                ->orWhere(function($query) {
+                    $query->where('type', 'buyer_support')
+                        ->where(function($q) {
+                            $q->whereNull('assigned_admin_id')
+                                ->orWhere('assigned_admin_id', 0);
+                        });
+                })
+                ->orWhere('type', 'support')
+                ->select('id', 'name', 'type', 'status', 'client_name', 'created_at', 'updated_at')
+                ->get()
+                ->map(function($chat) {
+                    return [
+                        'id' => $chat->id,
+                        'name' => $chat->name,
+                        'type' => $chat->type,
+                        'status' => $chat->status,
+                        'client_name' => $chat->client_name,
+                        'created_at' => $chat->created_at,
+                    ];
+                });
+        }
+
+        return Chat::whereHas('users', function($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })
+            ->select('id', 'name', 'type', 'created_at', 'updated_at')
+            ->get()
+            ->map(function($chat) {
+                return [
+                    'id' => $chat->id,
+                    'name' => $chat->name,
+                    'type' => $chat->type,
+                    'created_at' => $chat->created_at,
+                ];
+            });
+    }
+
+    private function getNewChatsForAjax($user, $lastCheck)
+    {
+        if ($user->isAdmin()) {
+            return Chat::where(function($query) use ($user) {
+                $query->whereHas('users', function($q) use ($user) {
+                    $q->where('user_id', $user->id);
+                });
+            })
+                ->orWhere(function($query) {
+                    $query->where('type', 'buyer_support')
+                        ->where(function($q) {
+                            $q->whereNull('assigned_admin_id')
+                                ->orWhere('assigned_admin_id', 0);
+                        });
+                })
+                ->orWhere('type', 'support')
+                ->where('created_at', '>', $lastCheck)
+                ->select('id', 'name', 'type', 'status', 'client_name', 'created_at')
+                ->get()
+                ->map(function($chat) {
+                    return [
+                        'id' => $chat->id,
+                        'name' => $chat->name,
+                        'type' => $chat->type,
+                        'status' => $chat->status,
+                        'client_name' => $chat->client_name,
+                        'created_at' => $chat->created_at,
+                    ];
+                });
+        }
+
+        return Chat::whereHas('users', function($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })
+            ->where('created_at', '>', $lastCheck)
+            ->select('id', 'name', 'type', 'created_at')
+            ->get()
+            ->map(function($chat) {
+                return [
+                    'id' => $chat->id,
+                    'name' => $chat->name,
+                    'type' => $chat->type,
+                    'created_at' => $chat->created_at,
+                ];
+            });
+    }
+
+    private function getChatsList($user)
+    {
+        $hasStatusColumn = Schema::hasColumn('chats', 'status');
+
+        if ($user->isAdmin()) {
+            $query = Chat::where(function($query) use ($user) {
+                $query->whereHas('users', function($q) use ($user) {
+                    $q->where('user_id', $user->id);
+                });
+            })
+                ->orWhere(function($query) {
+                    $query->where('type', 'buyer_support')
+                        ->where(function($q) {
+                            $q->whereNull('assigned_admin_id')
+                                ->orWhere('assigned_admin_id', 0);
+                        });
+                })
+                ->orWhere('type', 'support')
+                ->with(['users', 'messages' => function($query) {
+                    $query->latest()->first();
+                }, 'assignedAdmin', 'client'])
+                ->withCount(['messages as unread_count' => function($query) use ($user) {
+                    $query->where('is_read', false)
+                        ->where('user_id', '!=', $user->id);
+                }]);
+
+            if ($hasStatusColumn) {
+                return $query->orderByRaw("
+                    CASE
+                        WHEN type = 'buyer_support' AND status = 'waiting' THEN 1
+                        WHEN type = 'buyer_support' AND status = 'active' THEN 2
+                        WHEN type = 'support' THEN 3
+                        ELSE 4
+                    END
+                ")
+                    ->orderBy('updated_at', 'desc')
+                    ->get();
             }
 
-            return response()->json([
-                'user_id' => $userId,
-                'chat_id' => $chatId,
-                'is_online' => false,
-                'error' => 'Channel not found or no connection'
-            ], 404);
-        } catch (\Exception $e) {
-            Log::error('Error checking user status', [
-                'user_id' => $userId,
-                'chat_id' => $chatId,
-                'error' => $e->getMessage()
-            ]);
-
-            return response()->json([
-                'user_id' => $userId,
-                'chat_id' => $chatId,
-                'is_online' => false,
-                'error' => 'Server error'
-            ], 500);
+            return $query->orderBy('updated_at', 'desc')->get();
         }
+
+        return Chat::whereHas('users', function($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })
+            ->with(['users', 'messages' => function($query) {
+                $query->latest()->first();
+            }])
+            ->withCount(['messages as unread_count' => function($query) use ($user) {
+                $query->where('is_read', false)
+                    ->where('user_id', '!=', $user->id);
+            }])
+            ->orderBy('updated_at', 'desc')
+            ->get();
     }
 
+    private function canAccessChat($user, Chat $chat): bool
+    {
+        if ($user->isAdmin() && $chat->type === 'support') {
+            return true;
+        }
+
+        if ($user->isAdmin() && $chat->type === 'buyer_support') {
+            if ($chat->assigned_admin_id === $user->id) {
+                return true;
+            }
+            if (!$chat->assigned_admin_id || $chat->assigned_admin_id === 0) {
+                return true;
+            }
+            if ($chat->hasUser($user)) {
+                return true;
+            }
+            return false;
+        }
+
+        return $chat->hasUser($user);
+    }
 }

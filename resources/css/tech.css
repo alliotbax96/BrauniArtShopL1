@@ -1984,3 +1984,20 @@
         font-size: 2rem;
     }
 }
+
+
+#support-status[data-status="waiting"] {
+    color: #ffa500 !important;
+}
+
+#support-status[data-status="active"] {
+    color: #4caf50 !important;
+}
+
+#support-status[data-status="closed"] {
+    color: #999 !important;
+}
+
+#support-status:not([data-status]) {
+    color: rgba(255, 255, 255, 0.9) !important;
+}

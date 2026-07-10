@@ -1,3 +1,6 @@
+// Передаем переменные окружения в глобальную область
+window.PUSHER_APP_KEY = import.meta.env.VITE_PUSHER_APP_KEY;
+window.PUSHER_APP_CLUSTER = import.meta.env.VITE_PUSHER_APP_CLUSTER;
 // Полифиллы — оставляем как есть
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';

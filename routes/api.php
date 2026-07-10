@@ -16,13 +16,25 @@ use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\PvzController;
 use App\Http\Controllers\Api\ReviewController;
+use App\Http\Controllers\Api\BuyerChatController;
 
-//// Продукты
-//Route::prefix('products')->group(function () {
-//  Route::get('/', [ProductController::class, 'apiIndex']);
-//  Route::get('/{id}', [ProductController::class, 'apiShow']);
-//  Route::get('/groups', [ProductController::class, 'apiCategories']);
-//});
+Route::middleware(['web'])->group(function () {
+    // Инициализация чата покупателя
+    Route::post('/buyer/chat/init', [BuyerChatController::class, 'initChat'])
+        ->name('api.buyer.chat.init');
+
+    // Отправка сообщения
+    Route::post('/buyer/chat/{chat}/message', [BuyerChatController::class, 'sendMessage'])
+        ->name('api.buyer.chat.message');
+
+    // Получение сообщений
+    Route::get('/buyer/chat/{chat}/messages', [BuyerChatController::class, 'getMessages'])
+        ->name('api.buyer.chat.messages');
+
+    // Закрытие чата
+    Route::post('/buyer/chat/{chat}/close', [BuyerChatController::class, 'closeChat'])
+        ->name('api.buyer.chat.close');
+});
 
 // Квесты
 Route::prefix('quests')->group(function () {

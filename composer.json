@@ -44,7 +44,8 @@
             "Database\\Seeders\\": "database/seeders/"
         },
         "files": [
-            "app/Helpers/pluralize.php"
+            "app/Helpers/pluralize.php",
+            "app/Helpers/ChatHelper.php"
         ]
     },
     "autoload-dev": {

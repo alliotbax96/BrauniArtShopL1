@@ -17,6 +17,7 @@ use App\Http\Controllers\Login\SsoController;
 use App\Http\Controllers\Api\BookReaderController;
 use App\Http\Controllers\Books\BookController;
 use App\Http\Controllers\Orders\BookOrdersController;
+use App\Http\Controllers\Books\PlayerController;
 
 require __DIR__ . '/dashboard.php';
 
@@ -77,6 +78,13 @@ Route::domain('brauniart.shop')->group(function () {
         });
 
         Route::get('/reader/{bookId}', [BookReaderController::class, 'index'])->name('reader');
+        // Аудиоплеер
+        Route::prefix('player')->name('player.')->group(function () {
+            Route::get('/{bookId}', [PlayerController::class, 'index'])->name('index');
+            Route::post('/{bookId}/progress', [PlayerController::class, 'saveProgress'])->name('progress.save');
+            Route::get('/{bookId}/progress', [PlayerController::class, 'getProgress'])->name('progress.get');
+            Route::get('/{bookId}/audio/{chapterId}', [PlayerController::class, 'getAudioUrl'])->name('audio.url');
+        });
     });
 
     Route::group(['middleware' => ['guest']], function () {

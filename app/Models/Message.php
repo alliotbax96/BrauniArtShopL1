@@ -8,8 +8,20 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Message extends Model
 {
     protected $fillable = [
-        'chat_id', 'user_id', 'content', 'file_path',
-        'file_name', 'file_type', 'is_read'
+        'chat_id',
+        'user_id',
+        'content',
+        'file_path',
+        'file_name',
+        'file_type',
+        'file_size',
+        'is_read',
+        'is_edited'
+    ];
+
+    protected $casts = [
+        'is_read' => 'boolean',
+        'is_edited' => 'boolean',
     ];
 
     public function user(): BelongsTo

@@ -3,18 +3,36 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use App\Models\User;
-use App\Models\Message;
 
 class Chat extends Model
 {
-    protected $fillable = ['name', 'type'];
+    protected $fillable = [
+        'name',
+        'type',
+        'status',
+        'client_name',
+        'client_email',
+        'client_phone',
+        'ip_address',
+        'country',
+        'city',
+        'region',
+        'current_page',
+        'user_agent',
+        'client_user_id',
+        'assigned_admin_id'
+    ];
+
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
+
     /**
-     * Связь «многие‑ко‑многим» с пользователями через вспомогательную таблицу chat_user
-     *
-     * @return BelongsToMany
+     * Связь с пользователями чата
      */
     public function users(): BelongsToMany
     {
@@ -22,35 +40,48 @@ class Chat extends Model
     }
 
     /**
-     * Связь «один‑ко‑многим» с сообщениями
-     *
-     * @return HasMany
+     * Связь с сообщениями
      */
     public function messages(): HasMany
     {
-        return $this->hasMany(Message::class,'chat_id');
+        return $this->hasMany(Message::class, 'chat_id');
+    }
+
+    /**
+     * Назначенный администратор
+     */
+    public function assignedAdmin(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'assigned_admin_id');
+    }
+
+    /**
+     * Клиент (зарегистрированный пользователь)
+     */
+    public function client(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'client_user_id');
+    }
+
+    /**
+     * Последнее сообщение в чате
+     */
+    public function lastMessage()
+    {
+        return $this->hasOne(Message::class, 'chat_id')->latest();
     }
 
     /**
      * Проверяет, состоит ли пользователь в чате
-     *
-     * @param int|User $user ID пользователя или экземпляр модели User
-     * @return bool
      */
     public function hasUser($user): bool
     {
         $userId = $user instanceof User ? $user->id : $user;
-
-        return $this->users()
-            ->where('users.id', $userId)
-            ->exists();
+        return $this->users()->where('users.id', $userId)->exists();
     }
 
     /**
-     * Добавляет пользователя в чат (если его там ещё нет)
-     *
-     * @param int|User $user ID пользователя или экземпляр модели User
-     * @return bool
+     * Добавляет пользователя в чат
      */
     public function addUser($user): bool
     {
@@ -61,14 +92,11 @@ class Chat extends Model
             return true;
         }
 
-        return false; // Пользователь уже в чате
+        return false;
     }
 
     /**
      * Удаляет пользователя из чата
-     *
-     * @param int|User $user ID пользователя или экземпляр модели User
-     * @return bool
      */
     public function removeUser($user): bool
     {
@@ -79,44 +107,11 @@ class Chat extends Model
             return true;
         }
 
-        return false; // Пользователя не было в чате
+        return false;
     }
 
     /**
-     * Получает участников чата с их статусами онлайн (требуется связь status в модели User)
-     *
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    public function getParticipantsWithStatus()
-    {
-        return $this->users()
-            ->with(['status' => function ($query) {
-                $query->select('user_id', 'is_online', 'last_activity');
-            }])
-            ->get();
-    }
-
-    /**
-     * Получает последнее сообщение пользователя в чате
-     *
-     * @param int|User $user ID пользователя или экземпляр модели User
-     * @return \App\Models\Message|null
-     */
-    public function getLastMessageFromUser($user): ?Message
-    {
-        $userId = $user instanceof User ? $user->id : $user;
-
-        return $this->messages()
-            ->where('user_id', $userId)
-            ->latest()
-            ->first();
-    }
-
-    /**
-     * Считает количество непрочитанных сообщений для пользователя в чате
-     *
-     * @param int|User $user ID пользователя или экземпляр модели User
-     * @return int
+     * Получает количество непрочитанных сообщений для пользователя
      */
     public function getUnreadMessagesCountForUser($user): int
     {
@@ -124,7 +119,7 @@ class Chat extends Model
 
         return $this->messages()
             ->where('is_read', false)
-            ->where('user_id', '!=', $userId) // Исключаем сообщения самого пользователя
+            ->where('user_id', '!=', $userId)
             ->count();
     }
 }
