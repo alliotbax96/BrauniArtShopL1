@@ -53,7 +53,7 @@ class HomeController extends BaseController
     }
 
     private function indexBooks($perPage = 12){
-        return Book::paginate($perPage);
+        return Book::where('moderation_status', 'approved')->where('is_active', 1)->paginate($perPage);
     }
 
     public function ajax_home(Request $request)

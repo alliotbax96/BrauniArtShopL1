@@ -3,12 +3,12 @@
     <div class="custom-container-two">
         <nav aria-label="breadcrumb breadcrumb-new" class="mb-1 mt-2">
             <ol class="breadcrumb breadcrumb-new-ol">
-                <li class="breadcrumb-item"><a href="/books">Книги</a></li>
+                <li class="breadcrumb-item"><a href="/">Главная</a></li>
                 @if($book->genre)
                     @if($book->getProductGroup()->parent)
-                        <li class="breadcrumb-item"><a href="/products?category={{$book->getProductGroup()->parent->id}}">{{$book->getProductGroup()->parent->name}}</a></li>
+                        <li class="breadcrumb-item"><a href="/books?category={{$book->getProductGroup()->parent->id}}">{{$book->getProductGroup()->parent->name}}</a></li>
                     @endif
-                    <li class="breadcrumb-item"><a href="/products?category={{$book->getProductGroup()->id}}">{{$book->getProductGroup()->name}}</a></li>
+                    <li class="breadcrumb-item"><a href="/books?category={{$book->getProductGroup()->id}}">{{$book->getProductGroup()->name}}</a></li>
                 @endif
                 <li class="breadcrumb-item active" aria-current="page">{{$book->getProductName()}}</li>
             </ol>
@@ -62,7 +62,7 @@
                                     <i class="fas fa-clock"></i> Черновик
                                 </span>
                             @endif
-                            <span class="badge {{ $book->getBookTypeBadgeClass() }} p-2">
+                            <span class="badge {{ $book->getBookTypeBadgeClass() }} text-white p-2">
                                 <i class="fas {{ $book->isEbook() ? 'fa-book-open' : 'fa-headphones' }} me-1"></i>
                                 {{ $book->getBookTypeLabel() }}
                             </span>
@@ -89,7 +89,6 @@
                                         <i class="fas fa-star text-muted"></i>
                                     @endif
                                 @endfor
-                            </div>
                             <span>
                                 @php
                                     $count = count($book->getProductReviews());
@@ -101,6 +100,7 @@
                                 @endphp
                                 - {{ $count }} {{ $word }}
                             </span>
+                            </div>
                         </div>
 
                         <div class="shop-details-price">
@@ -111,11 +111,6 @@
                                     {{$book->getProductPrice(false)}}
                                 @endif
                             </h2>
-                            @if($book->isAudiobook() && $book->total_duration)
-                                <small class="text-muted d-block">
-                                    <i class="far fa-clock me-1"></i> {{ $book->formatted_duration }}
-                                </small>
-                            @endif
                         </div>
 
                         <div class="book-info-details mt-4 mb-4">
@@ -123,8 +118,7 @@
                                 @if($book->author)
                                     <div class="col-6">
                                         <div class="d-flex flex-column">
-                                            <small class="text-muted mb-1">Автор</small>
-                                            <span class="fw-semibold">{{ $book->author }}</span>
+                                            <span class="fw-semibold"><small class="text-muted">Автор:</small> {{ $book->author }}</span>
                                         </div>
                                     </div>
                                 @endif
@@ -132,8 +126,7 @@
                                 @if($book->getGenreName() !== 'Не указан')
                                     <div class="col-6">
                                         <div class="d-flex flex-column">
-                                            <small class="text-muted mb-1">Жанр</small>
-                                            <span class="fw-semibold">{{ $book->getGenreName() }}</span>
+                                            <span class="fw-semibold"><small class="text-muted">Жанр:</small> {{ $book->getGenreName() }}</span>
                                         </div>
                                     </div>
                                 @endif
@@ -141,8 +134,7 @@
                                 @if($book->publication_year)
                                     <div class="col-6">
                                         <div class="d-flex flex-column">
-                                            <small class="text-muted mb-1">Год выпуска</small>
-                                            <span class="fw-semibold">{{ $book->getFormattedPublicationYear() }}</span>
+                                            <span class="fw-semibold"><small class="text-muted">Год выпуска:</small> {{ $book->getFormattedPublicationYear() }}</span>
                                         </div>
                                     </div>
                                 @endif
@@ -150,8 +142,7 @@
                                 @if($book->publisher)
                                     <div class="col-6">
                                         <div class="d-flex flex-column">
-                                            <small class="text-muted mb-1">Издатель</small>
-                                            <span class="fw-semibold">{{ $book->publisher }}</span>
+                                            <span class="fw-semibold"><small class="text-muted">Издатель:</small> {{ $book->publisher }}</span>
                                         </div>
                                     </div>
                                 @endif
@@ -159,8 +150,7 @@
                                 @if($book->isEbook() && $book->getReadableSize())
                                     <div class="col-6">
                                         <div class="d-flex flex-column">
-                                            <small class="text-muted mb-1">Объём</small>
-                                            <span class="fw-semibold">{{ $book->getReadableSize() }}</span>
+                                            <span class="fw-semibold"><small class="text-muted">Объём:</small> {{ $book->getReadableSize() }}</span>
                                         </div>
                                     </div>
                                 @endif
@@ -168,8 +158,7 @@
                                 @if($book->isAudiobook() && $book->getTotalDuration())
                                     <div class="col-6">
                                         <div class="d-flex flex-column">
-                                            <small class="text-muted mb-1">Длительность</small>
-                                            <span class="fw-semibold">{{ $book->getFormattedTotalDuration() }}</span>
+                                            <span class="fw-semibold"><small class="text-muted">Длительность:</small> {{ $book->getFormattedTotalDuration() }}</span>
                                         </div>
                                     </div>
                                 @endif
@@ -177,8 +166,7 @@
                                 @if($book->language)
                                     <div class="col-6">
                                         <div class="d-flex flex-column">
-                                            <small class="text-muted mb-1">Язык</small>
-                                            <span class="fw-semibold">{{ strtoupper($book->language) }}</span>
+                                            <span class="fw-semibold"><small class="text-muted">Язык:</small> {{ strtoupper($book->language) }}</span>
                                         </div>
                                     </div>
                                 @endif
@@ -192,20 +180,10 @@
                                     </div>
                                 @endif
 
-                                @if($book->getChapterCount() > 0)
-                                    <div class="col-6">
-                                        <div class="d-flex flex-column">
-                                            <small class="text-muted mb-1">{{ trans_choice('глава|главы|глав', $book->getChapterCount()) }}</small>
-                                            <span class="fw-semibold">{{ $book->getChapterCount() }}</span>
-                                        </div>
-                                    </div>
-                                @endif
-
                                 @if($book->isEbook() && $book->pages_count)
                                     <div class="col-6">
                                         <div class="d-flex flex-column">
-                                            <small class="text-muted mb-1">{{ trans_choice('страница|страницы|страниц', $book->pages_count) }}</small>
-                                            <span class="fw-semibold">{{ number_format($book->pages_count, 0, '', ' ') }}</span>
+                                            <span class="fw-semibold"><small class="text-muted">{{ trans_choice('страница|страницы|страниц', $book->pages_count) }}</small> {{ number_format($book->pages_count, 0, '', ' ') }}</span>
                                         </div>
                                     </div>
                                 @endif
@@ -213,19 +191,12 @@
                                 @if($book->isbn)
                                     <div class="col-12">
                                         <div class="d-flex flex-column">
-                                            <small class="text-muted mb-1">ISBN</small>
-                                            <span class="fw-semibold font-monospace">{{ $book->isbn }}</span>
+                                            <span class="fw-semibold font-monospace"><small class="text-muted">ISBN</small> {{ $book->isbn }}</span>
                                         </div>
                                     </div>
                                 @endif
                             </div>
                         </div>
-{{--                        @if($book->annotation)--}}
-{{--                            <div class="book-annotation mt-3 mb-3">--}}
-{{--                                <small class="text-muted d-block mb-1">Аннотация</small>--}}
-{{--                                <p class="small">{{ Str::limit($book->annotation, 200) }}</p>--}}
-{{--                            </div>--}}
-{{--                        @endif--}}
                         <div class="row">
                             <div class="col-12">
                                 <div class="product-desc-wrap ">
@@ -285,7 +256,7 @@
                                                                     @endif
                                                                     @if($chapter->duration)
                                                                         <small class="text-muted">
-                                                                            {{$book->isEbook() ? $chapter->duration : '<i class="far fa-clock me-1"></i>'.gmdate('H:i:s', $chapter->duration) }}
+                                                                            {!!$book->isEbook() ? $chapter->duration : '<i class="far fa-clock me-1"></i> '.gmdate('H:i:s', $chapter->duration) !!}
                                                                         </small>
                                                                     @endif
                                                                 </div>
@@ -390,6 +361,9 @@
                         @if ($book->isPurchased())
                             @if($book->isEbook())
                                 <a href="/reader/{{$book->id}}" class="btn btn-success btn-sm">Читать</a>
+                            @endif
+                            @if($book->isAudiobook())
+                                <a href="/books/{{$book->id}}/player" class="btn btn-success btn-sm">Слушать</a>
                             @endif
                         @else
                         <div class="perched-info">

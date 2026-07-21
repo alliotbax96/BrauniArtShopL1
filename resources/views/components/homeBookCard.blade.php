@@ -28,7 +28,7 @@
             </a>
 
             <div class="quest-badge">
-                <span class="badge {{ $book->getBookTypeBadgeClass() }}">
+                <span class="badge {{ $book->getBookTypeBadgeClass() }} text-white">
                     {{ $book->getBookTypeLabel() }}
                 </span>
                 @if($book->isNew())

@@ -14,7 +14,7 @@
         </a>
 
         <ul class="category-menu" style="display: none;">
-            @foreach($ProductGroups->where('parent_id', 0)->where('ShopMode', $shopMode) as $item)
+            @foreach($ProductGroups->where('parent_id', 0) as $item)
                 <li class="has-dropdown">
                     <a href="{{ $shopMode == 1 ? '/products' : '/books'}}?category={{ $item->id }}">
                         <div class="cat-menu-img">

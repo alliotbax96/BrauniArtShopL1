@@ -117,7 +117,7 @@ Route::domain('id.brauniart.shop')->group(function () {
            Route::post('/{bookId}/chapters', [BookController::class, 'storeChapter']);
            Route::put('/{bookId}/chapters/{chapterId}', [BookController::class, 'updateChapter']);
            Route::delete('/delete/{id}', [BookController::class, 'destroy'])->name('destroy');
-           Route::patch('/{id}/moderation', [BookController::class, 'updateModerationStatus']);
+           Route::middleware('admin')->patch('/{id}/moderation', [BookController::class, 'updateModerationStatus']);
           });
           Route::prefix('files')->name('files.')->group(function () {
               Route::post('/tempImageUpload', [ImageUploadController::class, 'upload'])->name('upload');

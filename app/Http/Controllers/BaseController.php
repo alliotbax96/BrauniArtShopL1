@@ -50,13 +50,13 @@ class BaseController extends Controller
             'cartItemsCount' => $cartData['items_count'],
             'cartTotalPrice' => $cartData['total_price'],
             'cart' => $cartData['cart'],
-            'ProductGroups' => $this->getProductGroups(),
+            'ProductGroups' => $this->getProductGroups($CurrentShopMode),
             'title' => 'Брауни Арт — маркетплейс качественных товаров с доставкой по России',
-//            'ShopModes' => ShopMode::where('status', 1)->get(),
+            'ShopModes' => ShopMode::where('status', 1)->get(),
             'CartShopMode' => $ShopMode,
-            'ShopModes' => ShopMode::all(),
-            'verName' => '3.1.6 Beta',
-            'ver' => 4,
+//            'ShopModes' => ShopMode::all(),
+            'verName' => '3.2.0 Beta',
+            'ver' => 6,
             'scripts' => null,
             'meta_description' => 'Маркетплейс Брауни Арт — широкий ассортимент товаров высокого качества от проверенных продавцов. Надёжный поставщик с многолетним опытом: гарантия сервиса, доступные цены и удобная доставка по России. Покупайте с комфортом!'
         ]);
@@ -107,9 +107,10 @@ class BaseController extends Controller
         }
     }
 
-    private function GetProductGroups()
+    private function GetProductGroups($ShopMode = 1)
     {
         return ProductGroup::rootGroups()
+            ->where('ShopMode', $ShopMode)
             ->with('children')
             ->get();
     }

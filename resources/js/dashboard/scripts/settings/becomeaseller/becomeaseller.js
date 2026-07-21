@@ -75,3 +75,4 @@ $('#bank_cor_account').on('input', function(){
 $('#bank_account').on('input', function(){
 	this.value = this.value.replace(/[^0-9]/g, '');
 });
+

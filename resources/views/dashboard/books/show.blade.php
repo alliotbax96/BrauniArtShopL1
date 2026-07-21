@@ -13,11 +13,11 @@
                                data-bs-toggle="tab" data-bs-target="#bookDataTab" role="tab">Основная информация</a>
                         </li>
                         @if(isset($book))
-                         <li class="nav-item flex-fill border-top" role="presentation">
-                             <a href="javascript:void(0);"
-                                class="nav-link {{Route::currentRouteName() == 'seller.books.chapters' ? 'active':''}}"
-                                data-bs-toggle="tab" data-bs-target="#bookTextTab" role="tab">Текст</a>
-                         </li>
+                            <li class="nav-item flex-fill border-top" role="presentation">
+                                <a href="javascript:void(0);"
+                                   class="nav-link {{Route::currentRouteName() == 'seller.books.chapters' ? 'active':''}}"
+                                   data-bs-toggle="tab" data-bs-target="#bookTextTab" role="tab">Содержание</a>
+                            </li>
                         @endif
                     </ul>
                 </div>
@@ -49,31 +49,30 @@
                                 @endif
                             </div>
 
-{{--                            <!-- Продавец -->--}}
-{{--                            @if($currentUser->isAdmin())--}}
-{{--                                <div class="row mb-4 align-items-center">--}}
-{{--                                    <div class="col-lg-4">--}}
-{{--                                        <label for="productSeller" class="fw-semibold">Продавец: <span--}}
-{{--                                                class="text-danger">*</span></label>--}}
-{{--                                    </div>--}}
-{{--                                    <div class="col-lg-8">--}}
-{{--                                        <div class="input-group">--}}
-{{--                                            <div class="input-group-text"><i class="feather-user"></i></div>--}}
-{{--                                            <select id="productSeller" class="form-select" name="seller_id" required>--}}
-{{--                                                @foreach($sellers as $item)--}}
-{{--                                                    @if(isset($book))--}}
-{{--                                                        <option value="{{$item->id}}" {{$book->seller_id == $item->id ? 'selected' : ''}}>{{$item->name}}</option>--}}
-{{--                                                    @else--}}
-{{--                                                        <option value="{{$item->id}}" {{$currentUser->getSellerId() == $item->id ? 'selected' : ''}}>{{$item->name}}</option>--}}
-{{--                                                    @endif--}}
-{{--                                                @endforeach--}}
-{{--                                            </select>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            @else--}}
-{{--                                <input type="hidden" name="productSeller" value="{{$currentUser->getSellerId()}}">--}}
-{{--                            @endif--}}
+                                                        <!-- Продавец -->
+                                                        @if($currentUser->isAdmin())
+                                                            <div class="row mb-4 align-items-center">
+                                                                <div class="col-lg-4">
+                                                                    <label for="bookSeller" class="fw-semibold">Продавец: <span
+                                                                            class="text-danger">*</span></label>
+                                                                </div>
+                                                                <div class="col-lg-8">
+                                                                    <div class="input-group">
+                                                                        <select id="bookSeller" form="book_data" class="form-select" name="book_seller_id" required>
+                                                                            @foreach($sellers as $item)
+                                                                                @if(isset($book))
+                                                                                    <option value="{{$item->id}}" {{$book->book_seller_id == $item->id ? 'selected' : ''}}>{{$item->name}}</option>
+                                                                                @else
+                                                                                    <option value="{{$item->id}}" {{$currentUser->getSellerId() == $item->id ? 'selected' : ''}}>{{$item->name}}</option>
+                                                                                @endif
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        @else
+                                                            <input type="hidden" form="book_data" name="book_seller_id" value="{{$currentUser->getSellerId()}}">
+                                                        @endif
 
                             <!-- Тип книги -->
                             <div class="row mb-4 align-items-center">
@@ -242,7 +241,6 @@
                                 </div>
                                 <div class="col-lg-8">
                                     <div class="input-group">
-                                        <div class="input-group-text"><i class="feather-list"></i></div>
                                         <select class="form-select" form="book_data" name="genre_id" id="genreSelect">
                                             <option disabled {{ !isset($book) ? 'selected' : '' }}>-- Выберете жанр --
                                             </option>
@@ -411,7 +409,7 @@
                             </div>
 
                             <!-- Статус модерации (только для админов) -->
-                            @if(auth()->user()->isAdmin())
+                            @if(auth()->user()->isAdmin() && isset($book->id))
                                 <div class="row mb-4 align-items-center">
                                     <div class="col-lg-4">
                                         <label for="moderationSelect" class="fw-semibold">Модерация:</label>
@@ -474,57 +472,72 @@
 
                     </div>
                     @if(isset($book))
-                     <div class="tab-pane fade {{Route::currentRouteName() == 'seller.books.chapters' ? 'show active':''}}"
-                        id="bookTextTab" role="tabpanel">
-                        <div class="card-body personal-info">
-                            <div class="mb-4 d-flex align-items-center justify-content-between">
-                                <h5 class="fw-bold mb-0 me-4">
-                                    <span class="d-block mb-2">Текст книги:</span>
-                                </h5>
-                                <a href="{{route('seller.books.chapter', ['bookId'=>$book->id, 'chapterId'=>'create'])}}"
-                                   class="btn btn-sm btn-light-brand">Добавить</a>
-                            </div>
-                            <div class="row">
-                                @foreach($book->chapters as $item)
-                                    <div class="col-lg-12">
-                                        <div
-                                            class="px-4 py-2 mb-4 d-flex justify-content-between align-items-center border border-dashed border-gray-3 rounded-1">
+                        <div class="tab-pane fade {{Route::currentRouteName() == 'seller.books.chapters' ? 'show active':''}}"
+                             id="bookTextTab" role="tabpanel">
+                            <div class="card-body personal-info">
+                                <div class="mb-4 d-flex align-items-center justify-content-between">
+                                    <h5 class="fw-bold mb-0 me-4">
+                                        <span class="d-block mb-2">Текст книги:</span>
+                                    </h5>
+                                    <a href="{{route('seller.books.chapter', ['bookId'=>$book->id, 'chapterId'=>'create'])}}"
+                                       class="btn btn-sm btn-light-brand">Добавить</a>
+                                </div>
+                                <div class="row">
+                                    @foreach($book->chapters as $item)
+                                        <div class="col-lg-12">
                                             <div
-                                                class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center gap-3 w-75">
-                                                <div class="text-dark fw-bold">
-                                                    {{ $item->title }}
-                                                </div>
-                                                <div>
-                                                    {!! $item->status == 'published'
-                                                        ? '<span class="badge bg-primary">опубликовано</span>'
-                                                        : '<span class="badge bg-secondary">черновик</span>' !!}
-                                                </div>
-                                                @php
-                                                    $count = $item->duration;
-                                                    $word = match (true) {
-                                                        $count % 10 == 1 && $count % 100 != 11 => 'символ',
-                                                        in_array($count % 10, [2, 3, 4]) && !in_array($count % 100, [12, 13, 14]) => 'символа',
-                                                        default => 'символов'
-                                                    };
-                                                @endphp
-                                                <div class="text-muted">
-                                                    ({{ $count }} {{ $word }})
-                                                </div>
-                                            </div>
+                                                class="px-4 py-2 mb-4 d-flex justify-content-between align-items-center border border-dashed border-gray-3 rounded-1">
+                                                <div
+                                                    class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center gap-3 w-75">
+                                                    <div class="text-dark fw-bold">
+                                                        {{ $item->title }}
+                                                    </div>
+                                                    <div>
+                                                        {!! $item->status == 'published'
+                                                            ? '<span class="badge bg-primary">опубликовано</span>'
+                                                            : '<span class="badge bg-secondary">черновик</span>' !!}
+                                                    </div>
 
-                                            <div class="hstack gap-3">
-                                                <a href="/seller/books/{{$book->id}}/chapters/{{$item->id}}"><i
-                                                        class="feather-edit"></i></a>
-                                                <a href="javascript:void(0);"><i class="feather-trash"></i></a>
+                                                    @if($book->isEbook())
+                                                        @php
+                                                            $count = $item->duration;
+                                                            $word = match (true) {
+                                                                $count % 10 == 1 && $count % 100 != 11 => 'символ',
+                                                                in_array($count % 10, [2, 3, 4]) && !in_array($count % 100, [12, 13, 14]) => 'символа',
+                                                                default => 'символов'
+                                                            };
+                                                        @endphp
+                                                        <div class="text-muted">
+                                                            ({{ $count }} {{ $word }})
+                                                        </div>
+                                                    @elseif($book->isAudiobook())
+                                                        <div class="text-muted">({{ $item->getFormattedDuration() }})</div>
+                                                    @endif
+
+                                                    {{-- Предпрослушивание для аудиокниг --}}
+                                                    @if($book->isAudiobook() && $item->audio_file_path)
+                                                        <div class="audio-preview-mini" style="max-width: 200px;">
+                                                            <audio controls preload="none" style="width:100%; height: 30px;">
+                                                                <source src="{{ $item->audio_url }}" type="audio/mpeg">
+                                                                Ваш браузер не поддерживает аудио.
+                                                            </audio>
+                                                        </div>
+                                                    @endif
+                                                </div>
+
+                                                <div class="hstack gap-3">
+                                                    <a href="/seller/books/{{$book->id}}/chapters/{{$item->id}}"><i
+                                                            class="feather-edit"></i></a>
+                                                    <a href="javascript:void(0);"><i class="feather-trash"></i></a>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                @endforeach
+                                    @endforeach
 
+                                </div>
                             </div>
-                        </div>
 
-                    </div>
+                        </div>
                     @endif
                 </div>
             </div>

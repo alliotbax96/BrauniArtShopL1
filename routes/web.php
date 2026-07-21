@@ -79,12 +79,10 @@ Route::domain('brauniart.shop')->group(function () {
 
         Route::get('/reader/{bookId}', [BookReaderController::class, 'index'])->name('reader');
         // Аудиоплеер
-        Route::prefix('player')->name('player.')->group(function () {
-            Route::get('/{bookId}', [PlayerController::class, 'index'])->name('index');
-            Route::post('/{bookId}/progress', [PlayerController::class, 'saveProgress'])->name('progress.save');
-            Route::get('/{bookId}/progress', [PlayerController::class, 'getProgress'])->name('progress.get');
-            Route::get('/{bookId}/audio/{chapterId}', [PlayerController::class, 'getAudioUrl'])->name('audio.url');
-        });
+        Route::get('/books/{book}/player', [PlayerController::class, 'show'])->name('player.show');
+        Route::post('/books/{book}/progress', [PlayerController::class, 'saveProgress'])->name('player.progress');
+        Route::post('/books/{book}/bookmarks', [PlayerController::class, 'toggleBookmark'])->name('player.bookmark');
+        Route::get('/books/{book}/bookmarks', [PlayerController::class, 'getBookmarks'])->name('player.bookmarks');
     });
 
     Route::group(['middleware' => ['guest']], function () {

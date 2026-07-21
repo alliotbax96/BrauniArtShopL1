@@ -110,6 +110,7 @@ $(document).ready(function() {
             "zeroRecords": "Ничего не найдено",
             "info": "Записи с _START_ по _END_ из _TOTAL_",
             "infoEmpty": "Записей нет",
+            "search": "Поиск",
             "paginate": {
                 "first": "Первая",
                 "last": "Последняя",

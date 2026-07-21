@@ -54,6 +54,8 @@ class ProductRepository
         // Фильтр: у продавца есть PVZ
         $query->whereHas('seller.sellerPvz');
 
+        $query->orderByDesc('created_at');
+
         return $query->paginate($perPage);
     }
 

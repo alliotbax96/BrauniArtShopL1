@@ -45,30 +45,30 @@ export function handleChapterFormSubmit(e, chapterData, $form, $submitBtn, origi
     $('.is-invalid').removeClass('is-invalid');
     $('#alert_chapter').empty();
 
-    // Получаем чистый HTML из редактора Quill с использованием jQuery
-    const $editorContainer = $('#editor-container .ql-editor');
-    const htmlContent = $editorContainer.length > 0 ? $editorContainer.html() : '';
+    // Синхронизация контента только для электронных книг
+    if (window.bookType === 'ebook') {
+        const $editorContainer = $('#editor-container .ql-editor');
+        const htmlContent = $editorContainer.length > 0 ? $editorContainer.html() : '';
+        const cleanHtml = htmlContent
+            .replace(/<div class="ql-tooltip[^>]*>[\s\S]*?<\/div>/g, '')
+            .replace(/<span class="ql-cursor[^>]*>[\s\S]*?<\/span>/g, '');
+        $('#content-textarea').val(cleanHtml);
+    }
 
-    // Очищаем от служебных элементов Quill
-    const cleanHtml = htmlContent
-        .replace(/<div class="ql-tooltip[^>]*>[\s\S]*?<\/div>/g, '')
-        .replace(/<span class="ql-cursor[^>]*>[\s\S]*?<\/span>/g, '');
-
-    // Помещаем очищенный HTML в textarea с использованием jQuery
-    $('#content-textarea').val(cleanHtml);
-
+    // Установка статуса
     if($('input[name="is_active"]').is(':checked')){
         $('input[name="status"]').val('published');
     } else {
         $('input[name="status"]').val('draft');
     }
 
-
     // Создаём FormData из формы
     const formData = new FormData($form[0]);
 
     // Определяем URL для запроса
-    const url = chapterData.isEditMode && chapterData.chapterId ? `/seller/books/${chapterData.bookId}/chapters/${chapterData.chapterId}` : `/seller/books/${chapterData.bookId}/chapters`;
+    const url = chapterData.isEditMode && chapterData.chapterId
+        ? `/seller/books/${chapterData.bookId}/chapters/${chapterData.chapterId}`
+        : `/seller/books/${chapterData.bookId}/chapters`;
 
     // Если режим редактирования, добавляем метод PUT
     if (chapterData.isEditMode && chapterData.chapterId) {
@@ -83,9 +83,16 @@ export function handleChapterFormSubmit(e, chapterData, $form, $submitBtn, origi
 
     // AJAX‑запрос
     $.ajax({
-        url: url, method: 'POST', data: formData, processData: false, contentType: false, headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 'Accept': 'application/json'
-        }, success: function (data) {
+        url: url,
+        method: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            'Accept': 'application/json'
+        },
+        success: function (data) {
             showAlert('Часть книги успешно сохранена!', 'success');
 
             // Если создание новой части, перенаправляем на страницу созданной части
@@ -97,7 +104,8 @@ export function handleChapterFormSubmit(e, chapterData, $form, $submitBtn, origi
                 console.log('Часть книги обновлена:', data.chapter);
                 showAlert('Часть книги успешно обновлена!', 'success');
             }
-        }, error: function (xhr) {
+        },
+        error: function (xhr) {
             const errorMsg = getErrorMessages(xhr);
             showAlert(errorMsg, 'danger');
 
@@ -108,7 +116,8 @@ export function handleChapterFormSubmit(e, chapterData, $form, $submitBtn, origi
                     scrollTop: $firstError.offset().top - 100
                 }, 500);
             }
-        }, complete: function () {
+        },
+        complete: function () {
             // Восстанавливаем кнопку
             $submitBtn
                 .prop('disabled', false)

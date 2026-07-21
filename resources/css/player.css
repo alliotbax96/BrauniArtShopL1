@@ -1,0 +1,356 @@
+/* === Сброс и базовые настройки === */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body.player-body {
+    background: #0b0b0f;
+    color: #ffffff;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    height: 100vh;
+    overflow: hidden;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* === Приложение === */
+.player-app {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    height: 100vh;
+    margin: 0 auto;
+    background: rgba(18, 18, 24, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+/* === Размытый фон === */
+.player-background {
+    position: absolute;
+    top: -30px;
+    left: -30px;
+    right: -30px;
+    bottom: -30px;
+    background-size: cover;
+    background-position: center;
+    filter: blur(40px) brightness(0.4);
+    z-index: 0;
+    transition: filter 0.8s ease;
+}
+.player-background.active {
+    filter: blur(30px) brightness(0.35);
+}
+
+/* === Контент поверх фона === */
+.player-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 20px;
+}
+
+/* === Шапка === */
+.player-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+.header-info {
+    flex: 1;
+    margin: 0 15px;
+    text-align: center;
+}
+.book-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 4px;
+}
+.chapter-subtitle {
+    font-size: 0.85rem;
+    color: #b0b0c0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Иконки-кнопки */
+.btn-icon {
+    background: rgba(255, 255, 255, 0.08);
+    border: none;
+    color: #fff;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+    backdrop-filter: blur(10px);
+}
+.btn-icon:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+}
+
+/* === Обложка === */
+.player-artwork {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px 0 25px;
+}
+.artwork-container {
+    width: 80%;
+    max-width: 300px;
+    aspect-ratio: 1/1;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+    transition: transform 0.3s ease;
+}
+.artwork-container:hover {
+    transform: scale(1.02);
+}
+.artwork-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+/* Плейсхолдер – теперь в цветах бренда */
+.artwork-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #0465d2 0%, #3b8cff 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    color: #5a5a7a;
+}
+
+/* === Прогресс-бар === */
+.progress-area {
+    margin-bottom: 20px;
+}
+.progress-bar-custom {
+    height: 6px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    position: relative;
+    cursor: pointer;
+    margin-bottom: 8px;
+}
+/* Заменён градиент */
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #0465d2 0%, #3b8cff 100%);
+    border-radius: 6px;
+    transition: width 0.1s linear;
+}
+.progress-thumb {
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    transform: translate(-50%, -50%);
+    width: 14px;
+    height: 14px;
+    background: #ffffff;
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(0,0,0,0.3);
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+.progress-bar-custom:hover .progress-thumb {
+    opacity: 1;
+}
+
+.time-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: #aaa;
+}
+
+/* === Основные кнопки управления === */
+.main-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 20px;
+}
+.ctrl-btn {
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color 0.2s, transform 0.2s;
+    position: relative;
+}
+.ctrl-btn:hover {
+    color: #c0b0ff;
+    transform: scale(1.1);
+}
+.rewind-label {
+    position: absolute;
+    font-size: 0.6rem;
+    font-weight: bold;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-top: 1px;
+}
+/* Заменён градиент и тень */
+.play-btn {
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(135deg, #0465d2 0%, #3b8cff 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    box-shadow: 0 8px 24px rgba(4, 101, 210, 0.4);
+}
+.play-btn:hover {
+    transform: scale(1.08);
+    color: #fff;
+}
+
+/* === Дополнительные контролы === */
+.extra-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+}
+.btn-bookmark {
+    font-size: 1.2rem;
+}
+.speed-dropdown {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    backdrop-filter: blur(4px);
+    cursor: pointer;
+    outline: none;
+}
+.speed-dropdown option {
+    background: #1e1e2f;
+    color: #fff;
+}
+
+/* === Панели (слайд снизу) === */
+.slide-panel {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(22, 22, 35, 0.95);
+    backdrop-filter: blur(30px);
+    border-radius: 24px 24px 0 0;
+    z-index: 10;
+    padding: 25px 20px 35px;
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    max-height: 70vh;
+    display: flex;
+    flex-direction: column;
+}
+.slide-panel.open {
+    transform: translateY(0);
+}
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.panel-header h3 {
+    font-weight: 600;
+    font-size: 1.3rem;
+}
+.panel-body {
+    overflow-y: auto;
+    flex: 1;
+    padding-right: 5px;
+}
+.chapter-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 12px;
+    border-radius: 12px;
+    margin-bottom: 4px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+/* Активный элемент – теперь с цветом бренда */
+.chapter-row.active {
+    background: rgba(4, 101, 210, 0.2);
+}
+.chapter-row:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+.chapter-info {
+    display: flex;
+    flex-direction: column;
+}
+.chapter-title {
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+.chapter-duration {
+    font-size: 0.75rem;
+    color: #9090a0;
+    margin-top: 2px;
+}
+.empty-message {
+    text-align: center;
+    color: #9090a0;
+    padding: 20px;
+}
+
+/* Плавное появление */
+.is-playing .artwork-container {
+    animation: subtlePulse 3s infinite alternate;
+}
+@keyframes subtlePulse {
+    from { transform: scale(1); }
+    to { transform: scale(1.03); }
+}
+
+/* Адаптив для больших экранов */
+@media (min-width: 600px) {
+    .player-app {
+        border-radius: 28px;
+        height: 90vh;
+        max-height: 800px;
+    }
+}

@@ -66,6 +66,10 @@ $(document).ready(function() {
 });
 
 $(document).ready(function() {
+    $("#companyEntityDetails").select2({
+        theme: 'bootstrap-5'
+    });
+
     $('#seller_general').on('submit', function(e) {
         e.preventDefault(); // Отменяем стандартную отправку формы
 

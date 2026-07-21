@@ -144,7 +144,13 @@
 </div>
 
 @push('scripts')
+    <script type="module">
+        $("#ShopMode, #parent_id").select2({
+            theme: 'bootstrap-5'
+        });
+    </script>
     <script>
+
         // Превью изображения
         document.querySelector('.file-upload').addEventListener('change', function(e) {
             const file = e.target.files[0];

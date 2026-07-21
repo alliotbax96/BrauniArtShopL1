@@ -180,100 +180,6 @@
 }
 /*endAhunter*/
 
-
-
-/* Общие настройки таблицы */
-#proposalList {
-    width: 100%;
-    border-collapse: collapse;
-    font-family: inherit;
-    font-size: 0.9rem;
-}
-
-/* Ячейки таблицы */
-#proposalList th, #proposalList td {
-    padding: 12px 15px;
-    border-bottom: 1px solid #e2e8f0;
-    vertical-align: middle;
-}
-
-/* Заголовки таблицы */
-#proposalList th {
-    background-color: #f8fafc;
-    font-weight: 600;
-    color: #4a5568;
-    text-align: left;
-}
-
-/* Строки таблицы */
-#proposalList tr {
-    transition: background-color 0.2s ease;
-}
-
-#proposalList tr:hover {
-    background-color: #f7fafc; /* Легкий акцент при наведении */
-}
-
-/* Первая колонка (чекбоксы) */
-#proposalList th:first-child, #proposalList td:first-child {
-    width: 50px;
-    text-align: center;
-}
-
-/* Выравнивание по центру для числовых и статусных колонок */
-#proposalList th:last-child, #proposalList td:last-child {
-    text-align: right;
-}
-
-/* Статусные бейджи (чтобы они не вылезали за границы) */
-#proposalList .badge {
-    display: inline-block;
-    max-width: 100%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-/* Пагинация и блок "Показать записей" */
-.dataTables_length, .dataTables_paginate {
-    margin-top: 1rem;
-    display: flex;
-    gap: 10px;
-}
-
-.dataTables_paginate {
-    justify-content: flex-end;
-}
-
-/* Кнопка выбора количества записей */
-.dataTables_length select {
-    padding: 6px 12px;
-    border: 1px solid #e2e8f0;
-    border-radius: 4px;
-    font-size: 0.9rem;
-}
-
-/* Кнопки пагинации */
-.paginate_button {
-    padding: 6px 12px;
-    border: 1px solid transparent;
-    border-radius: 4px;
-    margin-right: 5px;
-    transition: all 0.2s ease;
-    cursor: pointer;
-}
-
-.paginate_button.current {
-    background-color: #64758a;
-    color: white;
-    border-color: #64758a;
-}
-
-.paginate_button:hover {
-    background-color: #e2e8f0;
-    border-color: #cbd5e1;
-}
-
 /* Убираем лишние отступы у карточки, если есть */
 .card.stretch .card-body p-0 {
     padding: 1rem; /* Минимальный отступ внутри карточки */
@@ -447,3 +353,38 @@
         padding: 10px 12px;
     }
 }
+
+/* Дополнительные стили для главной админки */
+.icon-circle {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease, background 0.2s;
+}
+
+.action-card {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    cursor: pointer;
+}
+
+.action-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(4, 101, 210, 0.15) !important;
+}
+
+.action-card:hover .icon-circle {
+    transform: scale(1.1);
+    background: #0465d2 !important;
+}
+
+.action-card:hover .icon-circle i {
+    color: #fff !important;
+}
+
+.card {
+    transition: box-shadow 0.25s ease;
+}
+

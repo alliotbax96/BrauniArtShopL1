@@ -57,13 +57,14 @@ $(document).ready(function() {
                 "searchable": false,
                 "render": function(data, type, row, meta) {
                     return `
-                <div class="item-checkbox ms-1">
-                    <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input checkbox"
-                       id="checkBox_${row.id}">
-                <label class="custom-control-label" for="checkBox_${row.id}"></label>
-            </div>
-        </div>`;
+                    <div class="item-checkbox ms-1">
+                     <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input checkbox"
+                        id="checkBox_${row.id}">
+                      <label class="custom-control-label" for="checkBox_${row.id}"></label>
+                     </div>
+                    </div>
+                    `;
                 }
             },
             {
@@ -121,6 +122,7 @@ $(document).ready(function() {
             "zeroRecords": "Ничего не найдено",
             "info": "Записи с _START_ по _END_ из _TOTAL_",
             "infoEmpty": "Записей нет",
+            "search": "Поиск",
             "paginate": {
                 "first": "Первая",
                 "last": "Последняя",

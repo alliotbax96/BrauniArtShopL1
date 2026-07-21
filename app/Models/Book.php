@@ -119,6 +119,17 @@ class Book extends Model
         return $this->type === 'audiobook';
     }
 
+    public function ModerationCheck(): array
+    {
+        if($this->moderation_status === 'approved'){
+            return ['status' => true];
+        }
+        if($this->moderation_status === 'pending'){
+            return ['status' => false, 'class' => 'warning', 'error'=>'Товар скрыт с витрины! Дождитесь завершения модерации!'];
+        }
+        return ['status' => false, 'class' => 'danger', 'error'=>'Товар скрыт с витрины! Модерация не пройдена!'];
+    }
+
     public function getTotalDuration(): int
     {
         if ($this->isAudiobook()) {

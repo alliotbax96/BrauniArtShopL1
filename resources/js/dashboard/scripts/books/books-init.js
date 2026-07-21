@@ -49,17 +49,11 @@ $(document).ready(function () {
                 "render": function (data, type, row, meta) {
                     const statusClasses = {
                         'draft': 'badge bg-soft-warning text-warning',
-                        'moderation': 'badge bg-soft-info text-info',
-                        'approved': 'badge bg-soft-success text-success',
-                        'rejected': 'badge bg-soft-danger text-danger',
-                        'published': 'badge bg-soft-primary text-primary'
+                        'complete': 'badge bg-soft-primary text-primary'
                     };
                     const statusNames = {
                         'draft': 'Черновик',
-                        'moderation': 'На модерации',
-                        'approved': 'Одобрено',
-                        'rejected': 'Отклонено',
-                        'published': 'Опубликовано'
+                        'complete': 'Завершена'
                     };
 
                     const className = statusClasses[data] || 'badge bg-soft-secondary text-secondary';

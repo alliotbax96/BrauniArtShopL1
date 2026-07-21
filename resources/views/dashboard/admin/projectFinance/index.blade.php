@@ -1,4 +1,5 @@
 <main class="nxl-container apps-container apps-tasks">
+    @vite('resources/css/dashboard/components/budget.css')
     <div class="nxl-content without-header nxl-full-content">
         <div class="main-content d-flex">
             <!-- [ Content Sidebar ] start -->

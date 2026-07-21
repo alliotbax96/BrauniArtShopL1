@@ -11,3 +11,4 @@
 @import './theme.min.css';
 @import './style.css';
 @import '../../vendor/dashboard/MediaElement/mediaelementplayer.css';
+@import "./components/tables.css";

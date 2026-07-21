@@ -2,6 +2,7 @@ import 'datatables.net';
 import 'datatables.net-bs5';
 
 $(document).ready(function() {
+
     var dataTable = $("#productGroupsTable").DataTable({
         "processing": true,
         "serverSide": true,
@@ -148,6 +149,7 @@ $(document).ready(function() {
     });
 
     $(document).on('change', '.checkbox', function() {
+
         var $checkbox = $(this);
         var $row = $checkbox.closest('tr');
         var isChecked = $checkbox.is(':checked');

@@ -91,6 +91,9 @@
                                             @if($order->book->isEbook())
                                                 <a href="/reader/{{$order->book->id}}" class="btn btn-success btn-sm">Читать</a>
                                             @endif
+                                            @if($order->book->isAudiobook())
+                                                <a href="/books/{{$order->book->id}}/player" class="btn btn-success btn-sm">Слушать</a>
+                                            @endif
                                         @endif
                                     </td>
 

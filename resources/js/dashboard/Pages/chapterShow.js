@@ -71,105 +71,161 @@ function updateCharacterCount(editor, counterElement) {
 
 // Инициализация редактора
 document.addEventListener('DOMContentLoaded', function() {
-    const toolbarOptions = [
-        ['bold', 'italic', 'underline', 'strike'],
-        ['blockquote', 'code-block'],
-        [{ 'header': 1 }, { 'header': 2 }],
-        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-        [{ 'script': 'sub'}, { 'script': 'super' }],
-        [{ 'indent': '-1'}, { 'indent': '+1' }],
-        [{ 'direction': 'rtl' }],
-        [{ 'size': ['small', false, 'large', 'huge'] }],
-        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-        [{ 'color': [] }, { 'background': [] }],
-        [{ 'font': [] }],
-        [{ 'align': [] }],
-        ['clean']
-    ];
+    if (window.bookType === 'ebook') {
+        const toolbarOptions = [
+            ['bold', 'italic', 'underline', 'strike'],
+            ['blockquote', 'code-block'],
+            [{ 'header': 1 }, { 'header': 2 }],
+            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+            [{ 'script': 'sub'}, { 'script': 'super' }],
+            [{ 'indent': '-1'}, { 'indent': '+1' }],
+            [{ 'direction': 'rtl' }],
+            [{ 'size': ['small', false, 'large', 'huge'] }],
+            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+            [{ 'color': [] }, { 'background': [] }],
+            [{ 'font': [] }],
+            [{ 'align': [] }],
+            ['clean']
+        ];
 
-    const quill = new Quill('#editor-container', {
-        theme: 'snow',
-        modules: {
-            toolbar: toolbarOptions
-        },
-        placeholder: 'Введите текст главы...'
-    });
+        const quill = new Quill('#editor-container', {
+            theme: 'snow',
+            modules: {
+                toolbar: toolbarOptions
+            },
+            placeholder: 'Введите текст главы...'
+        });
 
-    // Получаем элемент счетчика
-    const charCountElement = document.getElementById('charCount');
+        // Получаем элемент счетчика
+        const charCountElement = document.getElementById('charCount');
 
-    // Установка начального содержимого
-    const initialContent = document.querySelector('#editor-container').innerHTML;
-    if (initialContent && initialContent.trim()) {
-        quill.clipboard.dangerouslyPasteHTML(initialContent);
-    }
-
-    // Обновляем счетчик после загрузки контента
-    updateCharacterCount(quill, charCountElement);
-
-    // Функция типографирования
-    document.getElementById('typographBtn').addEventListener('click', function() {
-        const currentContent = quill.getText();
-        const selection = quill.getSelection();
-
-        if (currentContent.trim()) {
-            // Если есть выделенный текст - типографируем только его
-            if (selection && selection.length > 0) {
-                const selectedText = quill.getText(selection.index, selection.length);
-                const typographedText = typographText(selectedText);
-
-                // Удаляем выделенный текст и вставляем оттипографированный
-                quill.deleteText(selection.index, selection.length);
-                quill.insertText(selection.index, typographedText);
-            } else {
-                // Типографируем весь текст
-                const typographedText = typographText(currentContent);
-                quill.setText(typographedText);
-            }
+        // Установка начального содержимого
+        const initialContent = document.querySelector('#editor-container').innerHTML;
+        if (initialContent && initialContent.trim()) {
+            quill.clipboard.dangerouslyPasteHTML(initialContent);
         }
-    });
 
-    // Обработчик изменений в редакторе
-    quill.on('text-change', function(delta, oldDelta, source) {
-        // Обновляем счетчик символов
+        // Обновляем счетчик после загрузки контента
         updateCharacterCount(quill, charCountElement);
 
-        // Сохраняем HTML контент в textarea при изменении
+        // Функция типографирования
+        document.getElementById('typographBtn').addEventListener('click', function() {
+            const currentContent = quill.getText();
+            const selection = quill.getSelection();
+
+            if (currentContent.trim()) {
+                // Если есть выделенный текст - типографируем только его
+                if (selection && selection.length > 0) {
+                    const selectedText = quill.getText(selection.index, selection.length);
+                    const typographedText = typographText(selectedText);
+
+                    // Удаляем выделенный текст и вставляем оттипографированный
+                    quill.deleteText(selection.index, selection.length);
+                    quill.insertText(selection.index, typographedText);
+                } else {
+                    // Типографируем весь текст
+                    const typographedText = typographText(currentContent);
+                    quill.setText(typographedText);
+                }
+            }
+        });
+
+        // Обработчик изменений в редакторе
+        quill.on('text-change', function(delta, oldDelta, source) {
+            // Обновляем счетчик символов
+            updateCharacterCount(quill, charCountElement);
+
+            // Сохраняем HTML контент в textarea при изменении
+            const html = quill.root.innerHTML;
+            const textarea = document.getElementById('content-textarea');
+            if (textarea) {
+                textarea.value = html;
+            }
+
+            // Блокируем ввод при превышении лимита
+            const currentCharCount = countCharacters(quill);
+            if (currentCharCount >= MAX_CHARS && source === 'user') {
+                // Отменяем последнее изменение если превышен лимит
+                quill.history.undo();
+            }
+        });
+
+        // Начальная синхронизация
         const html = quill.root.innerHTML;
         const textarea = document.getElementById('content-textarea');
         if (textarea) {
             textarea.value = html;
         }
-
-        // Блокируем ввод при превышении лимита
-        const currentCharCount = countCharacters(quill);
-        if (currentCharCount >= MAX_CHARS && source === 'user') {
-            // Отменяем последнее изменение если превышен лимит
-            quill.history.undo();
-        }
-    });
-
-    // Начальная синхронизация
-    const html = quill.root.innerHTML;
-    const textarea = document.getElementById('content-textarea');
-    if (textarea) {
-        textarea.value = html;
     }
-});
+    else if (window.bookType === 'audiobook') {
+        // Логика для аудиокниги
+        const audioFileInput = document.getElementById('audioFileInput');
+        const audioPreviewContainer = document.getElementById('audioPreviewContainer');
+        const audioPlayerNew = document.getElementById('audioPlayerNew');
+        const removeAudioBtn = document.getElementById('removeAudioBtn');
+        const removeAudioFlag = document.getElementById('removeAudioFlag');
+        const existingAudioPreview = document.getElementById('existingAudioPreview');
 
-$(document).ready(function() {
+        if (existingAudioPreview && removeAudioBtn) {
+            removeAudioBtn.addEventListener('click', () => {
+                // Скрыть существующий плеер и информацию
+                const currentFileInfo = existingAudioPreview.previousElementSibling; // small
+                if (currentFileInfo) currentFileInfo.style.display = 'none';
+                existingAudioPreview.style.display = 'none';
+                removeAudioBtn.style.display = 'none';
+                // Очистить input file и показать его
+                if (audioFileInput) {
+                    audioFileInput.value = '';
+                    audioFileInput.style.display = 'block';
+                }
+                // Установить флаг удаления
+                if (removeAudioFlag) removeAudioFlag.value = '1';
+                // Скрыть превью нового файла, если было
+                if (audioPreviewContainer) audioPreviewContainer.style.display = 'none';
+            });
+        }
+
+        if (audioFileInput) {
+            audioFileInput.addEventListener('change', (event) => {
+                const file = event.target.files[0];
+                if (!file) return;
+
+                if (!file.type.match('audio/mpeg')) {
+                    alert('Пожалуйста, выберите MP3 файл');
+                    audioFileInput.value = '';
+                    return;
+                }
+
+                const objectUrl = URL.createObjectURL(file);
+                if (audioPlayerNew) {
+                    audioPlayerNew.src = objectUrl;
+                    if (audioPreviewContainer) {
+                        audioPreviewContainer.style.display = 'block';
+                    }
+                }
+                // Скрыть старый плеер, если видим
+                if (existingAudioPreview) existingAudioPreview.style.display = 'none';
+                if (removeAudioBtn) removeAudioBtn.style.display = 'none';
+                if (removeAudioFlag) removeAudioFlag.value = '0';
+
+                audioPlayerNew.addEventListener('loadeddata', () => {
+                    URL.revokeObjectURL(objectUrl);
+                }, { once: true });
+            });
+        }
+    }
+
+    // Привязка формы
     const $form = $('#chapter_text');
     const $submitBtn = $form.find('input[type="submit"]');
     const originalBtnText = $submitBtn.val();
 
-    // Данные о текущей главе (заполняются на основе PHP‑переменных)
     const chapterData = {
-        isEditMode: !!window.chapterId, // true, если редактируем существующую главу
-        bookId: window.bookId, // ID книги (передаётся из Blade)
-        chapterId: window.chapterId // ID главы (если редактируем)
+        isEditMode: !!window.chapterId,
+        bookId: window.bookId,
+        chapterId: window.chapterId
     };
 
-    // Привязываем обработчик к форме
     $form.on('submit', function(e) {
         handleChapterFormSubmit(
             e,

@@ -151,19 +151,19 @@ class LoginController extends BaseController
       }
       $phone = $request->phone;
       $code = rand(1111, 9999);
-      $code = 1111;
+//      $code = 1111;
       Cookie::queue(Cookie::make('auth', md5($phone.$code), 10));
-//      $send = $this->sendCodeCall($phone, $code);
-//      if($send['status'] = 'created') {
+      $send = $this->sendCodeCall($phone, $code);
+      if($send['status'] = 'created') {
           return response()->json([
               'result' => true,
           ]);
-//      } else {
-//          return response()->json([
-//              'result' => false,
-//              'error' => $send->errors[0]
-//          ]);
-//      }
+      } else {
+          return response()->json([
+              'result' => false,
+              'error' => $send->errors[0]
+          ]);
+      }
     }
 
     public function checkCode(Request $request, bool $json = true){

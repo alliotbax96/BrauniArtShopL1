@@ -68,22 +68,22 @@ $(document).ready(function() {
                     return selectHtml;
                 }
             },
-            {
-                "data": null,
-                "name": "Действия",
-                "orderable": false,
-                "searchable": false,
-                "render": function(data, type, row) {
-                    if(data.groups[0].id === 2) {
-                        return `<td class="text-end"></td>`;
-                    }
-                    return `<td class="text-end">
-                                <a class="delete_user" data-id="${row.id}" href="javascript:void();">
-                                    <i class="feather feather-trash-2"></i>
-                                </a>
-                            </td>`;
-                }
-            }
+            // {
+            //     "data": null,
+            //     "name": "Действия",
+            //     "orderable": false,
+            //     "searchable": false,
+            //     "render": function(data, type, row) {
+            //         if(data.groups[0].id === 2) {
+            //             return `<td class="text-end"></td>`;
+            //         }
+            //         return `<td class="text-end">
+            //                     <a class="delete_user" data-id="${row.id}" href="javascript:void();">
+            //                         <i class="feather feather-trash-2"></i>
+            //                     </a>
+            //                 </td>`;
+            //     }
+            // }
         ],
         "language": {
             "processing": "Загрузка...",
@@ -91,6 +91,7 @@ $(document).ready(function() {
             "zeroRecords": "Ничего не найдено",
             "info": "Записи с _START_ по _END_ из _TOTAL_",
             "infoEmpty": "Записей нет",
+            "search": "Поиск",
             "paginate": {
                 "first": "Первая",
                 "last": "Последняя",

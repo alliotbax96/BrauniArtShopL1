@@ -1,6 +1,7 @@
 import { handleFormSubmit } from './formSubmitHandler.js';
 import { createDefaultCoverHTML, updateCoverPreview, addRemoveCoverButton } from './coverPreview.js';
-import { showAlert } from './utils.js';
+import {getErrorMessages, showAlert} from './utils.js';
+
 
 $(document).ready(function() {
     const bookData = window.bookData || {
@@ -29,6 +30,48 @@ $(document).ready(function() {
     const originalBtnText = $submitBtn.val();
     let formChanged = false;
 
+    $('input[name="is_active"]').on('change', function(){
+        if($(this).is(':checked')){
+            $('input[name="is_active"]').val(true);
+        } else {
+            $('input[name="is_active"]').val(false);
+        }
+    });
+
+    $("#moderationSelect").on('change', function(){
+        $submitBtn
+            .prop('disabled', true)
+            .val('Сохранение...')
+            .addClass('btn-loading');
+
+        var Data = new FormData();
+        Data.append('moderation_status', $(this).val());
+        $.ajax({
+            url: '/seller/books/'+window.bookData.bookId+'/moderation',
+            method: 'PATCH',
+            data: Data,
+            processData: false,
+            contentType: false,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                'Accept': 'application/json'
+            },
+            success: function(data) {
+                showAlert('Статус модерации успешно обновлен!', 'success');
+            },
+            error: function(xhr) {
+                const errorMsg = getErrorMessages(xhr);
+                showAlert(errorMsg, 'danger');
+            },
+            complete: function() {
+                $submitBtn
+                    .prop('disabled', false)
+                    .val(originalBtnText)
+                    .removeClass('btn-loading');
+            }
+        });
+    });
+
     // Инициализация
     initForm();
 
@@ -36,6 +79,9 @@ $(document).ready(function() {
         toggleAudiobookFields();
         updateCoverText();
         setupEventListeners();
+        $("#bookSeller, #genreSelect").select2({
+            theme: 'bootstrap-5'
+        });
     }
 
     function setupEventListeners() {

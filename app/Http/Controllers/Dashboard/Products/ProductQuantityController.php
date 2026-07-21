@@ -78,13 +78,32 @@ class ProductQuantityController extends BaseController
                         ? '<p class="badge bg-soft-danger text-danger">Товар скрыт с витрины! Загрузите изображение!</p>'
                         : '';
 
+//                    $nameHtml = '
+//                    <div class="hstack gap-4">
+//                <div class="avatar-image border-0">' . $imageHtml . '</div>
+//                <div>
+//                    <a href="/seller/products/' . $product->id . '" class="text-truncate-2-line">' .
+//                        htmlspecialchars($product->getProductName() ?? 'Не указано') . '</a>' .
+//                        $warningHtml . '</div></div>';
+
                     $nameHtml = '
-                    <div class="hstack gap-4">
-                <div class="avatar-image border-0">' . $imageHtml . '</div>
-                <div>
-                    <a href="/seller/products/' . $product->id . '" class="text-truncate-2-line">' .
-                        htmlspecialchars($product->getProductName() ?? 'Не указано') . '</a>' .
-                        $warningHtml . '</div></div>';
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="table-product-img">
+                                    ' . ($hasImage
+                               ? '<img src="https://s3.ru1.storage.beget.cloud/d5833d93d74c-brauniartfiles/' . htmlspecialchars($imagePath) . '" alt="">'
+                               : '<div class="table-product-img-placeholder"><i class="feather-image"></i></div>') . '
+                               </div>
+                               <div>
+                                   <a href="/seller/products/' . $product->id . '" class="table-product-name">' .
+                                                   htmlspecialchars($product->getProductName() ?? 'Не указано') . '</a>
+                                   ' . $warningHtml . '
+                               </div>
+                            </div>';
+
+                    $quantityHtml = '
+<input form="stocks" type="number" name="quantity[' . $product->id . ']"
+       class="form-control form-control-sm stock-quantity-input"
+       value="' . $product->getProductQuantity() . '" min="0">';
 
                     $quantityHtml = '
                 <input form="stocks" type="number" name="" class="form-control form-control-sm" value="' . $product->getProductQuantity() . '">

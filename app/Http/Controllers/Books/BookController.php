@@ -13,7 +13,7 @@ class BookController extends BaseController
     public function index(Request $request)
     {
         $this->shareCommonData($request);
-        Cookie::queue('ShopMode', 1);
+        Cookie::queue('ShopMode', 8);
 
         $filters = [
             'category'      => $request->input('category'),
@@ -81,6 +81,7 @@ class BookController extends BaseController
 
         // 1. Остаток > 0 — для книг это: есть опубликованные главы
         $query->has('publishedChapters', '>', 0);
+        $query->where('moderation_status', 'approved')->where('is_active', 1);
 
         // Загружаем связи, чтобы избежать N+1
         $books = $query->with([
@@ -148,8 +149,54 @@ class BookController extends BaseController
 
     public function show(Request $request, $id){
         $this->shareCommonData($request);
-        $book = Book::findOrFail($id);
+        Cookie::queue('ShopMode', 8);
+        $book = Book::where('id', $id)
+            ->where('moderation_status', 'approved')
+            ->where('is_active', 1)
+            ->firstOrFail();
         $view = 'books.show';
-        return view('index', compact('book', 'view'));
+        $productSchema = $this->generateBookSchema($book);
+        return view('index', compact('book', 'view', 'productSchema'));
+    }
+
+    private function generateBookSchema(Book $book): string
+    {
+        $schema = [
+            '@context' => 'https://schema.org/',
+            '@type' => 'Book',
+            'name' => $book->getProductName(),
+            'description' => substr(
+                strip_tags($book->annotation),
+                0,
+                300
+            ),
+            'image' => [],
+            'offers' => [
+                '@type' => 'Offer',
+                'url' => url('/books/' . $book->getProductId()),
+                'priceCurrency' => 'RUB',
+                'availability' => 'https://schema.org/InStock',
+                'seller' => [
+                    '@type' => 'Organization',
+                    'name' => $book->getSeller()->name ?? 'Не указан',
+                    'legalName' => $book->getSeller()->legalDetail()->legal_name ?? null,
+                    'address' => [
+                        '@type' => 'PostalAddress',
+                        'addressCountry' => 'RU'
+                    ]
+                ]
+            ]
+        ];
+
+        // Добавляем изображения (главное — первым)
+        $mainImage = $book->getMainImage();
+        if ($mainImage) {
+            $schema['image'][] = url($mainImage);
+        }
+
+       // Добавляем цену (розничную)
+            $schema['offers']['price'] = $book->getProductPrice();
+
+        return json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     }
 }

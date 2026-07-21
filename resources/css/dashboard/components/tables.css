@@ -1,0 +1,386 @@
+/* =========================
+   1. Карточка и общие стили таблиц
+   ========================= */
+.card.stretch-full {
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.04);
+    overflow: hidden;
+}
+
+/* Общие настройки DataTable */
+#proposalList {
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+    margin-bottom: 0;
+}
+
+#proposalList.dataTable.no-footer {
+    border-bottom: none;
+}
+
+/* Шапка */
+/*#proposalList thead th {*/
+/*    background: #f8f9fb;*/
+/*    font-weight: 600;*/
+/*    font-size: 0.8rem;*/
+/*    text-transform: uppercase;*/
+/*    letter-spacing: 0.5px;*/
+/*    color: #5a5a7a;*/
+/*    border-bottom: 1px solid #eaedf2;*/
+/*    padding: 12px 16px;*/
+/*    white-space: nowrap;*/
+/*}*/
+
+/* Тело и строки */
+#proposalList tbody td {
+    padding: 14px 16px;
+    vertical-align: middle;
+    border-bottom: 1px solid #f0f2f5;
+    font-size: 0.9rem;
+    color: #2d2d3a;
+    background-color: #fff;
+}
+
+#proposalList tbody tr {
+    transition: background 0.15s, box-shadow 0.15s;
+}
+
+#proposalList tbody tr:hover {
+    background: #fbfcfe;
+    box-shadow: inset 4px 0 0 0 #0465d2;
+}
+
+/* ------------------------
+   2. Компоненты внутри таблицы
+   ------------------------ */
+/* Изображение товара */
+.table-product-img {
+    width: 46px;
+    height: 46px;
+    border-radius: 10px;
+    background: #f1f3f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    overflow: hidden;
+    border: 1px solid #eaedf2;
+}
+
+.table-product-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.table-product-img-placeholder {
+    width: 100%;
+    height: 100%;
+    background: #e9ecf0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #adb5bd;
+    font-size: 1.1rem;
+}
+
+/* Название товара */
+.table-product-name {
+    font-weight: 600;
+    color: #1e1e2d;
+    text-decoration: none;
+    line-height: 1.4;
+    display: inline-block;
+    margin-bottom: 2px;
+    transition: color 0.15s;
+}
+
+.table-product-name:hover {
+    color: #0465d2;
+}
+
+/* Кнопки действий */
+.table-product-actions {
+    margin-top: 6px;
+    display: flex;
+    gap: 8px;
+}
+
+.action-btn {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 4px 12px;
+    border-radius: 20px;
+    text-decoration: none;
+    transition: all 0.15s;
+    line-height: 1;
+}
+
+.action-btn-edit {
+    background: rgba(4,101,210,0.08);
+    color: #0465d2;
+}
+
+.action-btn-edit:hover {
+    background: rgba(4,101,210,0.18);
+    color: #034ca0;
+}
+
+.action-btn-delete {
+    background: rgba(220,53,69,0.08);
+    color: #dc3545;
+}
+
+.action-btn-delete:hover {
+    background: rgba(220,53,69,0.18);
+    color: #b02a37;
+}
+
+/* ------------------------
+   3. Чекбоксы
+   ------------------------ */
+.table-responsive .table tfoot th:first-child,
+.table-responsive .table thead th:first-child {
+    padding-left: 20px !important;
+}
+
+.custom-control.custom-checkbox {
+    padding-left: 0.5rem !important;
+}
+
+.custom-checkbox-modern {
+    display: flex;
+    align-items: center;
+}
+
+.custom-checkbox-modern input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #cdd4dc;
+    border-radius: 5px;
+    background: #fff;
+    cursor: pointer;
+    transition: all 0.15s;
+    position: relative;
+}
+
+.custom-checkbox-modern input[type="checkbox"]:checked {
+    background: #0465d2;
+    border-color: #0465d2;
+}
+
+.custom-checkbox-modern input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 2px;
+    width: 5px;
+    height: 9px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+/* ------------------------
+   4. Пагинация
+   ------------------------ */
+.pagination {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin: 0;
+}
+
+.page-item .page-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 38px;
+    height: 38px;
+    padding: 0 10px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #5a5a7a;
+    background: #fff;
+    border: 1px solid #e0e4ea;
+    border-radius: 10px;
+    transition: all 0.15s ease;
+    text-decoration: none;
+    cursor: pointer;
+    user-select: none;
+}
+
+.page-item .page-link:hover {
+    background: #f4f6f9;
+    border-color: #cbd2db;
+    color: #2d2d3a;
+}
+
+.page-item.active .page-link {
+    background: #0465d2;
+    border-color: #0465d2;
+    color: #fff;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(4,101,210,0.25);
+}
+
+.page-item.active .page-link:hover {
+    background: #0465d2;
+    color: #fff;
+}
+
+.page-item.disabled .page-link {
+    opacity: 0.4;
+    pointer-events: none;
+    background: #fff;
+    color: #adb5bd;
+    border-color: #e9ecef;
+}
+
+.page-item.disabled .page-link:hover {
+    background: #fff;
+    color: #adb5bd;
+    border-color: #e9ecef;
+}
+
+.page-item .ellipsis {
+    border: none !important;
+    background: transparent !important;
+    min-width: auto;
+    padding: 0 4px;
+    color: #5a5a7a !important;
+    box-shadow: none !important;
+}
+
+.page-link:focus {
+    box-shadow: 0 0 0 2px rgba(4,101,210,0.2);
+    outline: none;
+}
+
+/* ------------------------
+   5. Специфика: поле ввода остатков
+   ------------------------ */
+.stock-quantity-input {
+    width: 90px;
+    height: 36px;
+    padding: 0 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-align: center;
+    border: 1px solid #e0e4ea;
+    border-radius: 10px;
+    background: #fff;
+    color: #2d2d3a;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    -moz-appearance: textfield;
+}
+
+.stock-quantity-input::-webkit-inner-spin-button,
+.stock-quantity-input::-webkit-outer-spin-button {
+    opacity: 1;
+    height: 30px;
+}
+
+.stock-quantity-input:focus {
+    border-color: #0465d2;
+    box-shadow: 0 0 0 2px rgba(4,101,210,0.15);
+    outline: none;
+}
+
+
+/* ------------------------
+   Таблица заказов: уникальные элементы
+   ------------------------ */
+
+/* Миниатюры товаров в позициях */
+#proposalList .avatar-image.avatar-md {
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #eaedf2;
+    background: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#proposalList .avatar-image.avatar-md img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Номер заказа */
+#proposalList td .fw-bold {
+    color: #1e1e2d;
+    text-decoration: none;
+    transition: color 0.15s;
+}
+
+#proposalList td .fw-bold:hover {
+    color: #0465d2;
+}
+
+/* Статус (бейдж) */
+#proposalList .badge {
+    font-weight: 500;
+    padding: 0.35em 0.75em;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    letter-spacing: 0.3px;
+}
+
+/* Кнопка действий (три точки) */
+#proposalList .avatar-text.avatar-md {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    transition: background 0.15s;
+    cursor: pointer;
+}
+
+#proposalList .avatar-text.avatar-md:hover {
+    background: rgba(4,101,210,0.08);
+    color: #0465d2;
+}
+
+/* Выпадающее меню действий */
+.order-actions {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    padding: 6px 0;
+    min-width: 200px;
+}
+
+.order-actions .dropdown-item {
+    font-size: 0.85rem;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    transition: background 0.1s, color 0.1s;
+}
+
+.order-actions .dropdown-item i {
+    opacity: 0.7;
+    width: 18px;
+    text-align: center;
+}
+
+.order-actions .dropdown-item:hover {
+    background: rgba(4,101,210,0.06);
+    color: #0465d2;
+}

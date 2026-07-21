@@ -1,0 +1,360 @@
+/* =========================
+   Бюджет проекта – современный стиль
+   ========================= */
+
+/* --- Основной контейнер --- */
+.nxl-container.apps-tasks {
+    background: #f5f6fa;
+}
+
+/* --- Сайдбар --- */
+.content-sidebar {
+    border-right: 1px solid #eaedf2;
+    background: #fff;
+}
+
+.content-sidebar-header {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid #eaedf2;
+}
+
+.content-sidebar-header h4 {
+    font-size: 1.1rem;
+}
+
+/* Кнопки действий */
+.content-sidebar-header .btn {
+    border-radius: 10px;
+    font-weight: 500;
+    font-size: 0.55rem;
+    padding: 0.5rem 1rem;
+    margin-bottom: 0.5rem;
+    margin-left: 5px;
+    transition: all 0.15s;
+}
+
+.content-sidebar-header .btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* --- Карточки бюджета --- */
+.card.bg-light {
+    border: 1px solid #eaedf2;
+    border-radius: 12px;
+    background: #fafbfc !important;
+    transition: box-shadow 0.2s;
+}
+
+.card.bg-light:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+}
+
+.total-budget,
+.current-balance,
+.manager-balance {
+    letter-spacing: -0.3px;
+}
+
+/* --- Навигация категорий --- */
+.nxl-content-sidebar-item .nav-link {
+    border-radius: 8px;
+    margin: 2px 0;
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #5a5a7a;
+    transition: all 0.15s;
+}
+
+.nxl-content-sidebar-item .nav-link:hover {
+    background: rgba(4,101,210,0.06);
+    color: #0465d2;
+}
+
+.nxl-content-sidebar-item .nav-link.active {
+    background: rgba(4,101,210,0.1);
+    color: #0465d2;
+    font-weight: 600;
+}
+
+/* Кружочки категорий */
+.nxl-content-sidebar-item .wd-7 {
+    width: 8px;
+    height: 8px;
+}
+
+/* --- Основная область --- */
+.content-area-header {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #eaedf2;
+}
+
+.page-header-left h5 {
+    font-size: 1.15rem;
+    font-weight: 700;
+}
+
+/* Кнопки в хедере */
+.avatar-text.avatar-md {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    transition: background 0.15s;
+    cursor: pointer;
+}
+
+.avatar-text.avatar-md:hover {
+    background: rgba(4,101,210,0.08);
+    color: #0465d2;
+}
+
+/* Поле поиска */
+.search-form-inner input {
+    font-size: 0.9rem;
+    border-radius: 10px;
+    transition: border-color 0.2s;
+}
+
+.search-form-inner input:focus {
+    border-color: #0465d2 !important;
+    box-shadow: 0 0 0 2px rgba(4,101,210,0.1) !important;
+    outline: none;
+}
+
+/* --- Таблица транзакций --- */
+#transactionsTable {
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+    margin-bottom: 0;
+}
+
+#transactionsTable thead th {
+    background: #f8f9fb;
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #5a5a7a;
+    border-bottom: 1px solid #eaedf2;
+    padding: 12px 16px;
+    white-space: nowrap;
+}
+
+#transactionsTable tbody td {
+    padding: 12px 16px;
+    vertical-align: middle;
+    border-bottom: 1px solid #f0f2f5;
+    font-size: 0.85rem;
+    color: #2d2d3a;
+    background-color: #fff;
+}
+
+#transactionsTable tbody tr {
+    transition: background 0.15s, box-shadow 0.15s;
+}
+
+#transactionsTable tbody tr:hover {
+    background: #fbfcfe;
+    box-shadow: inset 4px 0 0 0 #0465d2;
+}
+
+/* Бейджи в таблице */
+#transactionsTable .badge {
+    font-weight: 500;
+    padding: 0.3em 0.65em;
+    border-radius: 6px;
+    font-size: 0.75rem;
+}
+
+/* Аватар пользователя */
+#transactionsTable .avatar-image.avatar-sm {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+#transactionsTable .avatar-image.avatar-sm img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Выпадающее меню действий */
+#transactionsTable .dropdown-menu {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    padding: 6px 0;
+    min-width: 160px;
+}
+
+#transactionsTable .dropdown-item {
+    font-size: 0.85rem;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    transition: background 0.1s;
+}
+
+#transactionsTable .dropdown-item:hover {
+    background: rgba(4,101,210,0.06);
+    color: #0465d2;
+}
+
+/* --- Модальные окна --- */
+.modal-content {
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    overflow: hidden;
+}
+
+.modal-header {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid #eaedf2;
+}
+
+.modal-header.bg-success {
+    background: linear-gradient(135deg, #28a745, #20c997) !important;
+}
+
+.modal-header.bg-danger {
+    background: linear-gradient(135deg, #dc3545, #e4606d) !important;
+}
+
+.modal-header.bg-primary {
+    background: linear-gradient(135deg, #0465d2, #3b8cff) !important;
+}
+
+.modal-title {
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+.modal-footer {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid #eaedf2;
+}
+
+/* Кнопки категорий расхода */
+.btn-check + .btn-outline-primary,
+.btn-check + .btn-outline-success,
+.btn-check + .btn-outline-info,
+.btn-check + .btn-outline-warning,
+.btn-check + .btn-outline-danger {
+    border-radius: 12px;
+    padding: 0.75rem 0.5rem;
+    font-size: 0.85rem;
+    transition: all 0.15s;
+}
+
+.btn-check:checked + .btn-outline-primary {
+    background: #0465d2;
+    border-color: #0465d2;
+    box-shadow: 0 4px 12px rgba(4,101,210,0.3);
+}
+
+.btn-check:checked + .btn-outline-success {
+    box-shadow: 0 4px 12px rgba(40,167,69,0.3);
+}
+
+.btn-check:checked + .btn-outline-info {
+    box-shadow: 0 4px 12px rgba(13,202,240,0.3);
+}
+
+.btn-check:checked + .btn-outline-warning {
+    box-shadow: 0 4px 12px rgba(255,193,7,0.3);
+}
+
+.btn-check:checked + .btn-outline-danger {
+    box-shadow: 0 4px 12px rgba(220,53,69,0.3);
+}
+
+/* Поля ввода */
+.modal-body .form-control,
+.modal-body .form-control-lg {
+    border-radius: 10px;
+    border-color: #e0e4ea;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.modal-body .form-control:focus,
+.modal-body .form-control-lg:focus {
+    border-color: #0465d2;
+    box-shadow: 0 0 0 2px rgba(4,101,210,0.15);
+}
+
+/* Input group */
+.modal-body .input-group-text {
+    border-radius: 10px 0 0 10px;
+    background: #f8f9fb;
+    border-color: #e0e4ea;
+    color: #5a5a7a;
+}
+
+.modal-body .input-group .form-control {
+    border-radius: 0 10px 10px 0;
+}
+
+/* Alert внутри модалок */
+.modal-body .alert {
+    border-radius: 10px;
+    border: none;
+    font-size: 0.85rem;
+}
+
+/* --- Алерты (уведомления) --- */
+.content-area-body .alert {
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    font-size: 0.9rem;
+}
+
+/* --- Пагинация (единый стиль) --- */
+.dataTables_wrapper .dataTables_paginate {
+    padding: 1rem 1.5rem;
+}
+
+.dataTables_wrapper .pagination {
+    gap: 6px;
+}
+
+.dataTables_wrapper .page-item .page-link {
+    border-radius: 10px;
+    border-color: #e0e4ea;
+    color: #5a5a7a;
+    min-width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.15s;
+}
+
+.dataTables_wrapper .page-item.active .page-link {
+    background: #0465d2;
+    border-color: #0465d2;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(4,101,210,0.25);
+}
+
+.dataTables_wrapper .page-item.disabled .page-link {
+    opacity: 0.4;
+    background: #fff;
+}

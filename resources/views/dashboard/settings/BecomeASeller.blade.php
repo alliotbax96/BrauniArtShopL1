@@ -99,5 +99,10 @@
 <!-- [ Main Content ] end -->
 
 @push('scripts')
+    <script type="module">
+        $("#companyEntityDetails").select2({
+            theme: 'bootstrap-5'
+        });
+    </script>
     {{--    @vite('resources/js/dashboard/Pages/settings.js')--}}
 @endpush

@@ -238,14 +238,12 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@cdek-it/widget@3" charset="utf-8"></script>
 
 @stack('scripts')
-window.USER_ID = {{ auth()->check() ? auth()->id() : 'null' }};
-@unless(auth()->check())
-    @vite(['resources/js/buyer-chat.js'])
-@endunless
+@vite(['resources/js/buyer-chat.js'])
 @if(session('error'))
     <div class="notification"
          style="position: fixed; top: 20px; right: 20px; padding: 15px 20px; background-color: #F44336; color: white; border-radius: 4px; z-index: 10000; box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 10px;">{{session('error')}}</div>
     <script type="module">
+        window.USER_ID = {{ auth()->check() ? auth()->id() : 'null' }};
         $(document).ready(function () {
             setTimeout(() => {
                 $(".notification").remove();

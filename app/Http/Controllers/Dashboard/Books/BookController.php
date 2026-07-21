@@ -52,7 +52,6 @@ class BookController extends BaseController
                 'search' => $request->input('search'),
             ];
 
-            // Валидация цен
             $minPrice = is_numeric($filters['min_price']) ? (float)$filters['min_price'] : null;
             $maxPrice = is_numeric($filters['max_price']) ? (float)$filters['max_price'] : null;
 
@@ -63,15 +62,12 @@ class BookController extends BaseController
             $filters['min_price'] = $minPrice;
             $filters['max_price'] = $maxPrice;
 
-            // Параметры пагинации DataTable
             $start = $request->input('start', 0);
             $length = $request->input('length', 10);
             $draw = $request->input('draw', 1);
 
-            // Основной запрос
             $query = Book::query();
 
-            // Применяем фильтры
             if (!empty($filters['type'])) {
                 $query->where('type', $filters['type']);
             }
@@ -85,7 +81,6 @@ class BookController extends BaseController
                 $query->where('name', 'like', '%' . $filters['search'] . '%');
             }
 
-            // Фильтрация по цене
             if ($filters['min_price'] !== null) {
                 $query->where('price', '>=', $filters['min_price']);
             }
@@ -98,32 +93,41 @@ class BookController extends BaseController
             }
             $totalRecords = $query->count();
 
-            // Получаем данные с пагинацией
             $booksQuery = clone $query;
             $books = $booksQuery
                 ->skip($start)
                 ->take($length)
                 ->get();
 
-            // Форматируем данные для DataTable
             $formattedBooks = [];
             foreach ($books as $book) {
                 try {
                     $imageHtml = $this->getBookImageHtml($book);
 
+                    $moderation = $book->ModerationCheck();
+                    $warningHtml = !$moderation['status']
+                        ? '<p class="badge bg-soft-'.$moderation['class'].' text-'.$moderation['class'].'">'.$moderation['error'].'</p>'
+                        : '';
+
                     $nameHtml = '
-                        <div class="hstack gap-4">
-                            <div class=" border-0">' . $imageHtml . '</div>
-                            <div>
-                                <a href="/seller/books/' . $book->id . '" class="text-truncate-2-line">' .
-                                  htmlspecialchars($book->name ?? 'Без названия') . '</a>
-                                <div class="project-list-action fs-12 d-flex align-items-center gap-3 mt-2">
-                                    <a href="/seller/books/' . $book->id . '">Изменить</a>
-                                    <span class="vr text-muted"></span>
-                                    <a href="javascript:void(0);" class="text-danger delete_book" data-id="' . $book->id . '">Удалить</a>
-                                </div>
-                            </div>
-                        </div>';
+                                  <div class="d-flex align-items-center gap-3">
+                                      <div class="table-book-cover">
+                                          ' . $imageHtml . '
+                                      </div>
+                                      <div>
+                                          <a href="/seller/books/' . $book->id . '" class="table-product-name">' .
+                                                          htmlspecialchars($book->name ?? 'Без названия') . '</a>
+                                          ' . $warningHtml . '
+                                          <div class="table-product-actions">
+                                              <a href="/seller/books/' . $book->id . '" class="action-btn action-btn-edit">
+                                                  <i class="feather-edit-2 me-1"></i> Изменить
+                                              </a>
+                                              <a href="javascript:void(0);" class="action-btn action-btn-delete delete_book" data-id="' . $book->id . '">
+                                                  <i class="feather-trash-2 me-1"></i> Удалить
+                                              </a>
+                                          </div>
+                                      </div>
+                                  </div>';
 
                     $formattedBooks[] = [
                         'id' => $book->id,
@@ -171,9 +175,6 @@ class BookController extends BaseController
         }
     }
 
-    /**
-     * Форматирует тип книги для отображения
-     */
     private function formatBookType(string $type): string
     {
         $types = [
@@ -184,26 +185,19 @@ class BookController extends BaseController
         return $types[$type] ?? $type;
     }
 
-    /**
-     * Возвращает HTML-код для изображения книги (или заглушки)
-     */
     private function getBookImageHtml(Book $book): string
     {
         $width = 100;
         $height = 150;
 
-        // Получаем путь к изображению.
-        // ВАЖНО: Убедись, что в БД в колонке image_path хранится именно путь (например, uploads/books/1/cover.jpg), а не URL.
         $imagePath = $book->image_path ?? null;
 
-        // Если пути нет или файл не существует на S3 — показываем заглушку
         if (empty($imagePath) || !Storage::disk('s3')->exists($imagePath)) {
             $safeName = htmlspecialchars($book->name ?? 'Без названия');
             $safeAuthor = htmlspecialchars($book->author ?? 'Автор');
 
             return <<<HTML
                 <div style="width: {$width}px; height: {$height}px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 4px; position: relative; overflow: hidden; color: white; font-family: sans-serif;">
-                    <!-- Декоративные линии фона -->
                     <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1;">
                         <div style="position: absolute; top: 10%; left: 10%; width: 80%; height: 1px; background: #fff;"></div>
                         <div style="position: absolute; top: 30%; left: 15%; width: 70%; height: 1px; background: #fff;"></div>
@@ -211,24 +205,14 @@ class BookController extends BaseController
                         <div style="position: absolute; top: 70%; left: 15%; width: 70%; height: 1px; background: #fff;"></div>
                         <div style="position: absolute; top: 90%; left: 10%; width: 80%; height: 1px; background: #fff;"></div>
                     </div>
-
-                    <!-- Иконка книги -->
                     <i class="feather-book" style="font-size: 1.5rem; opacity: 0.8; margin-bottom: 8px;"></i>
-
-                    <!-- Название книги -->
-                    <div style="font-size: 12px; line-height: 1.3; max-height: 40px; overflow: hidden; text-align: center; padding: 0 4px;">
+                    <div style="font-size: 8px; line-height: 1.3; max-height: 40px; overflow: hidden; text-align: center; padding: 0 4px;">
                         {$safeName}
                     </div>
-
-                    <!-- Разделитель -->
                     <div style="width: 30px; height: 2px; background: rgba(255,255,255,0.5); margin: 6px 0;"></div>
-
-                    <!-- Автор -->
-                    <div style="font-size: 10px; opacity: 0.9; max-height: 25px; overflow: hidden; text-align: center;">
+                    <div style="font-size: 6px; opacity: 0.9; max-height: 25px; overflow: hidden; text-align: center;">
                         {$safeAuthor}
                     </div>
-
-                    <!-- Нижний декоративный элемент -->
                     <div style="position: absolute; bottom: 0; left: 0; width: 100%; padding: 4px;">
                         <div style="width: 100%; height: 3px; background: rgba(255,255,255,0.2); border-radius: 2px;"></div>
                     </div>
@@ -236,8 +220,6 @@ class BookController extends BaseController
                 HTML;
         }
 
-        // Если картинка есть — генерируем URL и возвращаем тег img
-        // Используем временный URL, если нужен ограниченный доступ, или обычный url() для публичного
         $imageUrl = Storage::disk('s3')->url($imagePath);
         $safeName = htmlspecialchars($book->name ?? '');
 
@@ -284,9 +266,7 @@ class BookController extends BaseController
             'sellers' => isset($sellers) ? $sellers : '',
         ]);
     }
-    /**
-     * Создание новой книги
-     */
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -300,15 +280,14 @@ class BookController extends BaseController
             'language' => 'nullable|string|max:2',
             'annotation' => 'nullable|string',
             'narrator' => 'nullable|string|max:255',
-            'image' => 'nullable|file|mimes:jpg,jpeg,png,webp|max:10240', // до 10 МБ
+            'book_seller_id' => 'required|int',
+            'image' => 'nullable|file|mimes:jpg,jpeg,png,webp|max:10240',
             'price' => 'nullable|numeric',
         ]);
 
-        $sellerId = Auth::user()->getSellerId();
-
-        DB::transaction(function () use ($validated, $sellerId, $request) {
+        DB::transaction(function () use ($validated, $request) {
             $book = Book::create([
-                'seller_id' => $sellerId,
+                'book_seller_id' => $validated['book_seller_id'],
                 'type' => $validated['type'],
                 'name' => $validated['name'],
                 'genre_id' => $validated['genre_id'],
@@ -324,7 +303,6 @@ class BookController extends BaseController
                 'price' => $validated['price'] ?? null,
             ]);
 
-            // Сохраняем изображение, если оно есть
             if ($request->hasFile('image')) {
                 $this->saveBookImage($book, $request->file('image'));
             }
@@ -332,16 +310,13 @@ class BookController extends BaseController
             session('book_id', $book->id);
         });
 
-
         return response()->json([
             'success' => true,
             'message' => 'Книга успешно создана',
             'data' => ['book_id' => session('book_id')],
         ], 201);
     }
-    /**
-     * Обновление книги
-     */
+
     public function update(Request $request, $id)
     {
         $book = Book::findOrFail($id);
@@ -360,11 +335,12 @@ class BookController extends BaseController
             'narrator' => 'nullable|string|max:255',
             'image' => 'nullable|file|mimes:jpg,jpeg,png,webp|max:10240',
             'price' => 'nullable|numeric',
+            'book_seller_id' => 'required|int',
         ]);
 
         DB::transaction(function () use ($request, $book, $validated) {
-            // Обновляем основные поля
             $updateData = [
+                'book_seller_id' => $validated['book_seller_id'],
                 'type' => $validated['type'] ?? $book->type,
                 'name' => $validated['name'],
                 'genre_id' => $validated['genre_id'],
@@ -376,17 +352,15 @@ class BookController extends BaseController
                 'annotation' => $validated['annotation'] ?? $book->annotation,
                 'narrator' => $validated['narrator'] ?? $book->narrator,
                 'status' => $validated['status'] ?? $book->status,
-                'is_active' => $validated['is_active'] ?? $book->is_active,
+                'is_active' => $request->boolean('is_active'),
                 'price' => $validated['price'] ?? null,
             ];
 
             $book->update($updateData);
-            \Log::debug("{$request->image}");
-            // Обработка изображения
+
             if ($request->hasFile('image')) {
                 $this->saveBookImage($book, $request->file('image'), true);
             } elseif ($request->has('remove_image') && $request->remove_image === 'true') {
-                // Удаление изображения по флагу
                 if ($book->image_path) {
                     Storage::disk('s3')->delete($book->image_path);
                     $book->update(['image_path' => null]);
@@ -400,86 +374,26 @@ class BookController extends BaseController
             'book' => $book->fresh(),
         ]);
     }
-    /**
-     * Сохраняет изображение книги в S3
-     * @param bool $replace Если true — удаляет старое изображение перед сохранением нового
-     */
+
     private function saveBookImage(Book $book, \Illuminate\Http\UploadedFile $file, bool $replace = false)
     {
-        // Папка для книги
         $folder = "books/{$book->id}";
 
-        // Создаём папку, если её нет
         if (!Storage::disk('s3')->exists($folder)) {
             Storage::disk('s3')->makeDirectory($folder);
         }
 
-        // Удаляем старое изображение, если нужно
         if ($replace && $book->image_path) {
             Storage::disk('s3')->delete($book->image_path);
         }
 
-        // Уникальное имя файла
         $extension = $file->extension();
         $filename = "cover_" . Str::random(12) . ".{$extension}";
         $path = "{$folder}/{$filename}";
 
-        // Сохраняем файл
         Storage::disk('s3')->putFileAs($folder, $file, $filename);
-        \Log::debug("{$path}");
-        // Обновляем путь к изображению
+
         $book->update(['image_path' => $path]);
-    }
-
-    /**
-     * Удаляет изображение книги из S3 и очищает поле в базе данных.
-     *
-     * @param Book $book
-     * @return bool Возвращает true, если файл был успешно удален или его не существовало.
-     */
-    private function deleteBookImage(Book $book): bool
-    {
-        // 1. Если пути нет — удалять нечего, считаем успешным
-        if (empty($book->image_path)) {
-            return true;
-        }
-
-        $path = $book->image_path;
-
-        try {
-            // 2. Проверяем, существует ли файл на S3 перед удалением (хорошая практика для S3)
-            if (Storage::disk('s3')->exists($path)) {
-                Storage::disk('s3')->delete($path);
-
-                // Опционально: логирование успешного удаления
-                \Log::debug("S3 Image deleted: {$path}");
-            } else {
-                // Файл не найден на диске. Это может быть нормой (уже удален вручную),
-                // но стоит залогировать как предупреждение, если это странно для твоего процесса.
-                \Log::warning("S3 Image not found for deletion: {$path} (Book ID: {$book->id})");
-            }
-
-            // 3. Очищаем поле в базе данных ТОЛЬКО если удаление прошло успешно (или файла не было)
-            // Мы не делаем update внутри try-catch блока удаления файла, чтобы избежать рассинхронизации,
-            // но в данном простом сценарии это допустимо.
-            $book->update(['image_path' => null]);
-
-            return true;
-
-        } catch (\Exception $e) {
-            // Критическая ошибка: файл не удалился, но мы не хотим ломать весь процесс удаления книги.
-            \Log::error("Failed to delete S3 image: {$path}. Error: " . $e->getMessage());
-
-            // ВАЖНО: Реши, что делать дальше.
-            // Вариант А (строгий): Вернуть false, и пусть контроллер решит, удалять ли саму книгу.
-            // Вариант Б (мягкий): Все равно очистить БД, считая, что файл "потерян", но запись о нем не нужна.
-
-            // Здесь выбран ВАРИАНТ Б (мягкий), так как чаще всего важно просто убрать ссылку из интерфейса.
-            // Если тебе нужна строгая проверка, раскомментируй return false ниже.
-
-            $book->update(['image_path' => null]);
-            return false;
-        }
     }
 
     public function chapterShow($bookId, $chapterId)
@@ -531,36 +445,40 @@ class BookController extends BaseController
         ]);
     }
 
-    /**
-     * Управление главами
-     */
     public function storeChapter(Request $request, $bookId)
     {
         $book = Book::findOrFail($bookId);
 
-        $request->validate([
-            'title' => 'string|max:255',
-            'order' => 'integer',
+        $rules = [
+            'title' => 'required|string|max:255',
+            'order' => 'required|integer',
             'description' => 'nullable|string',
-            'content' => 'string',
-            'audio_file' => 'nullable|file|mimes:mp3|max:512000',
-            'status' => 'in:draft,published',
+            'status' => 'required|in:draft,published',
             'is_free_preview' => 'boolean',
-        ]);
+        ];
 
-        DB::transaction(function () use ($request, $book) {
+        if ($book->isEbook()) {
+            $rules['content'] = 'required|string';
+        } elseif ($book->isAudiobook()) {
+            $rules['audio_file'] = 'required|file|mimes:mp3|max:512000';
+        }
+
+        $validated = $request->validate($rules);
+
+        DB::transaction(function () use ($request, $book, $validated) {
             $chapterData = [
                 'book_id' => $book->id,
-                'title' => $request->title,
-                'order' => $request->order,
-                'description' => $request->description,
-                'status' => $request->status ?? 'draft',
-                'is_free_preview' => $request->is_free_preview ?? false,
+                'title' => $validated['title'],
+                'order' => $validated['order'],
+                'description' => $validated['description'] ?? null,
+                'status' => $validated['status'] ?? 'draft',
+                'is_free_preview' => $validated['is_free_preview'] ?? false,
+                ''
             ];
 
             if ($book->isEbook()) {
-                $chapterData['content'] = $request->input('content');
-                $chapterData['duration'] = mb_strlen($chapterData['content'], 'UTF-8');
+                $chapterData['content'] = $validated['content'];
+                $chapterData['duration'] = mb_strlen($validated['content'], 'UTF-8');
             }
 
             if ($book->isAudiobook() && $request->hasFile('audio_file')) {
@@ -568,19 +486,16 @@ class BookController extends BaseController
                 $path = Storage::disk('s3')->putFileAs(
                     "books/{$book->id}/audio",
                     $file,
-                    "chapter_{$request->order}_" . time() . '.mp3'
+                    "chapter_{$validated['order']}_" . time() . '.mp3'
                 );
 
                 $chapterData['audio_file_path'] = $path;
                 $chapterData['file_size'] = $file->getSize();
-
-                // Определяем длительность аудио (можно использовать getID3 или ffprobe)
                 $chapterData['duration'] = $this->getAudioDuration($file);
             }
 
             $chapter = BookChapter::create($chapterData);
 
-            // Обновляем общую длительность аудиокниги
             if ($book->isAudiobook()) {
                 $book->updateTotalDuration();
             }
@@ -592,49 +507,69 @@ class BookController extends BaseController
         ]);
     }
 
-    /**
-     * Обновление главы
-     */
     public function updateChapter(Request $request, $bookId, $chapterId)
     {
-        $chapter = BookChapter::where('book_id', $bookId)
-            ->findOrFail($chapterId);
+        $chapter = BookChapter::where('book_id', $bookId)->findOrFail($chapterId);
+        $book = $chapter->book;
 
-        $request->validate([
-            'title' => 'string|max:255',
-            'order' => 'integer',
+        $rules = [
+            'title' => 'sometimes|required|string|max:255',
+            'order' => 'sometimes|required|integer',
             'description' => 'nullable|string',
-            'content' => 'string',
-            'audio_file' => 'nullable|file|mimes:mp3|max:512000',
-            'status' => 'in:draft,published',
+            'status' => 'sometimes|required|in:draft,published',
             'is_free_preview' => 'boolean',
-        ]);
+        ];
 
-        $chapterData = $request->except('audio_file');
+        if ($book->isEbook()) {
+            $rules['content'] = 'sometimes|required|string';
+        } elseif ($book->isAudiobook()) {
+            $rules['audio_file'] = 'nullable|file|mimes:mp3|max:512000';
+            $rules['remove_audio'] = 'nullable|in:0,1';
+        }
 
-        if ($request->hasFile('audio_file')) {
-            // Удаляем старый файл
-            if ($chapter->audio_file_path) {
+        $validated = $request->validate($rules);
+
+        $chapterData = $request->except(['audio_file', 'remove_audio', '_method']);
+
+        // Электронная книга: обновляем контент
+        if ($book->isEbook() && isset($validated['content'])) {
+            $chapterData['content'] = $validated['content'];
+            $chapterData['duration'] = mb_strlen($validated['content'], 'UTF-8');
+        }
+
+        // Аудиокнига: обработка флага удаления и нового файла
+        if ($book->isAudiobook()) {
+            // Удаление существующего аудио
+            if ($request->has('remove_audio') && $request->remove_audio == '1' && $chapter->audio_file_path) {
                 Storage::disk('s3')->delete($chapter->audio_file_path);
+                $chapterData['audio_file_path'] = null;
+                $chapterData['file_size'] = null;
+                $chapterData['duration'] = 0;
             }
 
-            $file = $request->file('audio_file');
-            $path = Storage::disk('s3')->putFileAs(
-                "books/{$bookId}/audio",
-                $file,
-                "chapter_{$request->order}_{$chapter->id}_" . time() . '.mp3'
-            );
+            // Загрузка нового файла
+            if ($request->hasFile('audio_file')) {
+                if ($chapter->audio_file_path) {
+                    Storage::disk('s3')->delete($chapter->audio_file_path);
+                }
 
-            $chapterData['audio_file_path'] = $path;
-            $chapterData['file_size'] = $file->getSize();
-            $chapterData['duration'] = $this->getAudioDuration($file);
+                $file = $request->file('audio_file');
+                $path = Storage::disk('s3')->putFileAs(
+                    "books/{$bookId}/audio",
+                    $file,
+                    "chapter_{$chapter->id}_" . time() . '.mp3'
+                );
+
+                $chapterData['audio_file_path'] = $path;
+                $chapterData['file_size'] = $file->getSize();
+                $chapterData['duration'] = $this->getAudioDuration($file);
+            }
         }
 
         $chapter->update($chapterData);
 
-        // Обновляем общую длительность
-        if ($chapter->book->isAudiobook()) {
-            $chapter->book->updateTotalDuration();
+        if ($book->isAudiobook()) {
+            $book->updateTotalDuration();
         }
 
         return response()->json([
@@ -643,9 +578,20 @@ class BookController extends BaseController
         ]);
     }
 
-    /**
-     * Изменение статуса модерации
-     */
+    private function getAudioDuration($file): int
+    {
+        if (class_exists(\getID3::class)) {
+            try {
+                $getID3 = new \getID3();
+                $fileInfo = $getID3->analyze($file->getPathname());
+                return (int)($fileInfo['playtime_seconds'] ?? 0);
+            } catch (\Exception $e) {
+                Log::error('getID3 error: ' . $e->getMessage());
+            }
+        }
+        return 0; // Заглушка, если библиотека не установлена
+    }
+
     public function updateModerationStatus(Request $request, $id)
     {
         $request->validate([
@@ -661,52 +607,31 @@ class BookController extends BaseController
         ]);
     }
 
-    private function getAudioDuration($file): int
-    {
-        // Здесь нужно реализовать получение длительности аудио
-        // Можно использовать пакет getID3 или вызов ffprobe
-        // Пример с getID3:
-        // $getID3 = new \getID3();
-        // $fileInfo = $getID3->analyze($file->getPathname());
-        // return (int)($fileInfo['playtime_seconds'] ?? 0);
-
-        return 0; // Временная заглушка
-    }
-
-    /**
-     * Удаление книги (с удалением папки в S3 и всех связанных записей)
-     */
     public function destroy($id)
     {
         $book = Book::findOrFail($id);
-        // Проверка прав
+
         if (!Auth::user()->getFirstSeller()->id === $book->seller_id) {
-            // Либо проверка прав через groupInfo, если у вас другая логика
             if (!Auth::user()->groupInfo()->hasPermission('delete_products')) {
                 abort(403, 'У вас нет прав на удаление этой книги');
             }
         }
 
         DB::transaction(function () use ($book) {
-            // Удаляем главы книги
             BookChapter::where('book_id', $book->id)->delete();
 
-            // Если есть изображение — удаляем из S3
             if ($book->image_path) {
                 Storage::disk('s3')->delete($book->image_path);
             }
 
-            // Опционально: удаляем всю папку книги в S3 (например, для аудиофайлов глав)
             $folder = "books/{$book->id}";
             if (Storage::disk('s3')->exists($folder)) {
                 $files = Storage::disk('s3')->files($folder);
                 if (!empty($files)) {
                     Storage::disk('s3')->delete($files);
                 }
-                // Папку удалять не обязательно — S3 не хранит пустые папки как объекты
             }
 
-            // Удаляем книгу
             $book->delete();
         });
 
@@ -715,9 +640,7 @@ class BookController extends BaseController
             'message' => 'Книга успешно удалена',
         ]);
     }
-    /**
-     * AJAX-метод для загрузки списка глав книги (для DataTable внутри страницы книги)
-     */
+
     public function chaptersAjax(Request $request, $bookId)
     {
         if (!Auth::user()->groupInfo()->hasPermission('view_products')) {
@@ -733,7 +656,6 @@ class BookController extends BaseController
 
             $query = BookChapter::query()->where('book_id', $bookId);
 
-            // Простой поиск по названию главы
             $search = $request->input('search.value');
             if (!empty($search)) {
                 $query->where('title', 'like', "%{$search}%");
@@ -748,7 +670,6 @@ class BookController extends BaseController
 
             $formatted = [];
             foreach ($chapters as $chapter) {
-                // Длительность: если есть поле duration_seconds — показываем, иначе заглушка
                 $duration = '';
                 if ($chapter->duration_seconds) {
                     $minutes = floor($chapter->duration_seconds / 60);

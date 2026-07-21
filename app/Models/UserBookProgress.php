@@ -18,6 +18,11 @@ class UserBookProgress extends Model
         'total_reading_time',
         'last_read_at',
         'completed_at',
+        'current_chapter_id',
+        'current_position',
+        'playback_speed',
+        'last_read_at',
+        'completed_at',
     ];
 
     protected $casts = [
@@ -27,6 +32,8 @@ class UserBookProgress extends Model
         'total_reading_time' => 'integer',
         'last_read_at' => 'datetime',
         'completed_at' => 'datetime',
+        'current_position' => 'integer',
+        'playback_speed' => 'float',
     ];
 
     // Отношения
