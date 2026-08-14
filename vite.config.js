@@ -41,7 +41,8 @@ export default defineConfig({
                 'resources/js/dashboard/Pages/bookOrders.js',
                 'resources/js/dashboard/scripts/admin/budget.js',
                 'resources/js/dashboard/Pages/chapterShow.js',
-                'resources/js/buyer-chat.js'
+                'resources/js/buyer-chat.js',
+                'resources/js/dashboard/scripts/notifications.js'
 
             ],
             refresh: true,

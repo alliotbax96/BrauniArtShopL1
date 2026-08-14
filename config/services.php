@@ -71,7 +71,10 @@ return [
     'fns' => [
         'source_device_id' => env('FN_SOURCE_DEVICE_ID'),
         'refresh_token' => env('FN_REFRESH_TOKEN'),
-    ]
+    ],
+    'payment' => [
+        'webhook_secret' => env('PAYMENT_WEBHOOK_SECRET'),
+    ],
 
 
 

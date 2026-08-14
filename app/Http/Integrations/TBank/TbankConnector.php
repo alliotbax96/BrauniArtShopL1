@@ -4,7 +4,6 @@ namespace App\Http\Integrations\TBank;
 
 use Saloon\Http\Connector;
 use Saloon\Traits\Plugins\AcceptsJson;
-
 class TbankConnector extends Connector
 {
     use AcceptsJson;
@@ -42,6 +41,13 @@ class TbankConnector extends Connector
     public function getTerminalId(): string
     {
         return $this->TerminalId;
+    }
+
+    protected function defaultConfig(): array
+    {
+        return [
+            'verify' => false, // Отключаем проверку SSL
+        ];
     }
 
     /**

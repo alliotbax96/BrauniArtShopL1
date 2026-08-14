@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\PvzController;
 use App\Http\Controllers\Api\ReviewController;
 use App\Http\Controllers\Api\BuyerChatController;
+use App\Http\Controllers\Api\PaymentController;
 
 Route::middleware(['web'])->group(function () {
     // Инициализация чата покупателя
@@ -65,6 +66,25 @@ Route::middleware('auth:sanctum')->group(function () {
 | API Routes
 |--------------------------------------------------------------------------
 */
+
+// Публичные маршруты
+Route::post('/payment/webhook', [PaymentController::class, 'webhook']);
+
+// Защищенные маршруты (только ваш api.key)
+Route::middleware(['api.key'])->group(function () {
+    // POST для создания платежа
+    Route::post('/payment/create', [PaymentController::class, 'create']);
+
+    // GET для тестирования (только в разработке)
+    if (app()->environment('local', 'development')) {
+        Route::get('/payment/create', [PaymentController::class, 'test']);
+    }
+
+
+});
+Route::get('/payment/status/{id}', [PaymentController::class, 'status']);
+// В routes/api.php
+//Route::get('/payment/status/{id}', [PaymentController::class, 'getStatus']);
 
 // Публичные маршруты
 Route::prefix('auth')->group(function () {

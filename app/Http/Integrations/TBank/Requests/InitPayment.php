@@ -25,7 +25,8 @@ class InitPayment extends Request implements HasBody
         protected string $OrderId,
         protected string $Amount,
         protected string $SuccessURL = '',
-        protected string $FailURL = ''
+        protected string $FailURL = '',
+        protected string $NotificationURL = '',
     ){
         $this->TerminalId = config('services.tbank.terminalid');
         $this->TerminalPassword = config('services.tbank.terminalpassword');
@@ -82,6 +83,10 @@ class InitPayment extends Request implements HasBody
         }
         if($this->FailURL != '') {
             $hashData['FailURL'] = $this->FailURL;
+        }
+
+        if($this->NotificationURL != '') {
+            $hashData['NotificationURL'] = $this->NotificationURL;
         }
 
         $token = $this->generateToken($hashData);
